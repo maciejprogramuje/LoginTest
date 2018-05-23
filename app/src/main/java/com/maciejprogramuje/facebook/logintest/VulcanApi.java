@@ -10,6 +10,7 @@ public interface VulcanApi {
     @Headers({
             "RequestMobileType: RegisterDevice",
             "User-Agent: MobileUserAgent"
+            //todo json
     })
     @POST("/lublin/mobile-api/Uczen.v3.UczenStart/Certyfikat")
     Call<Void> postLogin(@Body LoginRequest loginRequest);
