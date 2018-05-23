@@ -1,11 +1,15 @@
 package com.maciejprogramuje.facebook.logintest;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -18,6 +22,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
     Button loginButton;
     TextView statusTextView;
+    private Retrofit retrofit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,33 +45,31 @@ public class MainActivity extends AppCompatActivity {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient httpClient = new OkHttpClient().newBuilder().addInterceptor(loggingInterceptor).build();
+        Gson gson = new GsonBuilder().setLenient().create();
 
         Retrofit.Builder builder = new Retrofit.Builder();
-        builder.baseUrl("https://cufs.vulcan.net.pl/");
-        //https://cufs.vulcan.net.pl
+        builder.baseUrl("https://uonetplus.vulcan.net.pl");
         builder.client(httpClient);
-        builder.addConverterFactory(GsonConverterFactory.create());
-        Retrofit retrofit = builder.build();
+        builder.addConverterFactory(GsonConverterFactory.create(gson));
+        retrofit = builder.build();
+
+        LoginRequest loginRequest = new LoginRequest("643117", "3S17180F");
 
         final VulcanApi vulcanApi = retrofit.create(VulcanApi.class);
-        Call<User> call = vulcanApi.postLogin(", "");
+        Call<User> call = vulcanApi.postLogin(loginRequest);
         call.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                Log.w("UWAGA", call.toString());
-
-
-                if(response.isSuccessful()) {
-                    Log.w("UWAGA", "=====================================================");
-                    Log.w("UWAGA", "logowanie ok!");
-                    Log.w("UWAGA", response.message());
-                    Log.w("UWAGA", "=====================================================");
+            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
+                if (response.isSuccessful()) {
+                    statusTextView.setText("OK");
+                } else {
+                    statusTextView.setText("blad 1");
                 }
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                Log.w("UWAGA", t.getLocalizedMessage());
+                statusTextView.setText("blad 2\n" + t.getLocalizedMessage());
             }
         });
 
