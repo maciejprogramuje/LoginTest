@@ -1,6 +1,7 @@
 package com.maciejprogramuje.facebook.logintest;
 
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import java.io.IOException;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -28,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         loginButton = findViewById(R.id.loginButton);
         statusTextView = findViewById(R.id.statusTextView);
@@ -48,18 +54,18 @@ public class MainActivity extends AppCompatActivity {
         Gson gson = new GsonBuilder().setLenient().create();
 
         Retrofit.Builder builder = new Retrofit.Builder();
+        builder.addConverterFactory(GsonConverterFactory.create(gson));
         builder.baseUrl("https://uonetplus.vulcan.net.pl");
         builder.client(httpClient);
-        builder.addConverterFactory(GsonConverterFactory.create(gson));
         retrofit = builder.build();
 
-        LoginRequest loginRequest = new LoginRequest("643117", "3S17180F");
+        LoginRequest loginRequest = new LoginRequest("851049", "3S1H8749");
 
         final VulcanApi vulcanApi = retrofit.create(VulcanApi.class);
-        Call<User> call = vulcanApi.postLogin(loginRequest);
-        call.enqueue(new Callback<User>() {
+        Call<Void> call = vulcanApi.postLogin(loginRequest);
+        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
                 if (response.isSuccessful()) {
                     statusTextView.setText("OK");
                 } else {
@@ -68,11 +74,16 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                statusTextView.setText("blad 2\n" + t.getLocalizedMessage());
+            public void onFailure(Call<Void> call, Throwable t) {
+                String myErrorText;
+                if (t instanceof IOException) {
+                    myErrorText = "this is an actual network failure :( inform the user and possibly retry";
+                } else {
+                    myErrorText = "conversion issue! big problems :(";
+                }
+
+                statusTextView.setText("blad 2\n" + t.getLocalizedMessage() + "\n\n" + myErrorText);
             }
         });
-
-
     }
 }

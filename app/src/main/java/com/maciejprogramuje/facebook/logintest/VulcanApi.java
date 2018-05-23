@@ -12,6 +12,6 @@ public interface VulcanApi {
             "User-Agent: MobileUserAgent"
     })
     @POST("/lublin/mobile-api/Uczen.v3.UczenStart/Certyfikat")
-    Call<User> postLogin(@Body LoginRequest loginRequest);
+    Call<Void> postLogin(@Body LoginRequest loginRequest);
 
 }
