@@ -1,4 +1,4 @@
-package com.maciejprogramuje.facebook.logintest.models;
+package com.maciejprogramuje.facebook.logintest.api.login.models;
 
 import com.google.gson.annotations.SerializedName;
 
