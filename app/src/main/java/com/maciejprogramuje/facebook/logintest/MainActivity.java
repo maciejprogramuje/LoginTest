@@ -4,15 +4,18 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.maciejprogramuje.facebook.logintest.api.RetrofitGenerator;
+import com.maciejprogramuje.facebook.logintest.api.base_url.BaseUrlGenerator;
+import com.maciejprogramuje.facebook.logintest.api.base_url.SwitchToMainActivityEvent;
 import com.maciejprogramuje.facebook.logintest.api.login.LoginApi;
 import com.maciejprogramuje.facebook.logintest.api.login.models.CertyfikatBody;
 import com.maciejprogramuje.facebook.logintest.api.login.models.CertyfikatRequest;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 import java.io.IOException;
 
@@ -47,13 +50,14 @@ import retrofit2.Retrofit;
 
 
 public class MainActivity extends AppCompatActivity {
-    public static final String TOKEN = "3S1N3S7C";
+    public static final String TOKEN = "3S1PC0AN";
     public static final String SYMBOL = "lublin";
-    public static final String PIN = "235558";
+    public static final String PIN = "824648";
 
-    String baseUrl;
     Button loginButton;
     TextView statusTextView;
+
+    private Bus bus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,20 +73,32 @@ public class MainActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.w("UWAGA", "login clicked!");
-
-                setBaseUrl();
-
-                loginToVulcan();
+                new BaseUrlGenerator(bus);
             }
         });
+
+        bus = ((App) getApplication()).getBus();
     }
 
-    private void setBaseUrl() {
-        baseUrl = "https://lekcjaplus.vulcan.net.pl/" + SYMBOL + "/";
+    @Override
+    protected void onStart() {
+        super.onStart();
+        bus.register(this);
     }
 
-    private void loginToVulcan() {
+    @Override
+    protected void onStop() {
+        super.onStop();
+        bus.unregister(this);
+    }
+
+    @Subscribe
+    public void onSwitchToMainActivity(SwitchToMainActivityEvent event) {
+        String baseUrl = event.getBaseUrl();
+        loginToVulcan(baseUrl);
+    }
+
+    private void loginToVulcan(String baseUrl) {
         CertyfikatRequest certyfikatRequest = new CertyfikatRequest(PIN, TOKEN);
 
         RetrofitGenerator loginRetrofitGenerator = new RetrofitGenerator(baseUrl);
@@ -108,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<CertyfikatBody> call, Throwable t) {
-                String myErrorText;
                 if (t instanceof IOException) {
                     statusTextView.setText("blad 3 - błąd połączenia ze stroną lub internetem");
                 } else {

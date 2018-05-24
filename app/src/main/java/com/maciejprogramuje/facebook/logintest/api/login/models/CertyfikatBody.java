@@ -64,9 +64,6 @@ public class CertyfikatBody {
         this.tokenCert = tokenCert;
     }
 
-    /**
-     * I have no control over field names, I know it's bad.
-     */
     public class Certyfikat {
         @SerializedName("CertyfikatKlucz")
         private String certyfikatKlucz;
@@ -168,17 +165,5 @@ public class CertyfikatBody {
         public void setTypKonta(Object typKonta) {
             this.typKonta = typKonta;
         }
-    }
-
-    @Override
-    public String toString() {
-        return "CertyfikatBody{" +
-                "isError=" + isError +
-                ", isMessageForUser=" + isMessageForUser +
-                ", message='" + message + '\'' +
-                ", tokenKey='" + tokenKey + '\'' +
-                ", tokenStatus='" + tokenStatus + '\'' +
-                ", tokenCert=" + tokenCert +
-                '}';
     }
 }

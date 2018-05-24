@@ -8,6 +8,8 @@ import retrofit2.http.Body;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
+import static com.maciejprogramuje.facebook.logintest.MainActivity.SYMBOL;
+
 public interface LoginApi {
 
     @Headers({
@@ -15,7 +17,7 @@ public interface LoginApi {
             "User-Agent: MobileUserAgent",
             "Content-Type: application/json"
     })
-    @POST("mobile-api/Uczen.v3.UczenStart/Certyfikat")
+    @POST("/" + SYMBOL + "/mobile-api/Uczen.v3.UczenStart/Certyfikat")
     Call<CertyfikatBody> postLogin(@Body CertyfikatRequest loginRequest);
 
 }
