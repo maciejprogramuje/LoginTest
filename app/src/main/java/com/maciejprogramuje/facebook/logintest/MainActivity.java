@@ -2,27 +2,20 @@ package com.maciejprogramuje.facebook.logintest;
 
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.maciejprogramuje.facebook.logintest.api.RetrofitGenerator;
-import com.maciejprogramuje.facebook.logintest.api.base_url.BaseUrlGenerator;
-import com.maciejprogramuje.facebook.logintest.api.base_url.SwitchToMainActivityEvent;
-import com.maciejprogramuje.facebook.logintest.api.login.LoginApi;
-import com.maciejprogramuje.facebook.logintest.api.login.models.CertyfikatBody;
-import com.maciejprogramuje.facebook.logintest.api.login.models.CertyfikatRequest;
+import com.maciejprogramuje.facebook.logintest.api.base_url.BaseUrlManager;
+import com.maciejprogramuje.facebook.logintest.api.base_url.BaseUrlReadyEvent;
+import com.maciejprogramuje.facebook.logintest.api.login.CertyfikatReadyEvent;
+import com.maciejprogramuje.facebook.logintest.api.login.LoginManager;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
-import java.io.IOException;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 // -------------------------------------------------------------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -50,12 +43,14 @@ import retrofit2.Retrofit;
 
 
 public class MainActivity extends AppCompatActivity {
-    public static final String TOKEN = "3S1PC0AN";
+    public static final String TOKEN = "3S1CMMM0";
     public static final String SYMBOL = "lublin";
-    public static final String PIN = "824648";
+    public static final String PIN = "092666";
 
-    Button loginButton;
+    @BindView(R.id.statusTextView)
     TextView statusTextView;
+    @BindView(R.id.loginButton)
+    Button loginButton;
 
     private Bus bus;
 
@@ -63,19 +58,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
-        loginButton = findViewById(R.id.loginButton);
-        statusTextView = findViewById(R.id.statusTextView);
-
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new BaseUrlGenerator(bus);
-            }
-        });
 
         bus = ((App) getApplication()).getBus();
     }
@@ -92,44 +78,24 @@ public class MainActivity extends AppCompatActivity {
         bus.unregister(this);
     }
 
+    @OnClick(R.id.loginButton)
+    public void onLoginButtonClicked() {
+        BaseUrlManager baseUrlManager = new BaseUrlManager(TOKEN, bus);
+        baseUrlManager.postBaseUrlEvent();
+    }
+
     @Subscribe
-    public void onSwitchToMainActivity(SwitchToMainActivityEvent event) {
-        String baseUrl = event.getBaseUrl();
-        loginToVulcan(baseUrl);
+    public void onBaseUrlReady(BaseUrlReadyEvent event) {
+        loginToVulcan(event.getBaseUrl());
     }
 
     private void loginToVulcan(String baseUrl) {
-        CertyfikatRequest certyfikatRequest = new CertyfikatRequest(PIN, TOKEN);
+        LoginManager loginManager = new LoginManager(baseUrl, bus);
+        loginManager.postCertificateEvent();
+    }
 
-        RetrofitGenerator loginRetrofitGenerator = new RetrofitGenerator(baseUrl);
-        Retrofit loginRetrofit = loginRetrofitGenerator.get();
-        final LoginApi loginApi = loginRetrofit.create(LoginApi.class);
-
-        Call<CertyfikatBody> call = loginApi.postLogin(certyfikatRequest);
-        call.enqueue(new Callback<CertyfikatBody>() {
-            @Override
-            public void onResponse(@NonNull Call<CertyfikatBody> call, @NonNull Response<CertyfikatBody> response) {
-                if (response.isSuccessful()) {
-                    CertyfikatBody certyfikatBody = response.body();
-                    if (!certyfikatBody.getError()) {
-                        CertyfikatBody.Certyfikat certyfikat = certyfikatBody.getTokenCert();
-                        statusTextView.setText(String.format("OK\n\n%s", certyfikat.getUzytkownikLogin()));
-                    } else {
-                        statusTextView.setText("blad 1 - błędny lub przeterminowany PIN lub TOKEN");
-                    }
-                } else {
-                    statusTextView.setText("blad 2 - błąd odpowiedzi");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<CertyfikatBody> call, Throwable t) {
-                if (t instanceof IOException) {
-                    statusTextView.setText("blad 3 - błąd połączenia ze stroną lub internetem");
-                } else {
-                    statusTextView.setText("blad 4 - błąd konwersji odpowiedzi");
-                }
-            }
-        });
+    @Subscribe
+    public void onCertificateReady(CertyfikatReadyEvent event) {
+        statusTextView.setText(String.format("OK\n\n%s", event.getCertyfikat().getUzytkownikLogin()));
     }
 }

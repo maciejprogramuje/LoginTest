@@ -1,9 +1,9 @@
 package com.maciejprogramuje.facebook.logintest.api.base_url;
 
-public class SwitchToMainActivityEvent {
+public class BaseUrlReadyEvent {
     private String baseUrl;
 
-    public SwitchToMainActivityEvent(String baseUrl) {
+    public BaseUrlReadyEvent(String baseUrl) {
         this.baseUrl = baseUrl;
     }
 

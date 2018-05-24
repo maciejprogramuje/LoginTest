@@ -2,7 +2,7 @@ package com.maciejprogramuje.facebook.logintest.api.base_url;
 
 import android.support.annotation.NonNull;
 
-import com.maciejprogramuje.facebook.logintest.api.RetrofitGenerator;
+import com.maciejprogramuje.facebook.logintest.RetrofitGenerator;
 import com.squareup.otto.Bus;
 
 import java.io.IOException;
@@ -13,17 +13,27 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-import static com.maciejprogramuje.facebook.logintest.MainActivity.TOKEN;
+public class BaseUrlManager {
+    private String shortToken;
+    private Bus bus;
+    private Call<ResponseBody> call;
 
-public class BaseUrlGenerator {
-    public BaseUrlGenerator(final Bus bus) {
-        final String shortToken = TOKEN.substring(0, 3);
+    public BaseUrlManager(String token, Bus bus) {
+        this.shortToken = token.substring(0, 3);
+        this.bus = bus;
 
+        generate();
+    }
+
+    private void generate() {
         RetrofitGenerator baseUrlRetrofitGenerator = new RetrofitGenerator("http://komponenty.vulcan.net.pl");
         Retrofit baseUrlRetrofit = baseUrlRetrofitGenerator.get();
         final BaseUrlApi baseUrlApi = baseUrlRetrofit.create(BaseUrlApi.class);
 
-        Call<ResponseBody> call = baseUrlApi.getBaseUrl();
+        call = baseUrlApi.getBaseUrl();
+    }
+
+    public void postBaseUrlEvent() {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
@@ -33,7 +43,7 @@ public class BaseUrlGenerator {
                         String baseUrl = rawBody.substring(rawBody.indexOf(shortToken) + 4);
                         baseUrl = baseUrl.substring(0, baseUrl.indexOf("\n"));
 
-                        bus.post(new SwitchToMainActivityEvent(baseUrl));
+                        bus.post(new BaseUrlReadyEvent(baseUrl));
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
