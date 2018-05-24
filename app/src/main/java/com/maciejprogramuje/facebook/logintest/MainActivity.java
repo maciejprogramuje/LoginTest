@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.maciejprogramuje.facebook.logintest.models.Certyfikat;
+import com.maciejprogramuje.facebook.logintest.models.CertyfikatRequest;
 
 import java.io.IOException;
 
@@ -21,6 +23,31 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+// -------------------------------------------------------------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------- Jak znaleść właściwy baseUrl? -----------------------------------------------------------
+// -------------------------------------------------------------------------------------------------------------------------------------------------------
+// Spis baseUrl jest pod adresem:
+// http://komponenty.vulcan.net.pl/UonetPlusMobile/RoutingRules.txt
+//
+// 3S1,https://lekcjaplus.vulcan.net.pl
+// TA1,https://uonetplus-komunikacja.umt.tarnow.pl
+// OP1,https://uonetplus-komunikacja.eszkola.opolskie.pl
+// RZ1,https://uonetplus-komunikacja.resman.pl
+// GD1,https://uonetplus-komunikacja.edu.gdansk.pl
+// P03,https://efeb-komunikacja-pro-efebmobile.pro.vulcan.pl
+// P01,http://efeb-komunikacja.pro-hudson.win.vulcan.pl
+// P02,http://efeb-komunikacja.pro-hudsonrc.win.vulcan.pl
+// P90,http://efeb-komunikacja-pro-mwujakowska.neo.win.vulcan.pl
+//
+// -------------------------------------------------------------------------------------------------------------------------------------------------------
+// Itotne są pierwsze trzy znaki tokenu: np. dla Gimnazjum 16 w Lublinie (token zaczyna się od 3S1), właściwy baseUrl to https://lekcjaplus.vulcan.net.pl
+// -------------------------------------------------------------------------------------------------------------------------------------------------------
+// Nie jest tak, że każda szkoła ma swój baseUrl!
+// -------------------------------------------------------------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 public class MainActivity extends AppCompatActivity {
     Button loginButton;
@@ -55,26 +82,30 @@ public class MainActivity extends AppCompatActivity {
 
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.addConverterFactory(GsonConverterFactory.create(gson));
-        builder.baseUrl("https://uonetplus.vulcan.net.pl");
+        builder.baseUrl("https://lekcjaplus.vulcan.net.pl");
         builder.client(httpClient);
         retrofit = builder.build();
 
-        LoginRequest loginRequest = new LoginRequest("851049", "3S1H8749");
+        CertyfikatRequest certyfikatRequest = new CertyfikatRequest("809129", "3S1LREL6");
 
         final VulcanApi vulcanApi = retrofit.create(VulcanApi.class);
-        Call<Void> call = vulcanApi.postLogin(loginRequest);
-        call.enqueue(new Callback<Void>() {
+        Call<Certyfikat> call = vulcanApi.postLogin(certyfikatRequest);
+        call.enqueue(new Callback<Certyfikat>() {
             @Override
-            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+            public void onResponse(@NonNull Call<Certyfikat> call, @NonNull Response<Certyfikat> response) {
                 if (response.isSuccessful()) {
-                    statusTextView.setText("OK");
+
+
+
+                    Certyfikat.TokenCertificate certyfikat = response.body().getTokenCert();
+                    statusTextView.setText(String.format("OK\n\n%s", certyfikat.getUzytkownikLogin()));
                 } else {
                     statusTextView.setText("blad 1");
                 }
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<Certyfikat> call, Throwable t) {
                 String myErrorText;
                 if (t instanceof IOException) {
                     myErrorText = "this is an actual network failure :( inform the user and possibly retry";
