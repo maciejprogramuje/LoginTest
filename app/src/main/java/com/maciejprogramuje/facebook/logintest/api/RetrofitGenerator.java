@@ -8,8 +8,6 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.maciejprogramuje.facebook.logintest.MainActivity.SYMBOL;
-
 public class RetrofitGenerator {
     private Retrofit retrofit;
     private String url;
@@ -27,7 +25,7 @@ public class RetrofitGenerator {
 
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.addConverterFactory(GsonConverterFactory.create(gson));
-        builder.baseUrl(url + SYMBOL);
+        builder.baseUrl(url);
         builder.client(httpClient);
         retrofit = builder.build();
     }

@@ -9,7 +9,7 @@ import retrofit2.http.GET;
 
 public interface BaseUrlApi {
 
-    @GET("/mobile-api/Uczen.v3.UczenStart/CertyfikatBody")
+    @GET("/mobile-api/Uczen.v3.UczenStart/Certyfikat")
     Call<CertyfikatBody> postLogin(@Body CertyfikatRequest loginRequest);
 
 }

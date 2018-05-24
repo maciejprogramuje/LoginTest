@@ -47,11 +47,11 @@ import retrofit2.Retrofit;
 
 
 public class MainActivity extends AppCompatActivity {
-    public static final String PIN = "";
-    public static final String TOKEN = "";
+    public static final String TOKEN = "3S1N3S7C";
     public static final String SYMBOL = "lublin";
-    public static final String BASE_URL = "";
+    public static final String PIN = "235558";
 
+    String baseUrl;
     Button loginButton;
     TextView statusTextView;
 
@@ -79,13 +79,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setBaseUrl() {
-
+        baseUrl = "https://lekcjaplus.vulcan.net.pl/" + SYMBOL + "/";
     }
 
     private void loginToVulcan() {
         CertyfikatRequest certyfikatRequest = new CertyfikatRequest(PIN, TOKEN);
 
-        RetrofitGenerator loginRetrofitGenerator = new RetrofitGenerator("https://lekcjaplus.vulcan.net.pl/");
+        RetrofitGenerator loginRetrofitGenerator = new RetrofitGenerator(baseUrl);
         Retrofit loginRetrofit = loginRetrofitGenerator.get();
         final LoginApi loginApi = loginRetrofit.create(LoginApi.class);
 

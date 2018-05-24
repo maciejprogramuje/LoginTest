@@ -15,7 +15,7 @@ public interface LoginApi {
             "User-Agent: MobileUserAgent",
             "Content-Type: application/json"
     })
-    @POST("/mobile-api/Uczen.v3.UczenStart/CertyfikatBody")
+    @POST("mobile-api/Uczen.v3.UczenStart/Certyfikat")
     Call<CertyfikatBody> postLogin(@Body CertyfikatRequest loginRequest);
 
 }
