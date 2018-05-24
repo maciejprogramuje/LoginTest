@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.maciejprogramuje.facebook.logintest.models.Certyfikat;
+import com.maciejprogramuje.facebook.logintest.models.CertyfikatBody;
 import com.maciejprogramuje.facebook.logintest.models.CertyfikatRequest;
 
 import java.io.IOException;
@@ -89,31 +89,31 @@ public class MainActivity extends AppCompatActivity {
         CertyfikatRequest certyfikatRequest = new CertyfikatRequest("809129", "3S1LREL6");
 
         final VulcanApi vulcanApi = retrofit.create(VulcanApi.class);
-        Call<Certyfikat> call = vulcanApi.postLogin(certyfikatRequest);
-        call.enqueue(new Callback<Certyfikat>() {
+        Call<CertyfikatBody> call = vulcanApi.postLogin(certyfikatRequest);
+        call.enqueue(new Callback<CertyfikatBody>() {
             @Override
-            public void onResponse(@NonNull Call<Certyfikat> call, @NonNull Response<Certyfikat> response) {
+            public void onResponse(@NonNull Call<CertyfikatBody> call, @NonNull Response<CertyfikatBody> response) {
                 if (response.isSuccessful()) {
-
-
-
-                    Certyfikat.TokenCertificate certyfikat = response.body().getTokenCert();
-                    statusTextView.setText(String.format("OK\n\n%s", certyfikat.getUzytkownikLogin()));
+                    CertyfikatBody certyfikatBody = response.body();
+                    if(!certyfikatBody.getError()) {
+                        CertyfikatBody.Certyfikat certyfikat = certyfikatBody.getTokenCert();
+                        statusTextView.setText(String.format("OK\n\n%s", certyfikat.getUzytkownikLogin()));
+                    } else {
+                        statusTextView.setText("blad 1 - błędny lub przeterminowany pin lub token");
+                    }
                 } else {
-                    statusTextView.setText("blad 1");
+                    statusTextView.setText("blad 2 - błąd odpowiedzi");
                 }
             }
 
             @Override
-            public void onFailure(Call<Certyfikat> call, Throwable t) {
+            public void onFailure(Call<CertyfikatBody> call, Throwable t) {
                 String myErrorText;
                 if (t instanceof IOException) {
-                    myErrorText = "this is an actual network failure :( inform the user and possibly retry";
+                    statusTextView.setText("blad 3 - błąd połączenia ze stroną lub internetem");
                 } else {
-                    myErrorText = "conversion issue! big problems :(";
+                    statusTextView.setText("blad 4 - błąd konwersji odpowiedzi");
                 }
-
-                statusTextView.setText("blad 2\n" + t.getLocalizedMessage() + "\n\n" + myErrorText);
             }
         });
     }

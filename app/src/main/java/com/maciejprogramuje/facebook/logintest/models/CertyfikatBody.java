@@ -2,7 +2,7 @@ package com.maciejprogramuje.facebook.logintest.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Certyfikat {
+public class CertyfikatBody {
     @SerializedName("IsError")
     private boolean isError;
     @SerializedName("IsMessageForUser")
@@ -14,7 +14,7 @@ public class Certyfikat {
     @SerializedName("TokenStatus")
     private String tokenStatus;
     @SerializedName("TokenCert")
-    private TokenCertificate tokenCert;
+    private Certyfikat tokenCert;
 
     public Boolean getError() {
         return this.isError;
@@ -56,18 +56,18 @@ public class Certyfikat {
         this.tokenStatus = tokenStatus;
     }
 
-    public TokenCertificate getTokenCert() {
+    public Certyfikat getTokenCert() {
         return this.tokenCert;
     }
 
-    public void setTokenCert(TokenCertificate tokenCert) {
+    public void setTokenCert(Certyfikat tokenCert) {
         this.tokenCert = tokenCert;
     }
 
     /**
      * I have no control over field names, I know it's bad.
      */
-    public class TokenCertificate {
+    public class Certyfikat {
         @SerializedName("CertyfikatKlucz")
         private String certyfikatKlucz;
         @SerializedName("CertyfikatKluczSformatowanyTekst")
@@ -172,7 +172,7 @@ public class Certyfikat {
 
     @Override
     public String toString() {
-        return "Certyfikat{" +
+        return "CertyfikatBody{" +
                 "isError=" + isError +
                 ", isMessageForUser=" + isMessageForUser +
                 ", message='" + message + '\'' +

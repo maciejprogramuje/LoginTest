@@ -1,6 +1,6 @@
 package com.maciejprogramuje.facebook.logintest;
 
-import com.maciejprogramuje.facebook.logintest.models.Certyfikat;
+import com.maciejprogramuje.facebook.logintest.models.CertyfikatBody;
 import com.maciejprogramuje.facebook.logintest.models.CertyfikatRequest;
 
 import retrofit2.Call;
@@ -15,7 +15,7 @@ public interface VulcanApi {
             "User-Agent: MobileUserAgent",
             "Content-Type: application/json"
     })
-    @POST("/lublin/mobile-api/Uczen.v3.UczenStart/Certyfikat")
-    Call<Certyfikat> postLogin(@Body CertyfikatRequest loginRequest);
+    @POST("/lublin/mobile-api/Uczen.v3.UczenStart/CertyfikatBody")
+    Call<CertyfikatBody> postLogin(@Body CertyfikatRequest loginRequest);
 
 }
