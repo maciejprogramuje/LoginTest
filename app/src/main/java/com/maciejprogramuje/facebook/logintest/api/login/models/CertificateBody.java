@@ -2,7 +2,7 @@ package com.maciejprogramuje.facebook.logintest.api.login.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class CertyfikatBody {
+public class CertificateBody {
     @SerializedName("IsError")
     private boolean isError;
     @SerializedName("IsMessageForUser")

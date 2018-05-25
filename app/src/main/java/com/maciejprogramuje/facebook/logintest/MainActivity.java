@@ -3,6 +3,7 @@ package com.maciejprogramuje.facebook.logintest;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -10,6 +11,7 @@ import com.maciejprogramuje.facebook.logintest.api.base_url.BaseUrlManager;
 import com.maciejprogramuje.facebook.logintest.api.base_url.BaseUrlReadyEvent;
 import com.maciejprogramuje.facebook.logintest.api.login.CertyfikatReadyEvent;
 import com.maciejprogramuje.facebook.logintest.api.login.LoginManager;
+import com.maciejprogramuje.facebook.logintest.api.login.RequestSignature;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -43,9 +45,9 @@ import butterknife.OnClick;
 
 
 public class MainActivity extends AppCompatActivity {
-    public static final String TOKEN = "3S1CMMM0";
+    public static final String TOKEN = "3S1AM824";
     public static final String SYMBOL = "lublin";
-    public static final String PIN = "092666";
+    public static final String PIN = "904116";
 
     @BindView(R.id.statusTextView)
     TextView statusTextView;
@@ -96,6 +98,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Subscribe
     public void onCertificateReady(CertyfikatReadyEvent event) {
-        statusTextView.setText(String.format("OK\n\n%s", event.getCertyfikat().getUzytkownikLogin()));
+        RequestSignature requestSignature = new RequestSignature();
+        requestSignature.setCertificateRequest(event.getCertificateRequest());
+        requestSignature.setCertificate(event.getCertificate());
+        String requestSignatureString = requestSignature.get();
+
+        Log.w("UWAGA", "requestSignatureString: " + requestSignatureString);
+
+
+        statusTextView.setText(String.format("OK\n\n%s", event.getCertificate().getUzytkownikLogin()));
     }
 }

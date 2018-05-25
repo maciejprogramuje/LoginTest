@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.UUID;
 
-public class CertyfikatRequest {
+public class CertificateRequest {
     @SerializedName("PIN")
     public String pin;
     @SerializedName("TokenKey")
@@ -34,7 +34,7 @@ public class CertyfikatRequest {
     @SerializedName("RemoteMobileAppName")
     public String remoteMobileAppName;
 
-    public CertyfikatRequest(String pin, String tokenKey) {
+    public CertificateRequest(String pin, String tokenKey) {
         this.pin = pin;
         this.tokenKey = tokenKey;
         this.appVersion = "18.4.1.388";

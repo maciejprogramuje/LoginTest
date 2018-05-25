@@ -1,15 +1,22 @@
 package com.maciejprogramuje.facebook.logintest.api.login;
 
-import com.maciejprogramuje.facebook.logintest.api.login.models.CertyfikatBody;
+import com.maciejprogramuje.facebook.logintest.api.login.models.CertificateBody;
+import com.maciejprogramuje.facebook.logintest.api.login.models.CertificateRequest;
 
 public class CertyfikatReadyEvent {
-    private final CertyfikatBody.Certyfikat certyfikat;
+    private final CertificateBody.Certyfikat certyfikat;
+    private CertificateRequest certificateRequest;
 
-    public CertyfikatReadyEvent(CertyfikatBody.Certyfikat certyfikat) {
+    public CertyfikatReadyEvent(CertificateBody.Certyfikat certyfikat, CertificateRequest certificateRequest) {
         this.certyfikat = certyfikat;
+        this.certificateRequest = certificateRequest;
     }
 
-    public CertyfikatBody.Certyfikat getCertyfikat() {
+    public CertificateRequest getCertificateRequest() {
+        return certificateRequest;
+    }
+
+    public CertificateBody.Certyfikat getCertificate() {
         return certyfikat;
     }
 }

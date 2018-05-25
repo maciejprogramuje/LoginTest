@@ -1,7 +1,7 @@
 package com.maciejprogramuje.facebook.logintest.api.login;
 
-import com.maciejprogramuje.facebook.logintest.api.login.models.CertyfikatBody;
-import com.maciejprogramuje.facebook.logintest.api.login.models.CertyfikatRequest;
+import com.maciejprogramuje.facebook.logintest.api.login.models.CertificateBody;
+import com.maciejprogramuje.facebook.logintest.api.login.models.CertificateRequest;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -18,6 +18,6 @@ public interface LoginApi {
             "Content-Type: application/json"
     })
     @POST("/" + SYMBOL + "/mobile-api/Uczen.v3.UczenStart/Certyfikat")
-    Call<CertyfikatBody> postLogin(@Body CertyfikatRequest loginRequest);
+    Call<CertificateBody> postLogin(@Body CertificateRequest loginRequest);
 
 }
