@@ -41,7 +41,6 @@ public class CertificateSignature {
             instance2.update(contents);
 
             byte[] bytes = instance2.sign();
-            // Base64 w wersji dla androida, a nie javy
             return Base64.encodeToString(bytes, Base64.NO_WRAP);
         } catch (KeyStoreException | IOException | CertificateException | NoSuchAlgorithmException | UnrecoverableKeyException | InvalidKeyException | SignatureException e) {
             e.printStackTrace();

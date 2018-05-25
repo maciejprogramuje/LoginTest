@@ -2,6 +2,8 @@ package com.maciejprogramuje.facebook.logintest.api.certificate.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 public class CertificateResponse {
     @SerializedName("IsError")
     private boolean isError;
@@ -64,7 +66,7 @@ public class CertificateResponse {
         this.tokenCert = tokenCert;
     }
 
-    public class Certyfikat {
+    public class Certyfikat implements Serializable{
         @SerializedName("CertyfikatKlucz")
         private String certyfikatKlucz;
         @SerializedName("CertyfikatKluczSformatowanyTekst")
