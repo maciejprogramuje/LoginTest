@@ -14,7 +14,9 @@ public class App extends Application {
         bus = new Bus();
     }
 
+
     public Bus getBus() {
         return bus;
     }
+
 }

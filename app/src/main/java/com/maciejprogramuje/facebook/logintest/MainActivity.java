@@ -3,15 +3,16 @@ package com.maciejprogramuje.facebook.logintest;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.maciejprogramuje.facebook.logintest.api.base_url.BaseUrlManager;
 import com.maciejprogramuje.facebook.logintest.api.base_url.BaseUrlReadyEvent;
-import com.maciejprogramuje.facebook.logintest.api.login.CertyfikatReadyEvent;
-import com.maciejprogramuje.facebook.logintest.api.login.LoginManager;
-import com.maciejprogramuje.facebook.logintest.api.login.RequestSignature;
+import com.maciejprogramuje.facebook.logintest.api.certificate.CertificateManager;
+import com.maciejprogramuje.facebook.logintest.api.certificate.CertyfikatReadyEvent;
+import com.maciejprogramuje.facebook.logintest.api.certificate.models.CertificateResponse;
+import com.maciejprogramuje.facebook.logintest.api.pupils_list.PupilsListManager;
+import com.maciejprogramuje.facebook.logintest.api.pupils_list.PupilsListReadyEvent;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -19,35 +20,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-// -------------------------------------------------------------------------------------------------------------------------------------------------------
-// -------------------------------------------------------------------------------------------------------------------------------------------------------
-// ------------------------------------------------------------- Jak znaleść właściwy BASE_URL? -----------------------------------------------------------
-// -------------------------------------------------------------------------------------------------------------------------------------------------------
-// Spis BASE_URL jest pod adresem:
-// http://komponenty.vulcan.net.pl/UonetPlusMobile/RoutingRules.txt
-//
-// 3S1,https://lekcjaplus.vulcan.net.pl
-// TA1,https://uonetplus-komunikacja.umt.tarnow.pl
-// OP1,https://uonetplus-komunikacja.eszkola.opolskie.pl
-// RZ1,https://uonetplus-komunikacja.resman.pl
-// GD1,https://uonetplus-komunikacja.edu.gdansk.pl
-// P03,https://efeb-komunikacja-pro-efebmobile.pro.vulcan.pl
-// P01,http://efeb-komunikacja.pro-hudson.win.vulcan.pl
-// P02,http://efeb-komunikacja.pro-hudsonrc.win.vulcan.pl
-// P90,http://efeb-komunikacja-pro-mwujakowska.neo.win.vulcan.pl
-//
-// -------------------------------------------------------------------------------------------------------------------------------------------------------
-// Itotne są pierwsze trzy znaki tokenu: np. dla Gimnazjum 16 w Lublinie (TOKEN zaczyna się od 3S1), właściwy BASE_URL to https://lekcjaplus.vulcan.net.pl
-// -------------------------------------------------------------------------------------------------------------------------------------------------------
-// Nie jest tak, że każda szkoła ma swój BASE_URL!
-// -------------------------------------------------------------------------------------------------------------------------------------------------------
-// -------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
 public class MainActivity extends AppCompatActivity {
-    public static final String TOKEN = "3S1AM824";
+    public static final String TOKEN = "3S1MB069";
     public static final String SYMBOL = "lublin";
-    public static final String PIN = "904116";
+    public static final String PIN = "389012";
 
     @BindView(R.id.statusTextView)
     TextView statusTextView;
@@ -55,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     Button loginButton;
 
     private Bus bus;
+    private String baseUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,24 +65,22 @@ public class MainActivity extends AppCompatActivity {
 
     @Subscribe
     public void onBaseUrlReady(BaseUrlReadyEvent event) {
-        loginToVulcan(event.getBaseUrl());
-    }
-
-    private void loginToVulcan(String baseUrl) {
-        LoginManager loginManager = new LoginManager(baseUrl, bus);
-        loginManager.postCertificateEvent();
+        baseUrl = event.getBaseUrl();
+        CertificateManager certificateManager = new CertificateManager(baseUrl, bus);
     }
 
     @Subscribe
     public void onCertificateReady(CertyfikatReadyEvent event) {
-        RequestSignature requestSignature = new RequestSignature();
-        requestSignature.setCertificateRequest(event.getCertificateRequest());
-        requestSignature.setCertificate(event.getCertificate());
-        String requestSignatureString = requestSignature.get();
+        CertificateResponse.Certyfikat certificate = event.getCertificate();
+        String requestSignature = event.getRequestSignature();
 
-        Log.w("UWAGA", "requestSignatureString: " + requestSignatureString);
-
+        PupilsListManager pupilsListManager = new PupilsListManager(bus, baseUrl, requestSignature, certificate.getCertyfikatKlucz());
 
         statusTextView.setText(String.format("OK\n\n%s", event.getCertificate().getUzytkownikLogin()));
+    }
+
+    @Subscribe
+    public void onPupilsListReady(PupilsListReadyEvent event) {
+        statusTextView.setText(statusTextView.getText() + "\n\nPupilsList - OK!");
     }
 }

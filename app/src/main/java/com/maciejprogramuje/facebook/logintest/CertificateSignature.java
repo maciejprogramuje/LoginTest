@@ -1,12 +1,12 @@
-package com.maciejprogramuje.facebook.logintest.api.login;
+package com.maciejprogramuje.facebook.logintest;
 
 import android.util.Base64;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.maciejprogramuje.facebook.logintest.api.login.models.CertificateBody;
-import com.maciejprogramuje.facebook.logintest.api.login.models.CertificateRequest;
+import com.maciejprogramuje.facebook.logintest.api.certificate.models.CertificateRequest;
+import com.maciejprogramuje.facebook.logintest.api.certificate.models.CertificateResponse;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -21,16 +21,17 @@ import java.security.SignatureException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 
-public class RequestSignature {
+public class CertificateSignature {
     private static final String ALGORITHM_NAME = "SHA1withRSA";
     private static final String CERT_TYPE = "pkcs12";
     private static final String CONTAINER_NAME = "LoginCert";
     private static final String PASSWORD = "CE75EA598C7743AD9B0B7328DED85B06";
 
-    private byte[] contents;
-    private InputStream cert;
 
-    public String get() {
+    public static String generate(CertificateRequest certificateRequest, CertificateResponse.Certyfikat cerificate) {
+        byte[] contents = setCertificateRequest(certificateRequest);
+        InputStream cert = setCertificate(cerificate);
+
         try {
             final KeyStore instance = KeyStore.getInstance(CERT_TYPE);
             instance.load(cert, PASSWORD.toCharArray());
@@ -41,27 +42,25 @@ public class RequestSignature {
 
             byte[] bytes = instance2.sign();
             // Base64 w wersji dla androida, a nie javy
-            return Base64.encodeToString(bytes, Base64.DEFAULT);
-            //return Base64.getEncoder().encodeToString(instance2.sign());
+            return Base64.encodeToString(bytes, Base64.NO_WRAP);
         } catch (KeyStoreException | IOException | CertificateException | NoSuchAlgorithmException | UnrecoverableKeyException | InvalidKeyException | SignatureException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    public void setCertificateRequest(CertificateRequest certificateRequest) {
+    private static byte[] setCertificateRequest(CertificateRequest certificateRequest) {
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            this.contents = mapper.writeValueAsBytes(certificateRequest);
+            return mapper.writeValueAsBytes(certificateRequest);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
+            return null;
         }
     }
 
-    public void setCertificate(CertificateBody.Certyfikat certyfikat) {
-        this.cert = new ByteArrayInputStream(Base64.decode(certyfikat.getCertyfikatPfx(), Base64.DEFAULT));
+    private static InputStream setCertificate(CertificateResponse.Certyfikat certyfikat) {
+        return new ByteArrayInputStream(Base64.decode(certyfikat.getCertyfikatPfx(), Base64.NO_WRAP));
     }
-
-    //connection.setRequestProperty("RequestSignatureValue", EncryptionUtils.signContent(bytes, new ByteArrayInputStream(Base64.getDecoder().decode(this.cert.getCertyfikatPfx()))));
 }
