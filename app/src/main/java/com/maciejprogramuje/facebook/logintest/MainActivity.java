@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.maciejprogramuje.facebook.logintest.api.base_url.BaseUrlManager;
 import com.maciejprogramuje.facebook.logintest.api.base_url.BaseUrlReadyEvent;
 import com.maciejprogramuje.facebook.logintest.api.certificate.CertificateManager;
@@ -24,11 +23,12 @@ import butterknife.OnClick;
 
 import static com.maciejprogramuje.facebook.logintest.App.BASE_URL_KEY;
 import static com.maciejprogramuje.facebook.logintest.App.CERTIFICATE_KEY;
+import static com.maciejprogramuje.facebook.logintest.App.REQUEST_SIGNATURE_KEY;
 
 public class MainActivity extends AppCompatActivity {
-    public static final String TOKEN = "3S1FM2U1";
+    private final String token = "3S1TTVH3";
     public static final String SYMBOL = "lublin";
-    public static final String PIN = "053792";
+    private final String pin = "289775";
 
     @BindView(R.id.statusTextView)
     TextView statusTextView;
@@ -36,9 +36,12 @@ public class MainActivity extends AppCompatActivity {
     Button loginButton;
 
     private Bus bus;
-    private String baseUrl;
     private App app;
     private CertificateResponse.Certyfikat certificate;
+    private SharedPreferences.Editor sharedPreferencesEditor;
+    private String mBaseUrl;
+    private String mCertificateKey;
+    private String mRequestSignature;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,18 +54,16 @@ public class MainActivity extends AppCompatActivity {
 
         app = (App) getApplication();
         bus = app.getBus();
+        sharedPreferencesEditor = app.getSharedPreferences().edit();
+        mBaseUrl = app.getBaseUrl();
+        mCertificateKey = app.getCertificateKey();
+        mRequestSignature = app.getRequestSignature();
 
-        baseUrl = app.getSharedPreferences().getString(BASE_URL_KEY, "");
-
-        Gson gson = new Gson();
-        String json = app.getSharedPreferences().getString("SerializableObject", "");
-        certificate = gson.fromJson(json, CertificateResponse.Certyfikat.class);
-
-        if(baseUrl.isEmpty() || json.isEmpty()) {
+        if(mBaseUrl.isEmpty() || mCertificateKey.isEmpty() || mRequestSignature.isEmpty()) {
             loginButton.setEnabled(true);
         } else {
             loginButton.setEnabled(false);
-            //TODO
+            postForPupilsList();
         }
     }
 
@@ -80,33 +81,36 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.loginButton)
     public void onLoginButtonClicked() {
-        BaseUrlManager baseUrlManager = new BaseUrlManager(TOKEN, bus);
+        BaseUrlManager baseUrlManager = new BaseUrlManager(token, bus);
         baseUrlManager.postBaseUrlEvent();
     }
 
     @Subscribe
     public void onBaseUrlReady(BaseUrlReadyEvent event) {
-        baseUrl = event.getBaseUrl();
-        app.getSharedPreferences().edit().putString(BASE_URL_KEY, baseUrl).apply();
+        mBaseUrl = event.getBaseUrl();
+        sharedPreferencesEditor.putString(BASE_URL_KEY, mBaseUrl).apply();
 
-        CertificateManager certificateManager = new CertificateManager(baseUrl, bus);
+        CertificateManager certificateManager = new CertificateManager(mBaseUrl, bus);
+        certificateManager.generateCerificate(pin, token);
     }
 
     @Subscribe
     public void onCertificateReady(CertyfikatReadyEvent event) {
         certificate = event.getCertificate();
+        mCertificateKey = certificate.getCertyfikatKlucz();
+        mRequestSignature = event.getRequestSignature();
 
-        SharedPreferences.Editor preferencesEditor = app.getSharedPreferences().edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(certificate);
-        preferencesEditor.putString(CERTIFICATE_KEY, json);
-        preferencesEditor.apply();
+        sharedPreferencesEditor.putString(CERTIFICATE_KEY, mCertificateKey)
+                .putString(REQUEST_SIGNATURE_KEY, mRequestSignature)
+                .apply();
 
-        String requestSignature = event.getRequestSignature();
+        statusTextView.setText(String.format("OK\n\n%s", certificate.getUzytkownikLogin()));
 
-        PupilsListManager pupilsListManager = new PupilsListManager(bus, baseUrl, requestSignature, certificate.getCertyfikatKlucz());
+        postForPupilsList();
+    }
 
-        statusTextView.setText(String.format("OK\n\n%s", event.getCertificate().getUzytkownikLogin()));
+    private void postForPupilsList() {
+        PupilsListManager pupilsListManager = new PupilsListManager(bus, mBaseUrl, mRequestSignature, mCertificateKey);
     }
 
     @Subscribe

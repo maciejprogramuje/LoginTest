@@ -12,6 +12,7 @@ import retrofit2.http.POST;
 
 import static com.maciejprogramuje.facebook.logintest.MainActivity.SYMBOL;
 
+
 public interface PupilsListApi {
 
     @POST("/" + SYMBOL + "/mobile-api/Uczen.v3.UczenStart/ListaUczniow")

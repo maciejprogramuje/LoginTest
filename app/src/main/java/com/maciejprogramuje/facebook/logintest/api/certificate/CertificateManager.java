@@ -18,8 +18,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-import static com.maciejprogramuje.facebook.logintest.MainActivity.PIN;
-import static com.maciejprogramuje.facebook.logintest.MainActivity.TOKEN;
 
 public class CertificateManager {
     private final String baseUrl;
@@ -33,7 +31,6 @@ public class CertificateManager {
         this.bus = bus;
 
         generateLoginApi();
-        generateCerificate();
     }
 
     private void generateLoginApi() {
@@ -42,8 +39,8 @@ public class CertificateManager {
         certificateApi = loginRetrofit.create(CertificateApi.class);
     }
 
-    private void generateCerificate() {
-        certificateRequest = new CertificateRequest(PIN, TOKEN);
+    public void generateCerificate(String pin, String token) {
+        certificateRequest = new CertificateRequest(pin, token);
         Call<CertificateResponse> call = certificateApi.postCerificate(certificateRequest, getCertificateHeadersMap());
         call.enqueue(new Callback<CertificateResponse>() {
             @Override
