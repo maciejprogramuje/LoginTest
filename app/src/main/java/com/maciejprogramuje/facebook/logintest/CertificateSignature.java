@@ -2,13 +2,6 @@ package com.maciejprogramuje.facebook.logintest;
 
 import android.util.Base64;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.maciejprogramuje.facebook.logintest.api.certificate.models.CertificateRequest;
-import com.maciejprogramuje.facebook.logintest.api.certificate.models.CertificateResponse;
-
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.InvalidKeyException;
@@ -28,10 +21,7 @@ public class CertificateSignature {
     private static final String PASSWORD = "CE75EA598C7743AD9B0B7328DED85B06";
 
 
-    public static String generate(CertificateRequest certificateRequest, CertificateResponse.Certyfikat cerificate) {
-        byte[] contents = setCertificateRequest(certificateRequest);
-        InputStream cert = setCertificate(cerificate);
-
+    public static String generate(byte[] contents, final InputStream cert) {
         try {
             final KeyStore instance = KeyStore.getInstance(CERT_TYPE);
             instance.load(cert, PASSWORD.toCharArray());
@@ -39,27 +29,10 @@ public class CertificateSignature {
             final Signature instance2 = Signature.getInstance(ALGORITHM_NAME);
             instance2.initSign(privateKey);
             instance2.update(contents);
-
-            byte[] bytes = instance2.sign();
-            return Base64.encodeToString(bytes, Base64.NO_WRAP);
+            return Base64.encodeToString(instance2.sign(), Base64.NO_WRAP);
         } catch (KeyStoreException | IOException | CertificateException | NoSuchAlgorithmException | UnrecoverableKeyException | InvalidKeyException | SignatureException e) {
             e.printStackTrace();
             return null;
         }
-    }
-
-    private static byte[] setCertificateRequest(CertificateRequest certificateRequest) {
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            return mapper.writeValueAsBytes(certificateRequest);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    private static InputStream setCertificate(CertificateResponse.Certyfikat certyfikat) {
-        return new ByteArrayInputStream(Base64.decode(certyfikat.getCertyfikatPfx(), Base64.NO_WRAP));
     }
 }

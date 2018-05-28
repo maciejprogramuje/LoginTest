@@ -9,13 +9,13 @@ import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 
 public class App extends Application {
     public static final String BASE_URL_KEY = "baseUrl";
-    public static final String CERTIFICATE_KEY = "certyficate";
-    public static final String REQUEST_SIGNATURE_KEY = "requestSignature";
+    public static final String PFX_KEY = "pfx";
+    public static final String CERTYFICATE_KEY_KEY = "certyficateKey";
 
 
+    private String certyficateKey;
+    private String pfx;
     private String baseUrl;
-    private String certificateKey;
-    private String requestSignature;
 
     private Bus bus;
     private SharedPreferences sharedPreferences;
@@ -28,13 +28,8 @@ public class App extends Application {
 
         sharedPreferences = getDefaultSharedPreferences(this);
         baseUrl = sharedPreferences.getString(BASE_URL_KEY, "");
-        certificateKey = sharedPreferences.getString(CERTIFICATE_KEY, "");
-        requestSignature = sharedPreferences.getString(REQUEST_SIGNATURE_KEY, "");
-
-        /*baseUrl = "https://lekcjaplus.vulcan.net.pl";
-        certificateKey = "A6EEDF0788E1E3537E530508DC841852BB0D52E2";
-        requestSignature = "BdZVeUBjjI4/uDuaVGRLJDuP5YEqsncQkgPBcWkz5CyYYmu0WIktJBNFSDtIN1f2nxRxdk4bc7ms3p85+MJJqwmXIWSSpBNzRg8BsTccuWnHSEpy8dRTLQ8d7Fmv3lrMUnJ/0Q2fN5O8K4eaU/XJYRR+RQ8phnqj/OBAPNMPLtQ=";
-    */
+        pfx = sharedPreferences.getString(PFX_KEY, "");
+        certyficateKey = sharedPreferences.getString(CERTYFICATE_KEY_KEY, "");
     }
 
 
@@ -55,18 +50,18 @@ public class App extends Application {
     }
 
     public String getCertificateKey() {
-        return certificateKey;
+        return certyficateKey;
     }
 
-    public void setCertificateKey(String certificateKey) {
-        this.certificateKey = certificateKey;
+    public void setCertyficateKey(String certyficateKey) {
+        this.certyficateKey = certyficateKey;
     }
 
-    public String getRequestSignature() {
-        return requestSignature;
+    public String getPfx() {
+        return pfx;
     }
 
-    public void setRequestSignature(String requestSignature) {
-        this.requestSignature = requestSignature;
+    public void setPfx(String pfx) {
+        this.pfx = pfx;
     }
 }

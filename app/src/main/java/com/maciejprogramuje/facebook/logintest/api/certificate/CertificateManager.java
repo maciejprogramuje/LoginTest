@@ -3,10 +3,9 @@ package com.maciejprogramuje.facebook.logintest.api.certificate;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.maciejprogramuje.facebook.logintest.CertificateSignature;
 import com.maciejprogramuje.facebook.logintest.RetrofitGenerator;
-import com.maciejprogramuje.facebook.logintest.api.certificate.models.CertificateRequest;
-import com.maciejprogramuje.facebook.logintest.api.certificate.models.CertificateResponse;
+import com.maciejprogramuje.facebook.logintest.api.models.Certyfikat;
+import com.maciejprogramuje.facebook.logintest.api.models.CertyfikatRequest;
 import com.squareup.otto.Bus;
 
 import java.io.IOException;
@@ -22,8 +21,8 @@ import retrofit2.Retrofit;
 public class CertificateManager {
     private final String baseUrl;
     private final Bus bus;
-    private CertificateResponse.Certyfikat cerificate;
-    private CertificateRequest certificateRequest;
+    private Certyfikat.TokenCertificate tokenCertificate;
+    private CertyfikatRequest certyfikatRequest;
     private CertificateApi certificateApi;
 
     public CertificateManager(String baseUrl, Bus bus) {
@@ -40,16 +39,16 @@ public class CertificateManager {
     }
 
     public void generateCerificate(String pin, String token) {
-        certificateRequest = new CertificateRequest(pin, token);
-        Call<CertificateResponse> call = certificateApi.postCerificate(certificateRequest, getCertificateHeadersMap());
-        call.enqueue(new Callback<CertificateResponse>() {
+        certyfikatRequest = new CertyfikatRequest(pin, token);
+        Call<Certyfikat> call = certificateApi.postCerificate(certyfikatRequest, getCertificateHeadersMap());
+        call.enqueue(new Callback<Certyfikat>() {
             @Override
-            public void onResponse(@NonNull Call<CertificateResponse> call, @NonNull Response<CertificateResponse> response) {
+            public void onResponse(@NonNull Call<Certyfikat> call, @NonNull Response<Certyfikat> response) {
                 if (response.isSuccessful()) {
-                    CertificateResponse certificateResponse = response.body();
-                    if (!certificateResponse.getError()) {
-                        cerificate = certificateResponse.getTokenCert();
-                        bus.post(new CertyfikatReadyEvent(cerificate, CertificateSignature.generate(certificateRequest, cerificate)));
+                    Certyfikat certyfikat = response.body();
+                    if (!certyfikat.isError) {
+                        tokenCertificate = certyfikat.tokenCert;
+                        bus.post(new CertificateReadyEvent(tokenCertificate.certyfikatKlucz, tokenCertificate.certyfikatPfx, tokenCertificate.uzytkownikNazwa));
                     } else {
                         Log.w("UWAGA", "blad 1 - błędny lub przeterminowany PIN lub TOKEN");
                     }
@@ -59,7 +58,7 @@ public class CertificateManager {
             }
 
             @Override
-            public void onFailure(Call<CertificateResponse> call, Throwable t) {
+            public void onFailure(Call<Certyfikat> call, Throwable t) {
                 if (t instanceof IOException) {
                     Log.w("UWAGA", "blad 3 - błąd połączenia ze stroną lub internetem");
                 } else {

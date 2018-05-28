@@ -1,12 +1,19 @@
 package com.maciejprogramuje.facebook.logintest.api.pupils_list;
 
 import android.support.annotation.NonNull;
+import android.util.Base64;
 import android.util.Log;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.maciejprogramuje.facebook.logintest.App;
+import com.maciejprogramuje.facebook.logintest.CertificateSignature;
 import com.maciejprogramuje.facebook.logintest.RetrofitGenerator;
-import com.maciejprogramuje.facebook.logintest.api.pupils_list.models.PupilsListRequest;
+import com.maciejprogramuje.facebook.logintest.api.models.UczniowieRequest;
 import com.squareup.otto.Bus;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,30 +26,27 @@ import retrofit2.Retrofit;
 
 public class PupilsListManager {
     private Bus bus;
-    private String baseUrl;
-    private final String requestSignature;
-    private final String certificateKey;
+    private App app;
     private PupilsListApi pupilsListApi;
+    private UczniowieRequest uczniowieRequest;
 
-    public PupilsListManager(Bus bus, String baseUrl, String requestSignature, String certificateKey) {
+    public PupilsListManager(Bus bus, App app) {
         this.bus = bus;
-        this.baseUrl = baseUrl;
-        this.requestSignature = requestSignature;
-        this.certificateKey = certificateKey;
+        this.app = app;
 
         generatePupilsListApi();
         generatePupilsList();
     }
 
     private void generatePupilsListApi() {
-        RetrofitGenerator pupilsListRetrofitGenerator = new RetrofitGenerator(baseUrl);
+        RetrofitGenerator pupilsListRetrofitGenerator = new RetrofitGenerator(app.getBaseUrl());
         Retrofit pupilsListRetrofit = pupilsListRetrofitGenerator.get();
         pupilsListApi = pupilsListRetrofit.create(PupilsListApi.class);
     }
 
     private void generatePupilsList() {
-        PupilsListRequest pupilsListRequest = new PupilsListRequest();
-        Call<ResponseBody> call = pupilsListApi.postPupilsList(pupilsListRequest, getPupilsListHeadersMap());
+        uczniowieRequest = new UczniowieRequest();
+        Call<ResponseBody> call = pupilsListApi.postPupilsList(uczniowieRequest, getPupilsListHeadersMap());
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
@@ -73,10 +77,20 @@ public class PupilsListManager {
 
     private Map<String, String> getPupilsListHeadersMap() {
         Map<String, String> headersMap = new HashMap<>();
-        headersMap.put("RequestSignatureValue", requestSignature);
+        headersMap.put("Host", "lekcjaplus.vulcan.net.pl");
+        headersMap.put("Content-Type", "application/json");
         headersMap.put("User-Agent", "MobileUserAgent");
-        headersMap.put("RequestCertificateKey", certificateKey);
-        headersMap.put("Content-Type", "application/json; charset=UTF-8");
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        try {
+            byte[] bytes = mapper.writeValueAsBytes(uczniowieRequest);
+            headersMap.put("RequestSignatureValue", CertificateSignature.generate(bytes, new ByteArrayInputStream(Base64.decode(app.getPfx(), Base64.NO_WRAP))));
+            headersMap.put("RequestCertificateKey", app.getCertificateKey());
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
         return headersMap;
     }
 }

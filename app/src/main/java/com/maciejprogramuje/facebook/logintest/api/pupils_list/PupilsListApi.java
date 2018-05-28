@@ -1,6 +1,6 @@
 package com.maciejprogramuje.facebook.logintest.api.pupils_list;
 
-import com.maciejprogramuje.facebook.logintest.api.pupils_list.models.PupilsListRequest;
+import com.maciejprogramuje.facebook.logintest.api.models.UczniowieRequest;
 
 import java.util.Map;
 
@@ -16,6 +16,6 @@ import static com.maciejprogramuje.facebook.logintest.MainActivity.SYMBOL;
 public interface PupilsListApi {
 
     @POST("/" + SYMBOL + "/mobile-api/Uczen.v3.UczenStart/ListaUczniow")
-    Call<ResponseBody> postPupilsList(@Body PupilsListRequest pupilsListRequest, @HeaderMap Map<String, String> headesMap);
+    Call<ResponseBody> postPupilsList(@Body UczniowieRequest uczniowieRequest, @HeaderMap Map<String, String> headesMap);
 
 }
