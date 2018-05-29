@@ -1,4 +1,4 @@
-package com.maciejprogramuje.facebook.logintest;
+package com.maciejprogramuje.facebook.logintest.uonet_api;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

@@ -1,4 +1,4 @@
-package com.maciejprogramuje.facebook.logintest.api.base_url;
+package com.maciejprogramuje.facebook.logintest.uonet_api.base_url;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;

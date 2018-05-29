@@ -1,7 +1,8 @@
-package com.maciejprogramuje.facebook.logintest.api.certificate;
+package com.maciejprogramuje.facebook.logintest.uonet_api.certificate;
 
-import com.maciejprogramuje.facebook.logintest.api.models.Certyfikat;
-import com.maciejprogramuje.facebook.logintest.api.models.CertyfikatRequest;
+
+import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
+import com.maciejprogramuje.facebook.logintest.uonet_api.models.CertyfikatRequest;
 
 import java.util.Map;
 

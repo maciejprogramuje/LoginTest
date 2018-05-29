@@ -1,8 +1,9 @@
-package com.maciejprogramuje.facebook.logintest.api.base_url;
+package com.maciejprogramuje.facebook.logintest.uonet_api.base_url;
 
 import android.support.annotation.NonNull;
 
-import com.maciejprogramuje.facebook.logintest.RetrofitGenerator;
+import com.maciejprogramuje.facebook.logintest.App;
+import com.maciejprogramuje.facebook.logintest.uonet_api.RetrofitGenerator;
 import com.squareup.otto.Bus;
 
 import java.io.IOException;
@@ -13,37 +14,31 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class BaseUrlManager {
+public class LoginManager {
     private String shortToken;
     private Bus bus;
     private Call<ResponseBody> call;
+    private BaseUrlApi baseUrlApi;
 
-    public BaseUrlManager(String token, Bus bus) {
+    public LoginManager(String token, App app) {
         this.shortToken = token.substring(0, 3);
-        this.bus = bus;
-
-        generate();
+        this.bus = app.getBus();
     }
 
-    private void generate() {
-        RetrofitGenerator baseUrlRetrofitGenerator = new RetrofitGenerator("http://komponenty.vulcan.net.pl");
-        Retrofit baseUrlRetrofit = baseUrlRetrofitGenerator.get();
-        final BaseUrlApi baseUrlApi = baseUrlRetrofit.create(BaseUrlApi.class);
+    public void login() {
+        generateBaseUrlApi();
 
         call = baseUrlApi.getBaseUrl();
-    }
-
-    public void postBaseUrlEvent() {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                 try {
-                    if (response.body() != null) {
+                    if (response.isSuccessful() && response.body() != null) {
                         String rawBody = response.body().string();
                         String baseUrl = rawBody.substring(rawBody.indexOf(shortToken) + 4);
                         baseUrl = baseUrl.substring(0, baseUrl.indexOf("\n"));
 
-                        bus.post(new BaseUrlReadyEvent(baseUrl));
+                        bus.post(new LoginSuccessEvent(baseUrl));
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -55,5 +50,11 @@ public class BaseUrlManager {
                 t.printStackTrace();
             }
         });
+    }
+
+    private void generateBaseUrlApi() {
+        RetrofitGenerator baseUrlRetrofitGenerator = new RetrofitGenerator("http://komponenty.vulcan.net.pl");
+        Retrofit baseUrlRetrofit = baseUrlRetrofitGenerator.get();
+        baseUrlApi = baseUrlRetrofit.create(BaseUrlApi.class);
     }
 }
