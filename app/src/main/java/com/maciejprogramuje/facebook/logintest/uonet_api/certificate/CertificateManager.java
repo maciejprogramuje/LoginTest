@@ -45,11 +45,11 @@ public class CertificateManager {
             public void onResponse(@NonNull Call<Certyfikat> call, @NonNull Response<Certyfikat> response) {
                 if (response.isSuccessful()) {
                     Certyfikat certyfikat = response.body();
-                    if (!certyfikat.getError()) {
+                    if (certyfikat.getTokenCert() != null) {
                         tokenCertificate = certyfikat.getTokenCert();
                         bus.post(new CertificateReadyEvent(tokenCertificate));
                     } else {
-                        Log.w("UWAGA", "blad 1 - błędny lub przeterminowany PIN lub TOKEN");
+                        Log.w("UWAGA", "blad 1 - błędny lub przeterminowany PIN lub TOKEN -> " + certyfikat.getMessage());
                     }
                 } else {
                     Log.w("UWAGA", "blad 2 - błąd odpowiedzi");
