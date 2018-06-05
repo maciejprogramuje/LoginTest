@@ -4,45 +4,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ResponseBase<T> {
     @JsonProperty("Status")
-    private String status;
+    public String status;
     @JsonProperty("TimeKey")
-    private Integer timeKey;
+    public Integer timeKey;
     @JsonProperty("TimeValue")
-    private String timeValue;
+    public String timeValue;
     @JsonProperty("RequestId")
-    private String requestId;
+    public String requestId;
     @JsonProperty("DayOfWeek")
-    private Integer dayOfWeek;
+    public Integer dayOfWeek;
     @JsonProperty("AppVersion")
-    private String appVersion;
+    public String appVersion;
     @JsonProperty("Data")
-    private T data;
-
-    public String getStatus() {
-        return this.status;
-    }
-
-    public Integer getTimeKey() {
-        return this.timeKey;
-    }
-
-    public String getTimeValue() {
-        return this.timeValue;
-    }
-
-    public String getRequestId() {
-        return this.requestId;
-    }
-
-    public Integer getDayOfWeek() {
-        return this.dayOfWeek;
-    }
-
-    public String getAppVersion() {
-        return this.appVersion;
-    }
-
-    public T getData() {
-        return this.data;
-    }
+    public T data;
 }

@@ -29,9 +29,9 @@ import static com.maciejprogramuje.facebook.logintest.App.CERTYFICATE_KEY_KEY;
 import static com.maciejprogramuje.facebook.logintest.App.PFX_KEY;
 
 public class MainActivity extends AppCompatActivity {
-    public static final String TOKEN = "3S130376";
+    public static final String TOKEN = "3S174VEH";
     public static final String SYMBOL = "lublin";
-    public static final String PIN = "812364";
+    public static final String PIN = "894323";
 
     @BindView(R.id.statusTextView)
     TextView statusTextView;
@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
     private String mBaseUrl;
     private String mPfx;
     private String mCertficateKey;
-    private UONETClient client;
     private Certyfikat.TokenCert tokenCert;
 
     @Override
@@ -107,13 +106,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Subscribe
     public void onCertificateReady(CertificateReadyEvent event) {
-        //client = new UONETClient(event.getCert());
-
-
         mPfx = event.getCertyfikatPfx();
         mCertficateKey = event.getCertyfikatKlucz();
-
-        Log.w("UWAGA", "mPfx -> " + mPfx + ", mCertficateKey -> " + mCertficateKey);
 
         sharedPreferencesEditor.putString(PFX_KEY, mPfx)
                 .putString(CERTYFICATE_KEY_KEY, mCertficateKey)
@@ -123,23 +117,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void postForPupilsList() {
-        Log.w("UWAGA", "Dane logowania: mPfx -> " + mPfx + ", mCertficateKey -> " + mCertficateKey + ", mBaseUrl -> " + mBaseUrl);
+        Certyfikat.TokenCert cert = new Certyfikat.TokenCert();
+        cert.certyfikatKlucz = mCertficateKey;
+        cert.certyfikatPfx = mPfx;
+        cert.adresBazowyRestApi = mBaseUrl;
 
-       /* PupilsManager pupilsManager = new PupilsManager(bus, mBaseUrl, mPfx, mCertficateKey);
+        UONETClient client = new UONETClient(cert);
+
+        //Uczniowie uczniowie = client.doRequest(new UczniowieRequest());
+
+        /*PupilsManager pupilsManager = new PupilsManager(bus, cert);
         pupilsManager.generatePupils();*/
 
-        if (client == null) {
-            Certyfikat.TokenCert cert = new Certyfikat.TokenCert();
-            cert.certyfikatKlucz = mCertficateKey;
-            cert.certyfikatPfx = mPfx;
-            cert.adresBazowyRestApi = mBaseUrl;
+        //Log.w("UWAGA", "uczniowie -> " + uczniowie.getData().get(0).toString());
 
-            client = new UONETClient(cert);
-        }
 
         try {
             Uczniowie uczniowie = client.doRequest(new UczniowieRequest());
-            Log.w("UWAGA", "uczniowie -> " + uczniowie.getData().get(0).toString());
+            Log.w("UWAGA", "uczniowie -> " + uczniowie.data.get(0).toString());
         } catch (UONETException e) {
             e.printStackTrace();
         }

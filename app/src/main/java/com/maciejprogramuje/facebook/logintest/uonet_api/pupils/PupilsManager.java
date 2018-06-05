@@ -5,7 +5,9 @@ import android.util.Log;
 
 import com.maciejprogramuje.facebook.logintest.uonet_api.RetrofitGenerator;
 import com.maciejprogramuje.facebook.logintest.uonet_api.certificate.CertificateSignature;
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.UczniowieRequest3;
+import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
+import com.maciejprogramuje.facebook.logintest.uonet_api.models.Uczniowie;
+import com.maciejprogramuje.facebook.logintest.uonet_api.models.UczniowieRequest;
 import com.squareup.otto.Bus;
 
 import java.io.IOException;
@@ -19,36 +21,34 @@ import retrofit2.Retrofit;
 
 public class PupilsManager {
     private final Bus bus;
-    private final String baseUrl;
-    private final String pfx;
-    private final String certficateKey;
+    private final Certyfikat.TokenCert cert;
     private PupilsApi pupilsApi;
-    private UczniowieRequest3 uczniowieRequest3;
+    private UczniowieRequest uczniowieRequest;
 
-    public PupilsManager(Bus bus, String baseUrl, String pfx, String certficateKey) {
+    public PupilsManager(Bus bus, Certyfikat.TokenCert cert) {
         this.bus = bus;
-        this.baseUrl = baseUrl;
-        this.pfx = pfx;
-        this.certficateKey = certficateKey;
+        this.cert = cert;
 
         generatePupilsApi();
     }
 
     private void generatePupilsApi() {
-        RetrofitGenerator pupilsRetrofitGenerator = new RetrofitGenerator(baseUrl);
+        RetrofitGenerator pupilsRetrofitGenerator = new RetrofitGenerator(cert.adresBazowyRestApi);
         Retrofit pupilsRetrofit = pupilsRetrofitGenerator.get();
         pupilsApi = pupilsRetrofit.create(PupilsApi.class);
     }
 
     public void generatePupils() {
-        uczniowieRequest3 = new UczniowieRequest3();
-        Call<Void> call = pupilsApi.postPupils(uczniowieRequest3, getPupilsHeadersMap());
-        call.enqueue(new Callback<Void>() {
+        uczniowieRequest = new UczniowieRequest();
+        Call<Uczniowie> call = pupilsApi.postPupils(uczniowieRequest, getPupilsHeadersMap());
+        call.enqueue(new Callback<Uczniowie>() {
             @Override
-            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+            public void onResponse(@NonNull Call<Uczniowie> call, @NonNull Response<Uczniowie> response) {
                 if (response.isSuccessful()) {
-                    //Uczniowie uczniowie = response.body();
-                    //Log.w("UWAGA", "Uczniowie sukces -> " + uczniowie.toString());
+                    Log.w("UWAGA", "Uczniowie sukces -> OK");
+
+                    Uczniowie uczniowie = response.body();
+                    Log.w("UWAGA", "Uczniowie sukces -> " + uczniowie.data.get(0).idJednostkaSprawozdawcza);
 
                 } else {
                     try {
@@ -60,7 +60,7 @@ public class PupilsManager {
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<Uczniowie> call, Throwable t) {
                 if (t instanceof IOException) {
                     Log.w("UWAGA", "blad 3 - błąd połączenia ze stroną lub internetem");
                 } else {
@@ -72,10 +72,10 @@ public class PupilsManager {
 
     private Map<String, String> getPupilsHeadersMap() {
         Map<String, String> headersMap = new HashMap<>();
-        headersMap.put("RequestSignatureValue", CertificateSignature.generate(uczniowieRequest3, pfx));
+        headersMap.put("RequestSignatureValue", CertificateSignature.generate(uczniowieRequest, cert.certyfikatPfx));
         headersMap.put("User-Agent", "MobileUserAgent");
         headersMap.put("Host", "lekcjaplus.vulcan.net.pl");
-        headersMap.put("RequestCertificateKey", certficateKey);
+        headersMap.put("RequestCertificateKey", cert.certyfikatKlucz);
         headersMap.put("Content-Type", "application/json; charset=UTF-8");
 
         return headersMap;

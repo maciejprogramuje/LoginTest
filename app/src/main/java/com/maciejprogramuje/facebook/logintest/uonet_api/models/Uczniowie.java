@@ -4,9 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-/**
- * Created by maciekmm on 9/12/16.
- */
 public class Uczniowie extends ResponseBase<List<Uczniowie.Uczen>> {
     public static class Uczen {
         @JsonProperty("IdOkresKlasyfikacyjny")
