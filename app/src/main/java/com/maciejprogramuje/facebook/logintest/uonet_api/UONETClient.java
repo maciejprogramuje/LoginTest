@@ -102,10 +102,10 @@ public class UONETClient {
 
     public <T> T doRequest(Uczniowie.Uczen pupil, UczenAwareRequestBase<T> req) throws UONETException {
         try {
-            req.setIdOddzial(pupil.getIdOddzial());
-            req.setIdOkresKlasyfikacyjny(pupil.getIdOkresKlasyfikacyjny());
-            req.setIdUczen(pupil.getId());
-            return this.doRequest(this.cert.adresBazowyRestApi + "/" + pupil.getJednostkaSprawozdawczaSymbol() + "/mobile-api/" + PUPIL_AWARE_REST_ENDPOINT + "/", (RequestBase<T>) req);
+            req.setIdOddzial(pupil.idOddzial);
+            req.setIdOkresKlasyfikacyjny(pupil.idOkresKlasyfikacyjny);
+            req.setIdUczen(pupil.id);
+            return this.doRequest(this.cert.adresBazowyRestApi + "/" + pupil.jednostkaSprawozdawczaSymbol + "/mobile-api/" + PUPIL_AWARE_REST_ENDPOINT + "/", (RequestBase<T>) req);
         } catch (MalformedURLException e) {
             throw new UONETException(String.format("Invalid URL: %s", e.getMessage()), e);
         }

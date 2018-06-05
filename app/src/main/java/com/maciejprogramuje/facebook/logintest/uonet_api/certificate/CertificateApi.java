@@ -11,12 +11,10 @@ import retrofit2.http.Body;
 import retrofit2.http.HeaderMap;
 import retrofit2.http.POST;
 
-import static com.maciejprogramuje.facebook.logintest.MainActivity.SYMBOL;
-
 
 public interface CertificateApi {
 
-    @POST("/" + SYMBOL + "/mobile-api/Uczen.v3.UczenStart/Certyfikat")
+    @POST("mobile-api/Uczen.v3.UczenStart/Certyfikat")
     Call<Certyfikat> postCerificate(@Body CertyfikatRequest certyfikatRequest, @HeaderMap Map<String, String> headesMap);
 
 }

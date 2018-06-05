@@ -14,6 +14,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
+import static com.maciejprogramuje.facebook.logintest.MainActivity.SYMBOL;
+
 public class BaseUrlManager {
     private String shortToken;
     private Bus bus;
@@ -36,7 +38,7 @@ public class BaseUrlManager {
                     if (response.isSuccessful() && response.body() != null) {
                         String rawBody = response.body().string();
                         String baseUrl = rawBody.substring(rawBody.indexOf(shortToken) + 4);
-                        baseUrl = baseUrl.substring(0, baseUrl.indexOf("\n"));
+                        baseUrl = baseUrl.substring(0, baseUrl.indexOf("\n") - 1) + "/" + SYMBOL + "/";
 
                         bus.post(new BaseUrlReadyEvent(baseUrl));
                     }

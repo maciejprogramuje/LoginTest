@@ -9,11 +9,9 @@ import retrofit2.http.Body;
 import retrofit2.http.HeaderMap;
 import retrofit2.http.POST;
 
-import static com.maciejprogramuje.facebook.logintest.MainActivity.SYMBOL;
-
 public interface PupilsApi {
 
-    @POST("/" + SYMBOL + "/mobile-api/Uczen.v3.UczenStart/ListaUczniow")
+    @POST("mobile-api/Uczen.v3.UczenStart/ListaUczniow")
     Call<Void> postPupils(@Body UczniowieRequest3 uczniowieRequest3, @HeaderMap Map<String, String> headesMap);
 
 }
