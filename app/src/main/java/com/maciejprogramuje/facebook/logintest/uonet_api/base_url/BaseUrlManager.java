@@ -14,18 +14,18 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class LoginManager {
+public class BaseUrlManager {
     private String shortToken;
     private Bus bus;
     private Call<ResponseBody> call;
     private BaseUrlApi baseUrlApi;
 
-    public LoginManager(String token, App app) {
+    public BaseUrlManager(String token, App app) {
         this.shortToken = token.substring(0, 3);
         this.bus = app.getBus();
     }
 
-    public void login() {
+    public void generateBaseUrl() {
         generateBaseUrlApi();
 
         call = baseUrlApi.getBaseUrl();
@@ -38,7 +38,7 @@ public class LoginManager {
                         String baseUrl = rawBody.substring(rawBody.indexOf(shortToken) + 4);
                         baseUrl = baseUrl.substring(0, baseUrl.indexOf("\n"));
 
-                        bus.post(new LoginSuccessEvent(baseUrl));
+                        bus.post(new BaseUrlReadyEvent(baseUrl));
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

@@ -1,9 +1,9 @@
 package com.maciejprogramuje.facebook.logintest.uonet_api.base_url;
 
-public class LoginSuccessEvent {
+public class BaseUrlReadyEvent {
     private final String baseUrl;
 
-    public LoginSuccessEvent(String baseUrl) {
+    public BaseUrlReadyEvent(String baseUrl) {
         this.baseUrl = baseUrl;
     }
 

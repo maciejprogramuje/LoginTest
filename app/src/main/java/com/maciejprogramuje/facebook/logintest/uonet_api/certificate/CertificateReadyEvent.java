@@ -1,15 +1,19 @@
 package com.maciejprogramuje.facebook.logintest.uonet_api.certificate;
 
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
-
 public class CertificateReadyEvent {
-    private Certyfikat.TokenCertificate cert;
+    private final String certyfikatPfx;
+    private final String certyfikatKlucz;
 
-    public CertificateReadyEvent(Certyfikat.TokenCertificate cert) {
-        this.cert = cert;
+    public CertificateReadyEvent(String certyfikatPfx, String certyfikatKlucz) {
+        this.certyfikatPfx = certyfikatPfx;
+        this.certyfikatKlucz = certyfikatKlucz;
     }
 
-    public Certyfikat.TokenCertificate getCert() {
-        return cert;
+    public String getCertyfikatPfx() {
+        return certyfikatPfx;
+    }
+
+    public String getCertyfikatKlucz() {
+        return certyfikatKlucz;
     }
 }

@@ -25,14 +25,14 @@ public class UONETClient {
     public static final String DEFAULT_REST_ENDPOINT = "Uczen.v3.UczenStart";
     public static final String USER_AGENT = "MobileUserAgent";
 
-    private Certyfikat.TokenCertificate cert;
+    private Certyfikat.TokenCert cert;
     private String certyfikatKlucz;
     private String certyfikatPfx;
 
     public UONETClient() {
     }
 
-    public UONETClient(Certyfikat.TokenCertificate cert) {
+    public UONETClient(Certyfikat.TokenCert cert) {
         this.cert = cert;
     }
 
@@ -61,8 +61,8 @@ public class UONETClient {
         try {
             bytes = mapper.writeValueAsBytes(req);
             if (this.cert != null) {
-                certyfikatKlucz = this.cert.getCertyfikatKlucz();
-                certyfikatPfx = this.cert.getCertyfikatPfx();
+                certyfikatKlucz = this.cert.certyfikatKlucz;
+                certyfikatPfx = this.cert.certyfikatKlucz;
 
                 connection.setRequestProperty("RequestCertificateKey", certyfikatKlucz);
                 connection.setRequestProperty("RequestSignatureValue", CertificateSignature.generate(bytes, new ByteArrayInputStream(Base64.decode(certyfikatPfx, Base64.NO_WRAP))));
@@ -104,7 +104,7 @@ public class UONETClient {
 
     public <T> T doRequest(RequestBase<T> req) throws UONETException {
         try {
-            return this.doRequest(this.cert.getAdresBazowyRestApi() + "/mobile-api/" + DEFAULT_REST_ENDPOINT + "/", req);
+            return this.doRequest(this.cert.adresBazowyRestApi + "/mobile-api/" + DEFAULT_REST_ENDPOINT + "/", req);
         } catch (MalformedURLException e) {
             throw new UONETException(String.format("Invalid URL: %s", e.getMessage()), e);
         }
@@ -115,13 +115,13 @@ public class UONETClient {
             req.setIdOddzial(pupil.getIdOddzial());
             req.setIdOkresKlasyfikacyjny(pupil.getIdOkresKlasyfikacyjny());
             req.setIdUczen(pupil.getId());
-            return this.doRequest(this.cert.getAdresBazowyRestApi() + "/" + pupil.getJednostkaSprawozdawczaSymbol() + "/mobile-api/" + PUPIL_AWARE_REST_ENDPOINT + "/", (RequestBase<T>) req);
+            return this.doRequest(this.cert.adresBazowyRestApi + "/" + pupil.getJednostkaSprawozdawczaSymbol() + "/mobile-api/" + PUPIL_AWARE_REST_ENDPOINT + "/", (RequestBase<T>) req);
         } catch (MalformedURLException e) {
             throw new UONETException(String.format("Invalid URL: %s", e.getMessage()), e);
         }
     }
 
-    public Certyfikat.TokenCertificate getCertificate() {
+    public Certyfikat.TokenCert getCertificate() {
         return this.cert;
     }
 

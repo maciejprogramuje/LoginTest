@@ -4,18 +4,16 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.maciejprogramuje.facebook.logintest.uonet_api.UONETClient;
-import com.maciejprogramuje.facebook.logintest.uonet_api.UONETException;
-import com.maciejprogramuje.facebook.logintest.uonet_api.base_url.LoginManager;
-import com.maciejprogramuje.facebook.logintest.uonet_api.base_url.LoginSuccessEvent;
+import com.maciejprogramuje.facebook.logintest.uonet_api.base_url.BaseUrlManager;
+import com.maciejprogramuje.facebook.logintest.uonet_api.base_url.BaseUrlReadyEvent;
 import com.maciejprogramuje.facebook.logintest.uonet_api.certificate.CertificateManager;
 import com.maciejprogramuje.facebook.logintest.uonet_api.certificate.CertificateReadyEvent;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.Uczniowie;
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.UczniowieRequest;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -28,9 +26,9 @@ import static com.maciejprogramuje.facebook.logintest.App.CERTYFICATE_KEY_KEY;
 import static com.maciejprogramuje.facebook.logintest.App.PFX_KEY;
 
 public class MainActivity extends AppCompatActivity {
-    public static final String TOKEN = "3S187NRG";
+    public static final String TOKEN = "3S1HVJG2";
     public static final String SYMBOL = "lublin";
-    public static final String PIN = "172821";
+    public static final String PIN = "214753";
 
     @BindView(R.id.statusTextView)
     TextView statusTextView;
@@ -44,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private String mPfx;
     private String mCertficateKey;
     private UONETClient client;
+    private Certyfikat.TokenCert tokenCert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,13 +87,16 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.loginButton)
     public void onLoginButtonClicked() {
-        LoginManager loginManager = new LoginManager(TOKEN, app);
-        loginManager.login();
+        BaseUrlManager baseUrlManager = new BaseUrlManager(TOKEN, app);
+        baseUrlManager.generateBaseUrl();
     }
 
     @Subscribe
-    public void onLoginSuccess(LoginSuccessEvent event) {
+    public void onBaseUrlReady(BaseUrlReadyEvent event) {
         mBaseUrl = event.getBaseUrl();
+
+        Log.w("UWAGA", "onBaseUrlReady -> " + mBaseUrl);
+
         sharedPreferencesEditor.putString(BASE_URL_KEY, mBaseUrl).apply();
 
         CertificateManager certificateManager = new CertificateManager(mBaseUrl, bus);
@@ -103,10 +105,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Subscribe
     public void onCertificateReady(CertificateReadyEvent event) {
-        client = new UONETClient(event.getCert());
+        //client = new UONETClient(event.getCert());
 
-        mPfx = client.getCertyfikatPfx();
-        mCertficateKey = client.getCertyfikatKlucz();
+        mPfx = event.getCertyfikatPfx();
+        mCertficateKey = event.getCertyfikatKlucz();
+
+        Log.w("UWAGA", "mPfx -> " + mPfx + ", mCertficateKey -> " + mCertficateKey);
 
         sharedPreferencesEditor.putString(PFX_KEY, mPfx)
                 .putString(CERTYFICATE_KEY_KEY, mCertficateKey)
@@ -118,7 +122,9 @@ public class MainActivity extends AppCompatActivity {
     private void postForPupilsList() {
         //PupilsListManager pupilsListManager = new PupilsListManager(bus, mBaseUrl, mPfx, mCertficateKey);
 
-        if (client == null) {
+        Log.w("UWAGA", "Dane logowania: mPfx -> " + mPfx + ", mCertficateKey -> " + mCertficateKey);
+
+        /*if (client == null) {
             Certyfikat.TokenCertificate cert = new Certyfikat.TokenCertificate();
             cert.setCertyfikatKlucz(mCertficateKey);
             cert.setCertyfikatPfx(mPfx);
@@ -131,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
             Uczniowie uczniowie = client.doRequest(new UczniowieRequest());
         } catch (UONETException e) {
             e.printStackTrace();
-        }
+        }*/
 
     }
 /*

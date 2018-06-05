@@ -32,7 +32,7 @@ public class CertificateSignature {
             return Base64.encodeToString(instance2.sign(), Base64.NO_WRAP);
         } catch (KeyStoreException | IOException | CertificateException | NoSuchAlgorithmException | UnrecoverableKeyException | InvalidKeyException | SignatureException e) {
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 }

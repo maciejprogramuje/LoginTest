@@ -1,7 +1,7 @@
 package com.maciejprogramuje.facebook.logintest.uonet_api.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 import java.lang.reflect.ParameterizedType;
 import java.net.URLConnection;
@@ -11,15 +11,15 @@ public abstract class RequestBase<T> {
     public static final String APPLICATION_NAME = "VULCAN-Android-ModulUcznia";
     public static final String APPLICATION_VERSION = "16.1.4.331";
 
-    @JsonProperty("RemoteMobileAppVersion")
+    @SerializedName("RemoteMobileAppVersion")
     private String remoteMobileAppVersion = APPLICATION_VERSION;
-    @JsonProperty("RemoteMobileAppName")
+    @SerializedName("RemoteMobileAppName")
     private String remoteMobileAppName = APPLICATION_NAME;
-    @JsonProperty("RemoteMobileTimeKey")
+    @SerializedName("RemoteMobileTimeKey")
     private String remoteMobileTimeKey;
-    @JsonProperty("TimeKey")
+    @SerializedName("TimeKey")
     private String timeKey;
-    @JsonProperty("RequestId")
+    @SerializedName("RequestId")
     private String requestId = UUID.randomUUID().toString();
 
     /**

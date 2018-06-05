@@ -21,7 +21,7 @@ import retrofit2.Retrofit;
 public class CertificateManager {
     private final String baseUrl;
     private final Bus bus;
-    private Certyfikat.TokenCertificate tokenCertificate;
+    private Certyfikat.TokenCert tokenCert;
     private CertificateApi certificateApi;
 
     public CertificateManager(String baseUrl, Bus bus) {
@@ -45,11 +45,12 @@ public class CertificateManager {
             public void onResponse(@NonNull Call<Certyfikat> call, @NonNull Response<Certyfikat> response) {
                 if (response.isSuccessful()) {
                     Certyfikat certyfikat = response.body();
-                    if (certyfikat.getTokenCert() != null) {
-                        tokenCertificate = certyfikat.getTokenCert();
-                        bus.post(new CertificateReadyEvent(tokenCertificate));
+
+                    if (certyfikat.tokenCert != null) {
+                        tokenCert = certyfikat.tokenCert;
+                        bus.post(new CertificateReadyEvent(tokenCert.certyfikatPfx, tokenCert.certyfikatKlucz));
                     } else {
-                        Log.w("UWAGA", "blad 1 - błędny lub przeterminowany PIN lub TOKEN -> " + certyfikat.getMessage());
+                        Log.w("UWAGA", "blad 1 - błędny lub przeterminowany PIN lub TOKEN -> " + certyfikat.toString());
                     }
                 } else {
                     Log.w("UWAGA", "blad 2 - błąd odpowiedzi");
