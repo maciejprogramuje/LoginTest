@@ -1,4 +1,4 @@
-package com.maciejprogramuje.facebook.logintest.uonet_api.pupils;
+package com.maciejprogramuje.facebook.logintest.uonet_api.models;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -7,7 +7,7 @@ import java.util.UUID;
 import static com.maciejprogramuje.facebook.logintest.uonet_api.models.CertyfikatRequest.APPLICATION_NAME;
 import static com.maciejprogramuje.facebook.logintest.uonet_api.models.CertyfikatRequest.APPLICATION_VERSION;
 
-public class PupilsRequest {
+public class UczniowieRequest3 {
     @SerializedName("RemoteMobileTimeKey")
     public String remoteMobileTimeKey;
     @SerializedName("TimeKey")
@@ -19,7 +19,7 @@ public class PupilsRequest {
     @SerializedName("RemoteMobileAppName")
     public String remoteMobileAppName = APPLICATION_NAME;
 
-    public PupilsRequest() {
+    public UczniowieRequest3() {
         long time = System.currentTimeMillis();
         if (this.remoteMobileTimeKey == null) {
             this.remoteMobileTimeKey = Long.toString(time / 1000L + 1);

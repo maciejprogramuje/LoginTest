@@ -16,10 +16,10 @@ public class RetrofitGenerator {
 
     public RetrofitGenerator(String url) {
         this.url = url;
-        generateWithStaticHeaders();
+        generateRetrofit();
     }
 
-    private void generateWithStaticHeaders() {
+    private void generateRetrofit() {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient httpClient = new OkHttpClient().newBuilder()
@@ -32,9 +32,9 @@ public class RetrofitGenerator {
         Gson gson = new GsonBuilder().setLenient().create();
 
         Retrofit.Builder builder = new Retrofit.Builder();
-        builder.addConverterFactory(GsonConverterFactory.create(gson));
-        builder.baseUrl(url);
-        builder.client(httpClient);
+        builder.baseUrl(url)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .client(httpClient);
         retrofit = builder.build();
     }
 

@@ -16,7 +16,7 @@ public class Certyfikat {
     @SerializedName("TokenCert")
     public TokenCert tokenCert;
 
-    public class TokenCert {
+    public static class TokenCert {
         @SerializedName("CertyfikatKlucz")
         public String certyfikatKlucz;
         @SerializedName("CertyfikatKluczSformatowanyTekst")
