@@ -2,8 +2,12 @@ package com.maciejprogramuje.facebook.logintest.uonet_api.certificate;
 
 import android.util.Base64;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.maciejprogramuje.facebook.logintest.uonet_api.pupils.PupilsRequest;
+
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.security.InvalidKeyException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -21,18 +25,28 @@ public class CertificateSignature {
     private static final String PASSWORD = "CE75EA598C7743AD9B0B7328DED85B06";
 
 
-    public static String generate(byte[] contents, final InputStream cert) {
+    public static String generate(PupilsRequest pupilsRequest, String certyfikatPfx) {
         try {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            byte[] bytes = mapper.writeValueAsBytes(pupilsRequest);
+
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(Base64.decode(certyfikatPfx, Base64.NO_WRAP));
+
+
             final KeyStore instance = KeyStore.getInstance(CERT_TYPE);
-            instance.load(cert, PASSWORD.toCharArray());
+            instance.load(byteArrayInputStream, PASSWORD.toCharArray());
             final PrivateKey privateKey = (PrivateKey) instance.getKey(CONTAINER_NAME, PASSWORD.toCharArray());
             final Signature instance2 = Signature.getInstance(ALGORITHM_NAME);
             instance2.initSign(privateKey);
-            instance2.update(contents);
+            instance2.update(bytes);
             return Base64.encodeToString(instance2.sign(), Base64.NO_WRAP);
         } catch (KeyStoreException | IOException | CertificateException | NoSuchAlgorithmException | UnrecoverableKeyException | InvalidKeyException | SignatureException e) {
             e.printStackTrace();
         }
         return null;
     }
+
+
+
 }

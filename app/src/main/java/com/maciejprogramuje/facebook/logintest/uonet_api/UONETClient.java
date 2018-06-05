@@ -1,17 +1,11 @@
 package com.maciejprogramuje.facebook.logintest.uonet_api;
 
-import android.util.Base64;
-
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.maciejprogramuje.facebook.logintest.uonet_api.certificate.CertificateSignature;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.RequestBase;
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.UczenAwareRequestBase;
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.Uczniowie;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -65,7 +59,7 @@ public class UONETClient {
                 certyfikatPfx = this.cert.certyfikatKlucz;
 
                 connection.setRequestProperty("RequestCertificateKey", certyfikatKlucz);
-                connection.setRequestProperty("RequestSignatureValue", CertificateSignature.generate(bytes, new ByteArrayInputStream(Base64.decode(certyfikatPfx, Base64.NO_WRAP))));
+                //connection.setRequestProperty("RequestSignatureValue", CertificateSignature.generate(bytes, new ByteArrayInputStream(Base64.decode(certyfikatPfx, Base64.NO_WRAP))));
             }
         } catch (IOException e) {
             throw new UONETException(String.format("Could not serialize data: %s", e.getMessage()), e);
@@ -110,7 +104,7 @@ public class UONETClient {
         }
     }
 
-    public <T> T doRequest(Uczniowie.Uczen pupil, UczenAwareRequestBase<T> req) throws UONETException {
+    /*public <T> T doRequest(Uczniowie.Uczen pupil, UczenAwareRequestBase<T> req) throws UONETException {
         try {
             req.setIdOddzial(pupil.getIdOddzial());
             req.setIdOkresKlasyfikacyjny(pupil.getIdOkresKlasyfikacyjny());
@@ -131,5 +125,5 @@ public class UONETClient {
 
     public String getCertyfikatPfx() {
         return certyfikatPfx;
-    }
+    }*/
 }

@@ -14,6 +14,7 @@ import com.maciejprogramuje.facebook.logintest.uonet_api.base_url.BaseUrlReadyEv
 import com.maciejprogramuje.facebook.logintest.uonet_api.certificate.CertificateManager;
 import com.maciejprogramuje.facebook.logintest.uonet_api.certificate.CertificateReadyEvent;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
+import com.maciejprogramuje.facebook.logintest.uonet_api.pupils.PupilsManager;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -26,9 +27,9 @@ import static com.maciejprogramuje.facebook.logintest.App.CERTYFICATE_KEY_KEY;
 import static com.maciejprogramuje.facebook.logintest.App.PFX_KEY;
 
 public class MainActivity extends AppCompatActivity {
-    public static final String TOKEN = "3S1HVJG2";
+    public static final String TOKEN = "3S1E129B";
     public static final String SYMBOL = "lublin";
-    public static final String PIN = "214753";
+    public static final String PIN = "736794";
 
     @BindView(R.id.statusTextView)
     TextView statusTextView;
@@ -120,9 +121,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void postForPupilsList() {
-        //PupilsListManager pupilsListManager = new PupilsListManager(bus, mBaseUrl, mPfx, mCertficateKey);
+        Log.w("UWAGA", "Dane logowania: mPfx -> " + mPfx + ", mCertficateKey -> " + mCertficateKey + ", mBaseUrl -> " + mBaseUrl);
 
-        Log.w("UWAGA", "Dane logowania: mPfx -> " + mPfx + ", mCertficateKey -> " + mCertficateKey);
+        PupilsManager pupilsListManager = new PupilsManager(bus, mBaseUrl, mPfx, mCertficateKey);
+        pupilsListManager.generatePupils();
+
 
         /*if (client == null) {
             Certyfikat.TokenCertificate cert = new Certyfikat.TokenCertificate();
