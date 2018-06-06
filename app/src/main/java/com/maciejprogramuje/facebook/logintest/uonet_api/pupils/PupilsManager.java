@@ -46,6 +46,8 @@ public class PupilsManager {
         call.enqueue(new Callback<Uczniowie>() {
             @Override
             public void onResponse(@NonNull Call<Uczniowie> call, @NonNull Response<Uczniowie> response) {
+                Log.w("UWAGA", "response -> "+response.body().toString());
+
                 if (response.isSuccessful()) {
                     Log.w("UWAGA", "Uczniowie sukces -> OK");
 
