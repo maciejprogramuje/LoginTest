@@ -1,4 +1,4 @@
-package com.maciejprogramuje.facebook.logintest.uonet_api.certificate;
+package com.maciejprogramuje.facebook.logintest.uonet_api;
 
 import android.util.Base64;
 

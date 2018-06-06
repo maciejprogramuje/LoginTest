@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.maciejprogramuje.facebook.logintest.App;
 import com.maciejprogramuje.facebook.logintest.uonet_api.ApiUonet;
-import com.maciejprogramuje.facebook.logintest.uonet_api.certificate.CertificateSignature;
+import com.maciejprogramuje.facebook.logintest.uonet_api.CertificateSignature;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Uczniowie;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.UczniowieRequest;
