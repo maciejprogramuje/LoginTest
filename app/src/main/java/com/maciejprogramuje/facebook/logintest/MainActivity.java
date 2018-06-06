@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
         PupilsManager pupilsManager = new PupilsManager(app, cert);
         pupilsManager.generatePupils();
     }
+
     @Subscribe
     public void onPupilsReady(PupilsReadyEvent event) {
         List<Uczniowie.Uczen> pupils = event.getUczniowie().getData();
