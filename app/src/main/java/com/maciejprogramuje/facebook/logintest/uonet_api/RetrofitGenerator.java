@@ -1,14 +1,11 @@
 package com.maciejprogramuje.facebook.logintest.uonet_api;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.jackson.JacksonConverterFactory;
 
 public class RetrofitGenerator {
     private Retrofit retrofit;
@@ -29,11 +26,11 @@ public class RetrofitGenerator {
                 .writeTimeout(30, TimeUnit.SECONDS)
                 .build();
 
-        Gson gson = new GsonBuilder().setLenient().create();
+        //Gson gson = new GsonBuilder().setLenient().create();
 
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.baseUrl(url)
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(JacksonConverterFactory.create())
                 .client(httpClient);
         retrofit = builder.build();
     }

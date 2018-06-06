@@ -1,6 +1,6 @@
 package com.maciejprogramuje.facebook.logintest.uonet_api.models;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.UUID;
 
@@ -11,33 +11,33 @@ public class CertyfikatRequest {
     public static final String APPLICATION_NAME = "VULCAN-Android-ModulUcznia";
     public static final String APPLICATION_VERSION = "18.4.1.388";
 
-    @SerializedName("PIN")
+    @JsonProperty("PIN")
     private String pin;
-    @SerializedName("TokenKey")
+    @JsonProperty("TokenKey")
     private String tokenKey;
-    @SerializedName("AppVersion")
+    @JsonProperty("AppVersion")
     private String appVersion = RequestBase.APPLICATION_VERSION;
-    @SerializedName("DeviceId")
+    @JsonProperty("DeviceId")
     private String deviceId = UUID.randomUUID().toString();
-    @SerializedName("DeviceName")
+    @JsonProperty("DeviceName")
     private String deviceName = DEFAULT_DEVICE_NAME;
-    @SerializedName("DeviceNameUser ")
+    @JsonProperty("DeviceNameUser ")
     private String deviceNameUser = "";
-    @SerializedName("DeviceDescription")
+    @JsonProperty("DeviceDescription")
     private String deviceDescription = "";
-    @SerializedName("DeviceSystemType")
+    @JsonProperty("DeviceSystemType")
     private String deviceSystemType = DEFAULT_SYSTEM_TYPE;
-    @SerializedName("DeviceSystemVersion")
+    @JsonProperty("DeviceSystemVersion")
     private String deviceSystemVersion = DEFAULT_SYSTEM_VERSION;
-    @SerializedName("RemoteMobileTimeKey")
+    @JsonProperty("RemoteMobileTimeKey")
     private String remoteMobileTimeKey;
-    @SerializedName("TimeKey")
+    @JsonProperty("TimeKey")
     private String timeKey;
-    @SerializedName("RequestId")
+    @JsonProperty("RequestId")
     private String requestId = UUID.randomUUID().toString();
-    @SerializedName("RemoteMobileAppVersion")
+    @JsonProperty("RemoteMobileAppVersion")
     private String remoteMobileAppVersion = APPLICATION_VERSION;
-    @SerializedName("RemoteMobileAppName")
+    @JsonProperty("RemoteMobileAppName")
     private String remoteMobileAppName = APPLICATION_NAME;
 
 

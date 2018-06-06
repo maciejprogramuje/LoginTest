@@ -4,19 +4,15 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.maciejprogramuje.facebook.logintest.uonet_api.UONETClient;
-import com.maciejprogramuje.facebook.logintest.uonet_api.UONETException;
 import com.maciejprogramuje.facebook.logintest.uonet_api.base_url.BaseUrlManager;
 import com.maciejprogramuje.facebook.logintest.uonet_api.base_url.BaseUrlReadyEvent;
 import com.maciejprogramuje.facebook.logintest.uonet_api.certificate.CertificateManager;
 import com.maciejprogramuje.facebook.logintest.uonet_api.certificate.CertificateReadyEvent;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.Uczniowie;
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.UczniowieRequest;
+import com.maciejprogramuje.facebook.logintest.uonet_api.pupils.PupilsManager;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -123,17 +119,17 @@ public class MainActivity extends AppCompatActivity {
         cert.adresBazowyRestApi = mBaseUrl;
 
 
-        /*PupilsManager pupilsManager = new PupilsManager(bus, cert);
-        pupilsManager.generatePupils();*/
+        PupilsManager pupilsManager = new PupilsManager(bus, cert);
+        pupilsManager.generatePupils();
 
-        try {
+        /*try {
             UONETClient client = new UONETClient(cert);
-            UczniowieRequest uczniowieRequest = new UczniowieRequest();
+            UczniowieRequest4 uczniowieRequest = new UczniowieRequest4();
             Uczniowie uczniowie = client.doRequest(uczniowieRequest);
             Log.w("UWAGA", "uczniowie -> " + uczniowie.getData().get(0).toString());
         } catch (UONETException e) {
             e.printStackTrace();
-        }
+        }*/
 
     }
 /*

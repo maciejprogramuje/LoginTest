@@ -1,8 +1,71 @@
 package com.maciejprogramuje.facebook.logintest.uonet_api.models;
 
-public class UczniowieRequest extends RequestBase<Uczniowie> {
-    @Override
-    public String getPath() {
-        return "ListaUczniow";
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.UUID;
+
+import static com.maciejprogramuje.facebook.logintest.uonet_api.models.CertyfikatRequest.APPLICATION_NAME;
+import static com.maciejprogramuje.facebook.logintest.uonet_api.models.CertyfikatRequest.APPLICATION_VERSION;
+
+public class UczniowieRequest {
+    @JsonProperty("RemoteMobileTimeKey")
+    private String remoteMobileTimeKey;
+    @JsonProperty("TimeKey")
+    private String timeKey;
+    @JsonProperty("RequestId")
+    private String requestId = UUID.randomUUID().toString();
+    @JsonProperty("RemoteMobileAppVersion")
+    private String remoteMobileAppVersion = APPLICATION_VERSION;
+    @JsonProperty("RemoteMobileAppName")
+    private String remoteMobileAppName = APPLICATION_NAME;
+
+    public UczniowieRequest() {
+        long time = System.currentTimeMillis();
+        if (this.remoteMobileTimeKey == null) {
+            this.remoteMobileTimeKey = Long.toString(time / 1000L + 1);
+        }
+        if (this.timeKey == null) {
+            this.timeKey = Long.toString(time / 1000L);
+        }
+    }
+
+    public String getRemoteMobileTimeKey() {
+        return remoteMobileTimeKey;
+    }
+
+    public void setRemoteMobileTimeKey(String remoteMobileTimeKey) {
+        this.remoteMobileTimeKey = remoteMobileTimeKey;
+    }
+
+    public String getTimeKey() {
+        return timeKey;
+    }
+
+    public void setTimeKey(String timeKey) {
+        this.timeKey = timeKey;
+    }
+
+    public String getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(String requestId) {
+        this.requestId = requestId;
+    }
+
+    public String getRemoteMobileAppVersion() {
+        return remoteMobileAppVersion;
+    }
+
+    public void setRemoteMobileAppVersion(String remoteMobileAppVersion) {
+        this.remoteMobileAppVersion = remoteMobileAppVersion;
+    }
+
+    public String getRemoteMobileAppName() {
+        return remoteMobileAppName;
+    }
+
+    public void setRemoteMobileAppName(String remoteMobileAppName) {
+        this.remoteMobileAppName = remoteMobileAppName;
     }
 }

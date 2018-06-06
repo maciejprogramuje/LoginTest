@@ -1,41 +1,41 @@
 package com.maciejprogramuje.facebook.logintest.uonet_api.models;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Certyfikat {
-    @SerializedName("IsError")
+    @JsonProperty("IsError")
     private boolean isError;
-    @SerializedName("IsMessageForUser")
+    @JsonProperty("IsMessageForUser")
     private boolean isMessageForUser;
-    @SerializedName("Message")
+    @JsonProperty("Message")
     private String message;
-    @SerializedName("TokenKey")
+    @JsonProperty("TokenKey")
     private String tokenKey;
-    @SerializedName("TokenStatus")
+    @JsonProperty("TokenStatus")
     private String tokenStatus;
-    @SerializedName("TokenCert")
+    @JsonProperty("TokenCert")
     public TokenCert tokenCert;
 
     public static class TokenCert {
-        @SerializedName("CertyfikatKlucz")
+        @JsonProperty("CertyfikatKlucz")
         public String certyfikatKlucz;
-        @SerializedName("CertyfikatKluczSformatowanyTekst")
+        @JsonProperty("CertyfikatKluczSformatowanyTekst")
         public String certyfikatKluczSformatowanyTekst;
-        @SerializedName("CertyfikatDataUtworzenia")
+        @JsonProperty("CertyfikatDataUtworzenia")
         public Integer certyfikatDataUtworzenia;
-        @SerializedName("CertyfikatDataUtworzeniaSformatowanyTekst")
+        @JsonProperty("CertyfikatDataUtworzeniaSformatowanyTekst")
         public String certyfikatDataUtworzeniaSformatowanyTekst;
-        @SerializedName("CertyfikatPfx")
+        @JsonProperty("CertyfikatPfx")
         public String certyfikatPfx;
-        @SerializedName("GrupaKlientow")
+        @JsonProperty("GrupaKlientow")
         public String grupaKlientow;
-        @SerializedName("AdresBazowyRestApi")
+        @JsonProperty("AdresBazowyRestApi")
         public String adresBazowyRestApi;
-        @SerializedName("UzytkownikLogin")
+        @JsonProperty("UzytkownikLogin")
         public String uzytkownikLogin;
-        @SerializedName("UzytkownikNazwa")
+        @JsonProperty("UzytkownikNazwa")
         public String uzytkownikNazwa;
-        @SerializedName("TypKonta")
+        @JsonProperty("TypKonta")
         public Object typKonta;
     }
 

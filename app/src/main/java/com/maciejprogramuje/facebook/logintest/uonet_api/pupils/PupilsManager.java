@@ -6,14 +6,14 @@ import android.util.Log;
 import com.maciejprogramuje.facebook.logintest.uonet_api.RetrofitGenerator;
 import com.maciejprogramuje.facebook.logintest.uonet_api.certificate.CertificateSignature;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.UczniowieRequest3;
+import com.maciejprogramuje.facebook.logintest.uonet_api.models.Uczniowie;
+import com.maciejprogramuje.facebook.logintest.uonet_api.models.UczniowieRequest;
 import com.squareup.otto.Bus;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -23,7 +23,7 @@ public class PupilsManager {
     private final Bus bus;
     private final Certyfikat.TokenCert cert;
     private PupilsApi pupilsApi;
-    private UczniowieRequest3 uczniowieRequest;
+    private UczniowieRequest uczniowieRequest;
 
     public PupilsManager(Bus bus, Certyfikat.TokenCert cert) {
         this.bus = bus;
@@ -41,18 +41,16 @@ public class PupilsManager {
     }
 
     public void generatePupils() {
-        uczniowieRequest = new UczniowieRequest3();
-        Call<ResponseBody> call = pupilsApi.postPupils(uczniowieRequest, getPupilsHeadersMap());
-        call.enqueue(new Callback<ResponseBody>() {
+        uczniowieRequest = new UczniowieRequest();
+        Call<Uczniowie> call = pupilsApi.postPupils(uczniowieRequest, getPupilsHeadersMap());
+        call.enqueue(new Callback<Uczniowie>() {
             @Override
-            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                Log.w("UWAGA", "RAW -> " + response.raw());
-
+            public void onResponse(@NonNull Call<Uczniowie> call, @NonNull Response<Uczniowie> response) {
                 if (response.isSuccessful()) {
                     Log.w("UWAGA", "Uczniowie sukces -> OK");
 
-                    /*Uczniowie uczniowie = response.body();
-                    Log.w("UWAGA", "Uczniowie sukces -> " + uczniowie.data.get(0).idJednostkaSprawozdawcza);*/
+                    Uczniowie uczniowie = response.body();
+                    Log.w("UWAGA", "Uczniowie sukces -> " + uczniowie.getData().get(0).toString());
 
                 } else {
                     try {
@@ -64,7 +62,7 @@ public class PupilsManager {
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<Uczniowie> call, Throwable t) {
                 if (t instanceof IOException) {
                     Log.w("UWAGA", "blad 3 - błąd połączenia ze stroną lub internetem");
                 } else {
