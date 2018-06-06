@@ -16,7 +16,7 @@ import retrofit2.http.HeaderMap;
 import retrofit2.http.POST;
 
 
-public interface UonetApi {
+public interface ApiUonet {
 
     @GET("UonetPlusMobile/RoutingRules.txt")
     Call<ResponseBody> getBaseUrl();

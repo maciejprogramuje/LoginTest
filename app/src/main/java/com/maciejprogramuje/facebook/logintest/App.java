@@ -3,7 +3,7 @@ package com.maciejprogramuje.facebook.logintest;
 import android.app.Application;
 import android.content.SharedPreferences;
 
-import com.maciejprogramuje.facebook.logintest.uonet_api.UonetApi;
+import com.maciejprogramuje.facebook.logintest.uonet_api.ApiUonet;
 import com.squareup.otto.Bus;
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
@@ -19,7 +19,7 @@ public class App extends Application {
 
     private Bus bus;
     private SharedPreferences sharedPreferences;
-    private UonetApi uonetApi;
+    private ApiUonet apiUonet;
 
     @Override
     public void onCreate() {
@@ -66,11 +66,11 @@ public class App extends Application {
         this.pfx = pfx;
     }
 
-    public UonetApi getUonetApi() {
-        return uonetApi;
+    public ApiUonet getApiUonet() {
+        return apiUonet;
     }
 
-    public void setUonetApi(UonetApi uonetApi) {
-        this.uonetApi = uonetApi;
+    public void setApiUonet(ApiUonet apiUonet) {
+        this.apiUonet = apiUonet;
     }
 }

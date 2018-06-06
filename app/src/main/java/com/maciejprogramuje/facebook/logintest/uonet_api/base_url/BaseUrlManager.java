@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.maciejprogramuje.facebook.logintest.App;
 import com.maciejprogramuje.facebook.logintest.uonet_api.ApiGenerator;
-import com.maciejprogramuje.facebook.logintest.uonet_api.UonetApi;
+import com.maciejprogramuje.facebook.logintest.uonet_api.ApiUonet;
 import com.squareup.otto.Bus;
 
 import java.io.IOException;
@@ -27,7 +27,7 @@ public class BaseUrlManager {
 
     public void generateBaseUrl() {
         //todo
-        UonetApi baseUrlApi = ApiGenerator.generate("http://komponenty.vulcan.net.pl/");
+        ApiUonet baseUrlApi = ApiGenerator.generate("http://komponenty.vulcan.net.pl/");
 
         Call<ResponseBody> call = baseUrlApi.getBaseUrl();
         call.enqueue(new Callback<ResponseBody>() {

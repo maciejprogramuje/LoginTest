@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.maciejprogramuje.facebook.logintest.App;
-import com.maciejprogramuje.facebook.logintest.uonet_api.UonetApi;
+import com.maciejprogramuje.facebook.logintest.uonet_api.ApiUonet;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.CertyfikatRequest;
 import com.squareup.otto.Bus;
@@ -20,17 +20,17 @@ import retrofit2.Response;
 
 public class CertificateManager {
     private Certyfikat.TokenCert tokenCert;
-    private UonetApi uonetApi;
+    private ApiUonet apiUonet;
     private final Bus bus;
 
     public CertificateManager(App app) {
         bus = app.getBus();
-        uonetApi = app.getUonetApi();
+        apiUonet = app.getApiUonet();
     }
 
     public void generateCerificate(String pin, String token) {
         CertyfikatRequest certyfikatRequest = new CertyfikatRequest(pin, token);
-        Call<Certyfikat> call = uonetApi.postCerificate(certyfikatRequest, getCertificateHeadersMap());
+        Call<Certyfikat> call = apiUonet.postCerificate(certyfikatRequest, getCertificateHeadersMap());
         call.enqueue(new Callback<Certyfikat>() {
             @Override
             public void onResponse(@NonNull Call<Certyfikat> call, @NonNull Response<Certyfikat> response) {

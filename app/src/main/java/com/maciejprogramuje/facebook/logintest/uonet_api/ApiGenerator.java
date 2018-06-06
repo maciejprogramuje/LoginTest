@@ -11,10 +11,10 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 
 public class ApiGenerator {
     public static void generateAndAddToApp(App app, String url) {
-        app.setUonetApi(generate(url));
+        app.setApiUonet(generate(url));
     }
 
-    public static UonetApi generate(String url) {
+    public static ApiUonet generate(String url) {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient httpClient = new OkHttpClient().newBuilder()
@@ -24,16 +24,14 @@ public class ApiGenerator {
                 .writeTimeout(30, TimeUnit.SECONDS)
                 .build();
 
-        //Gson gson = new GsonBuilder().setLenient().create();
-
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.baseUrl(url)
                 .addConverterFactory(JacksonConverterFactory.create())
                 .client(httpClient);
 
         Retrofit retrofit = builder.build();
-        UonetApi uonetApi = retrofit.create(UonetApi.class);
+        ApiUonet apiUonet = retrofit.create(ApiUonet.class);
 
-        return uonetApi;
+        return apiUonet;
     }
 }

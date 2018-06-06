@@ -13,9 +13,13 @@ import com.maciejprogramuje.facebook.logintest.uonet_api.base_url.BaseUrlReadyEv
 import com.maciejprogramuje.facebook.logintest.uonet_api.certificate.CertificateManager;
 import com.maciejprogramuje.facebook.logintest.uonet_api.certificate.CertificateReadyEvent;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
+import com.maciejprogramuje.facebook.logintest.uonet_api.models.Uczniowie;
 import com.maciejprogramuje.facebook.logintest.uonet_api.pupils.PupilsManager;
+import com.maciejprogramuje.facebook.logintest.uonet_api.pupils.PupilsReadyEvent;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,9 +30,9 @@ import static com.maciejprogramuje.facebook.logintest.App.CERTYFICATE_KEY_KEY;
 import static com.maciejprogramuje.facebook.logintest.App.PFX_KEY;
 
 public class MainActivity extends AppCompatActivity {
-    public static final String TOKEN = "3S174VEH";
+    public static final String TOKEN = "3S1RT8LH";
     public static final String SYMBOL = "lublin";
-    public static final String PIN = "894323";
+    public static final String PIN = "500712";
 
     @BindView(R.id.statusTextView)
     TextView statusTextView;
@@ -69,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             loginButton.setEnabled(false);
             ApiGenerator.generateAndAddToApp(app, mBaseUrl);
-            postForPupilsList();
+            postForPupils();
         }
     }
 
@@ -114,10 +118,10 @@ public class MainActivity extends AppCompatActivity {
                 .putString(CERTYFICATE_KEY_KEY, mCertficateKey)
                 .apply();
 
-        postForPupilsList();
+        postForPupils();
     }
 
-    private void postForPupilsList() {
+    private void postForPupils() {
         Certyfikat.TokenCert cert = new Certyfikat.TokenCert();
         cert.setCertyfikatKlucz(mCertficateKey);
         cert.setCertyfikatPfx(mPfx);
@@ -126,9 +130,19 @@ public class MainActivity extends AppCompatActivity {
         PupilsManager pupilsManager = new PupilsManager(app, cert);
         pupilsManager.generatePupils();
     }
-/*
     @Subscribe
-    public void onPupilsListReady(PupilsListReadyEvent event) {
-        statusTextView.setText(statusTextView.getText() + "\n\nPupilsList - OK!");
-    }*/
+    public void onPupilsReady(PupilsReadyEvent event) {
+        List<Uczniowie.Uczen> pupils = event.getUczniowie().getData();
+        int pupilsNum = pupils.size();
+        StringBuilder pupilsNames= new StringBuilder();
+
+        for (int i = 0; i < pupilsNum; i++) {
+            Uczniowie.Uczen pupil = pupils.get(i);
+            pupilsNames.append(pupil.getImie()).append(" ")
+                    .append(pupil.getNazwisko()).append(", ")
+                    .append(pupil.getJednostkaSprawozdawczaSkrot()).append("\n");
+        }
+
+        statusTextView.setText(String.format("%s\n\nPupilsList:\n%s", String.valueOf(statusTextView.getText()), pupilsNames));
+    }
 }

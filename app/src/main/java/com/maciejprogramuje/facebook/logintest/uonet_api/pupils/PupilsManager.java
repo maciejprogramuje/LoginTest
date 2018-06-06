@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.maciejprogramuje.facebook.logintest.App;
-import com.maciejprogramuje.facebook.logintest.uonet_api.UonetApi;
+import com.maciejprogramuje.facebook.logintest.uonet_api.ApiUonet;
 import com.maciejprogramuje.facebook.logintest.uonet_api.certificate.CertificateSignature;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Uczniowie;
@@ -23,25 +23,26 @@ public class PupilsManager {
     private final Bus bus;
     private final Certyfikat.TokenCert cert;
     private UczniowieRequest uczniowieRequest;
-    private final UonetApi uonetApi;
+    private final ApiUonet apiUonet;
 
     public PupilsManager(App app, Certyfikat.TokenCert cert) {
         this.cert = cert;
         bus = app.getBus();
-        uonetApi = app.getUonetApi();
+        apiUonet = app.getApiUonet();
     }
 
     public void generatePupils() {
         uczniowieRequest = new UczniowieRequest();
 
-        Call<Uczniowie> call = uonetApi.postPupils(uczniowieRequest, getPupilsHeadersMap());
+        Call<Uczniowie> call = apiUonet.postPupils(uczniowieRequest, getPupilsHeadersMap());
         call.enqueue(new Callback<Uczniowie>() {
             @Override
             public void onResponse(@NonNull Call<Uczniowie> call, @NonNull Response<Uczniowie> response) {
                 if (response.isSuccessful()) {
                     Uczniowie uczniowie = response.body();
-                    Log.w("UWAGA", "Uczniowie sukces -> " + uczniowie.getData().get(0).toString());
+                    bus.post(new PupilsReadyEvent(uczniowie));
 
+                    Log.w("UWAGA", "Uczniowie sukces -> OK");
                 } else {
                     try {
                         Log.w("UWAGA", "blad 2 - błąd odpowiedzi\n" + response.errorBody().string());
