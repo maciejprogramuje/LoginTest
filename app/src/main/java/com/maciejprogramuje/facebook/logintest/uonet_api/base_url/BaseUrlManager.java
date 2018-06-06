@@ -3,7 +3,8 @@ package com.maciejprogramuje.facebook.logintest.uonet_api.base_url;
 import android.support.annotation.NonNull;
 
 import com.maciejprogramuje.facebook.logintest.App;
-import com.maciejprogramuje.facebook.logintest.uonet_api.RetrofitGenerator;
+import com.maciejprogramuje.facebook.logintest.uonet_api.ApiGenerator;
+import com.maciejprogramuje.facebook.logintest.uonet_api.UonetApi;
 import com.squareup.otto.Bus;
 
 import java.io.IOException;
@@ -12,15 +13,12 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 import static com.maciejprogramuje.facebook.logintest.MainActivity.SYMBOL;
 
 public class BaseUrlManager {
     private String shortToken;
     private Bus bus;
-    private Call<ResponseBody> call;
-    private BaseUrlApi baseUrlApi;
 
     public BaseUrlManager(String token, App app) {
         this.shortToken = token.substring(0, 3);
@@ -28,9 +26,10 @@ public class BaseUrlManager {
     }
 
     public void generateBaseUrl() {
-        generateBaseUrlApi();
+        //todo
+        UonetApi baseUrlApi = ApiGenerator.generate("http://komponenty.vulcan.net.pl/");
 
-        call = baseUrlApi.getBaseUrl();
+        Call<ResponseBody> call = baseUrlApi.getBaseUrl();
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
@@ -52,11 +51,5 @@ public class BaseUrlManager {
                 t.printStackTrace();
             }
         });
-    }
-
-    private void generateBaseUrlApi() {
-        RetrofitGenerator baseUrlRetrofitGenerator = new RetrofitGenerator("http://komponenty.vulcan.net.pl");
-        Retrofit baseUrlRetrofit = baseUrlRetrofitGenerator.get();
-        baseUrlApi = baseUrlRetrofit.create(BaseUrlApi.class);
     }
 }

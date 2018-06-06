@@ -3,7 +3,8 @@ package com.maciejprogramuje.facebook.logintest.uonet_api.certificate;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.maciejprogramuje.facebook.logintest.uonet_api.RetrofitGenerator;
+import com.maciejprogramuje.facebook.logintest.App;
+import com.maciejprogramuje.facebook.logintest.uonet_api.UonetApi;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.CertyfikatRequest;
 import com.squareup.otto.Bus;
@@ -15,40 +16,30 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 
 public class CertificateManager {
-    private final String baseUrl;
-    private final Bus bus;
     private Certyfikat.TokenCert tokenCert;
-    private CertificateApi certificateApi;
+    private UonetApi uonetApi;
+    private final Bus bus;
 
-    public CertificateManager(String baseUrl, Bus bus) {
-        this.baseUrl = baseUrl;
-        this.bus = bus;
-
-        generateLoginApi();
-    }
-
-    private void generateLoginApi() {
-        RetrofitGenerator loginRetrofitGenerator = new RetrofitGenerator(baseUrl);
-        Retrofit loginRetrofit = loginRetrofitGenerator.get();
-        certificateApi = loginRetrofit.create(CertificateApi.class);
+    public CertificateManager(App app) {
+        bus = app.getBus();
+        uonetApi = app.getUonetApi();
     }
 
     public void generateCerificate(String pin, String token) {
         CertyfikatRequest certyfikatRequest = new CertyfikatRequest(pin, token);
-        Call<Certyfikat> call = certificateApi.postCerificate(certyfikatRequest, getCertificateHeadersMap());
+        Call<Certyfikat> call = uonetApi.postCerificate(certyfikatRequest, getCertificateHeadersMap());
         call.enqueue(new Callback<Certyfikat>() {
             @Override
             public void onResponse(@NonNull Call<Certyfikat> call, @NonNull Response<Certyfikat> response) {
                 if (response.isSuccessful()) {
                     Certyfikat certyfikat = response.body();
 
-                    if (certyfikat.tokenCert != null) {
-                        tokenCert = certyfikat.tokenCert;
-                        bus.post(new CertificateReadyEvent(tokenCert.certyfikatPfx, tokenCert.certyfikatKlucz));
+                    if (certyfikat.getTokenCert() != null) {
+                        tokenCert = certyfikat.getTokenCert();
+                        bus.post(new CertificateReadyEvent(tokenCert.getCertyfikatPfx(), tokenCert.getCertyfikatKlucz()));
                     } else {
                         Log.w("UWAGA", "blad 1 - błędny lub przeterminowany PIN lub TOKEN -> " + certyfikat.toString());
                     }

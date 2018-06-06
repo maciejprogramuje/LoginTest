@@ -62,8 +62,8 @@ public class UONETClient {
         try {
             bytes = mapper.writeValueAsBytes(req);
             if (this.cert != null) {
-                connection.setRequestProperty("RequestCertificateKey", this.cert.certyfikatKlucz);
-                connection.setRequestProperty("RequestSignatureValue", CertificateSignature.generate(bytes, new ByteArrayInputStream(Base64.decode(this.cert.certyfikatPfx, Base64.NO_WRAP))));
+                connection.setRequestProperty("RequestCertificateKey", this.cert.getCertyfikatKlucz());
+                connection.setRequestProperty("RequestSignatureValue", CertificateSignature.generate(bytes, new ByteArrayInputStream(Base64.decode(this.cert.getCertyfikatPfx(), Base64.NO_WRAP))));
             }
         } catch (IOException e) {
             throw new UONETException(String.format("Could not serialize data: %s", e.getMessage()), e);
@@ -94,7 +94,7 @@ public class UONETClient {
 
     public <T> T doRequest(RequestBase<T> req) throws UONETException {
         try {
-            return this.doRequest(this.cert.adresBazowyRestApi + "/mobile-api/" + DEFAULT_REST_ENDPOINT + "/", req);
+            return this.doRequest(this.cert.getAdresBazowyRestApi() + "/mobile-api/" + DEFAULT_REST_ENDPOINT + "/", req);
         } catch (MalformedURLException e) {
             throw new UONETException(String.format("Invalid URL: %s", e.getMessage()), e);
         }
@@ -105,7 +105,7 @@ public class UONETClient {
             req.setIdOddzial(pupil.getIdOddzial());
             req.setIdOkresKlasyfikacyjny(pupil.getIdOkresKlasyfikacyjny());
             req.setIdUczen(pupil.getId());
-            return this.doRequest(this.cert.adresBazowyRestApi + "/" + pupil.getJednostkaSprawozdawczaSymbol() + "/mobile-api/" + PUPIL_AWARE_REST_ENDPOINT + "/", (RequestBase<T>) req);
+            return this.doRequest(this.cert.getAdresBazowyRestApi() + "/" + pupil.getJednostkaSprawozdawczaSymbol() + "/mobile-api/" + PUPIL_AWARE_REST_ENDPOINT + "/", (RequestBase<T>) req);
         } catch (MalformedURLException e) {
             throw new UONETException(String.format("Invalid URL: %s", e.getMessage()), e);
         }

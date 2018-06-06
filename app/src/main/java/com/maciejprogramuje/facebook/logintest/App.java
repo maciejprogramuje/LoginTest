@@ -3,6 +3,7 @@ package com.maciejprogramuje.facebook.logintest;
 import android.app.Application;
 import android.content.SharedPreferences;
 
+import com.maciejprogramuje.facebook.logintest.uonet_api.UonetApi;
 import com.squareup.otto.Bus;
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
@@ -12,13 +13,13 @@ public class App extends Application {
     public static final String PFX_KEY = "pfx";
     public static final String CERTYFICATE_KEY_KEY = "certyficateKey";
 
-
     private String certyficateKey;
     private String pfx;
     private String baseUrl;
 
     private Bus bus;
     private SharedPreferences sharedPreferences;
+    private UonetApi uonetApi;
 
     @Override
     public void onCreate() {
@@ -63,5 +64,13 @@ public class App extends Application {
 
     public void setPfx(String pfx) {
         this.pfx = pfx;
+    }
+
+    public UonetApi getUonetApi() {
+        return uonetApi;
+    }
+
+    public void setUonetApi(UonetApi uonetApi) {
+        this.uonetApi = uonetApi;
     }
 }

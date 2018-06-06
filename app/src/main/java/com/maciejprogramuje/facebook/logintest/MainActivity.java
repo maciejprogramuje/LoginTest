@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.maciejprogramuje.facebook.logintest.uonet_api.ApiGenerator;
 import com.maciejprogramuje.facebook.logintest.uonet_api.base_url.BaseUrlManager;
 import com.maciejprogramuje.facebook.logintest.uonet_api.base_url.BaseUrlReadyEvent;
 import com.maciejprogramuje.facebook.logintest.uonet_api.certificate.CertificateManager;
@@ -40,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
     private String mBaseUrl;
     private String mPfx;
     private String mCertficateKey;
-    private Certyfikat.TokenCert tokenCert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,9 +68,12 @@ public class MainActivity extends AppCompatActivity {
             loginButton.setEnabled(true);
         } else {
             loginButton.setEnabled(false);
+            ApiGenerator.generateAndAddToApp(app, mBaseUrl);
             postForPupilsList();
         }
     }
+
+
 
     @Override
     protected void onStart() {
@@ -96,7 +99,9 @@ public class MainActivity extends AppCompatActivity {
 
         sharedPreferencesEditor.putString(BASE_URL_KEY, mBaseUrl).apply();
 
-        CertificateManager certificateManager = new CertificateManager(mBaseUrl, bus);
+        ApiGenerator.generateAndAddToApp(app, mBaseUrl);
+
+        CertificateManager certificateManager = new CertificateManager(app);
         certificateManager.generateCerificate(PIN, TOKEN);
     }
 
@@ -114,23 +119,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void postForPupilsList() {
         Certyfikat.TokenCert cert = new Certyfikat.TokenCert();
-        cert.certyfikatKlucz = mCertficateKey;
-        cert.certyfikatPfx = mPfx;
-        cert.adresBazowyRestApi = mBaseUrl;
+        cert.setCertyfikatKlucz(mCertficateKey);
+        cert.setCertyfikatPfx(mPfx);
+        cert.setAdresBazowyRestApi(mBaseUrl);
 
-
-        PupilsManager pupilsManager = new PupilsManager(bus, cert);
+        PupilsManager pupilsManager = new PupilsManager(app, cert);
         pupilsManager.generatePupils();
-
-        /*try {
-            UONETClient client = new UONETClient(cert);
-            UczniowieRequest4 uczniowieRequest = new UczniowieRequest4();
-            Uczniowie uczniowie = client.doRequest(uczniowieRequest);
-            Log.w("UWAGA", "uczniowie -> " + uczniowie.getData().get(0).toString());
-        } catch (UONETException e) {
-            e.printStackTrace();
-        }*/
-
     }
 /*
     @Subscribe

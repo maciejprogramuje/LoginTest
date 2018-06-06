@@ -14,29 +14,109 @@ public class Certyfikat {
     @JsonProperty("TokenStatus")
     private String tokenStatus;
     @JsonProperty("TokenCert")
-    public TokenCert tokenCert;
+    private TokenCert tokenCert;
 
     public static class TokenCert {
         @JsonProperty("CertyfikatKlucz")
-        public String certyfikatKlucz;
+        private String certyfikatKlucz;
         @JsonProperty("CertyfikatKluczSformatowanyTekst")
-        public String certyfikatKluczSformatowanyTekst;
+        private String certyfikatKluczSformatowanyTekst;
         @JsonProperty("CertyfikatDataUtworzenia")
-        public Integer certyfikatDataUtworzenia;
+        private Integer certyfikatDataUtworzenia;
         @JsonProperty("CertyfikatDataUtworzeniaSformatowanyTekst")
-        public String certyfikatDataUtworzeniaSformatowanyTekst;
+        private String certyfikatDataUtworzeniaSformatowanyTekst;
         @JsonProperty("CertyfikatPfx")
-        public String certyfikatPfx;
+        private String certyfikatPfx;
         @JsonProperty("GrupaKlientow")
-        public String grupaKlientow;
+        private String grupaKlientow;
         @JsonProperty("AdresBazowyRestApi")
-        public String adresBazowyRestApi;
+        private String adresBazowyRestApi;
         @JsonProperty("UzytkownikLogin")
-        public String uzytkownikLogin;
+        private String uzytkownikLogin;
         @JsonProperty("UzytkownikNazwa")
-        public String uzytkownikNazwa;
+        private String uzytkownikNazwa;
         @JsonProperty("TypKonta")
-        public Object typKonta;
+        private Object typKonta;
+
+        public String getCertyfikatKlucz() {
+            return certyfikatKlucz;
+        }
+
+        public void setCertyfikatKlucz(String certyfikatKlucz) {
+            this.certyfikatKlucz = certyfikatKlucz;
+        }
+
+        public String getCertyfikatKluczSformatowanyTekst() {
+            return certyfikatKluczSformatowanyTekst;
+        }
+
+        public void setCertyfikatKluczSformatowanyTekst(String certyfikatKluczSformatowanyTekst) {
+            this.certyfikatKluczSformatowanyTekst = certyfikatKluczSformatowanyTekst;
+        }
+
+        public Integer getCertyfikatDataUtworzenia() {
+            return certyfikatDataUtworzenia;
+        }
+
+        public void setCertyfikatDataUtworzenia(Integer certyfikatDataUtworzenia) {
+            this.certyfikatDataUtworzenia = certyfikatDataUtworzenia;
+        }
+
+        public String getCertyfikatDataUtworzeniaSformatowanyTekst() {
+            return certyfikatDataUtworzeniaSformatowanyTekst;
+        }
+
+        public void setCertyfikatDataUtworzeniaSformatowanyTekst(String certyfikatDataUtworzeniaSformatowanyTekst) {
+            this.certyfikatDataUtworzeniaSformatowanyTekst = certyfikatDataUtworzeniaSformatowanyTekst;
+        }
+
+        public String getCertyfikatPfx() {
+            return certyfikatPfx;
+        }
+
+        public void setCertyfikatPfx(String certyfikatPfx) {
+            this.certyfikatPfx = certyfikatPfx;
+        }
+
+        public String getGrupaKlientow() {
+            return grupaKlientow;
+        }
+
+        public void setGrupaKlientow(String grupaKlientow) {
+            this.grupaKlientow = grupaKlientow;
+        }
+
+        public String getAdresBazowyRestApi() {
+            return adresBazowyRestApi;
+        }
+
+        public void setAdresBazowyRestApi(String adresBazowyRestApi) {
+            this.adresBazowyRestApi = adresBazowyRestApi;
+        }
+
+        public String getUzytkownikLogin() {
+            return uzytkownikLogin;
+        }
+
+        public void setUzytkownikLogin(String uzytkownikLogin) {
+            this.uzytkownikLogin = uzytkownikLogin;
+        }
+
+        public String getUzytkownikNazwa() {
+            return uzytkownikNazwa;
+        }
+
+        public void setUzytkownikNazwa(String uzytkownikNazwa) {
+            this.uzytkownikNazwa = uzytkownikNazwa;
+        }
+
+        public Object getTypKonta() {
+            return typKonta;
+        }
+
+        public void setTypKonta(Object typKonta) {
+            this.typKonta = typKonta;
+        }
     }
 
     @Override

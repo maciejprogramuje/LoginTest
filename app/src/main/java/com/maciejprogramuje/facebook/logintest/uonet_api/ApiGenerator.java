@@ -1,5 +1,7 @@
 package com.maciejprogramuje.facebook.logintest.uonet_api;
 
+import com.maciejprogramuje.facebook.logintest.App;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -7,16 +9,12 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
-public class RetrofitGenerator {
-    private Retrofit retrofit;
-    private String url;
-
-    public RetrofitGenerator(String url) {
-        this.url = url;
-        generateRetrofit();
+public class ApiGenerator {
+    public static void generateAndAddToApp(App app, String url) {
+        app.setUonetApi(generate(url));
     }
 
-    private void generateRetrofit() {
+    public static UonetApi generate(String url) {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient httpClient = new OkHttpClient().newBuilder()
@@ -32,10 +30,10 @@ public class RetrofitGenerator {
         builder.baseUrl(url)
                 .addConverterFactory(JacksonConverterFactory.create())
                 .client(httpClient);
-        retrofit = builder.build();
-    }
 
-    public Retrofit get() {
-        return retrofit;
+        Retrofit retrofit = builder.build();
+        UonetApi uonetApi = retrofit.create(UonetApi.class);
+
+        return uonetApi;
     }
 }
