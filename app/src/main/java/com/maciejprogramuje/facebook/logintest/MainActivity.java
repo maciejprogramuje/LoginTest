@@ -122,19 +122,15 @@ public class MainActivity extends AppCompatActivity {
         cert.certyfikatPfx = mPfx;
         cert.adresBazowyRestApi = mBaseUrl;
 
-        UONETClient client = new UONETClient(cert);
-
-        //Uczniowie uczniowie = client.doRequest(new UczniowieRequest());
 
         /*PupilsManager pupilsManager = new PupilsManager(bus, cert);
         pupilsManager.generatePupils();*/
 
-        //Log.w("UWAGA", "uczniowie -> " + uczniowie.getData().get(0).toString());
-
-
         try {
-            Uczniowie uczniowie = client.doRequest(new UczniowieRequest());
-            Log.w("UWAGA", "uczniowie -> " + uczniowie.data.get(0).toString());
+            UONETClient client = new UONETClient(cert);
+            UczniowieRequest uczniowieRequest = new UczniowieRequest();
+            Uczniowie uczniowie = client.doRequest(uczniowieRequest);
+            Log.w("UWAGA", "uczniowie -> " + uczniowie.getData().get(0).toString());
         } catch (UONETException e) {
             e.printStackTrace();
         }

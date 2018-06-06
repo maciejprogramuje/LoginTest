@@ -4,17 +4,73 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ResponseBase<T> {
     @JsonProperty("Status")
-    public String status;
+    private String status;
     @JsonProperty("TimeKey")
-    public Integer timeKey;
+    private Integer timeKey;
     @JsonProperty("TimeValue")
-    public String timeValue;
+    private String timeValue;
     @JsonProperty("RequestId")
-    public String requestId;
+    private String requestId;
     @JsonProperty("DayOfWeek")
-    public Integer dayOfWeek;
+    private Integer dayOfWeek;
     @JsonProperty("AppVersion")
-    public String appVersion;
+    private String appVersion;
     @JsonProperty("Data")
-    public T data;
+    private T data;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Integer getTimeKey() {
+        return timeKey;
+    }
+
+    public void setTimeKey(Integer timeKey) {
+        this.timeKey = timeKey;
+    }
+
+    public String getTimeValue() {
+        return timeValue;
+    }
+
+    public void setTimeValue(String timeValue) {
+        this.timeValue = timeValue;
+    }
+
+    public String getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(String requestId) {
+        this.requestId = requestId;
+    }
+
+    public Integer getDayOfWeek() {
+        return dayOfWeek;
+    }
+
+    public void setDayOfWeek(Integer dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
+    }
+
+    public String getAppVersion() {
+        return appVersion;
+    }
+
+    public void setAppVersion(String appVersion) {
+        this.appVersion = appVersion;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
 }

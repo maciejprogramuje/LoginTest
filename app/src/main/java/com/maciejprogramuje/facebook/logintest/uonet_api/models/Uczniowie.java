@@ -7,61 +7,61 @@ import java.util.List;
 public class Uczniowie extends ResponseBase<List<Uczniowie.Uczen>> {
     public static class Uczen {
         @JsonProperty("IdOkresKlasyfikacyjny")
-        public Integer idOkresKlasyfikacyjny;
+        private Integer idOkresKlasyfikacyjny;
         @JsonProperty("OkresPoziom")
-        public Integer okresPoziom;
+        private Integer okresPoziom;
         @JsonProperty("OkresNumer")
-        public Integer okresNumer;
+        private Integer okresNumer;
         @JsonProperty("OkresDataOd")
-        public Integer okresDataOd;
+        private Integer okresDataOd;
         @JsonProperty("OkresDataDo")
-        public Integer okresDataDo;
+        private Integer okresDataDo;
         @JsonProperty("OkresDataOdTekst")
-        public String okresDataOdTekst;
+        private String okresDataOdTekst;
         @JsonProperty("OkresDataDoTekst")
-        public String okresDataDoTekst;
+        private String okresDataDoTekst;
         @JsonProperty("IdJednostkaSprawozdawcza")
-        public Integer idJednostkaSprawozdawcza;
+        private Integer idJednostkaSprawozdawcza;
         @JsonProperty("JednostkaSprawozdawczaSkrot")
-        public String jednostkaSprawozdawczaSkrot;
+        private String jednostkaSprawozdawczaSkrot;
         @JsonProperty("JednostkaSprawozdawczaNazwa")
-        public String jednostkaSprawozdawczaNazwa;
+        private String jednostkaSprawozdawczaNazwa;
         @JsonProperty("JednostkaSprawozdawczaSymbol")
-        public String jednostkaSprawozdawczaSymbol;
+        private String jednostkaSprawozdawczaSymbol;
         @JsonProperty("IdJednostka")
-        public Integer idJednostka;
+        private Integer idJednostka;
         @JsonProperty("JednostkaNazwa")
-        public String jednostkaNazwa;
+        private String jednostkaNazwa;
         @JsonProperty("JednostkaSkrot")
-        public String jednostkaSkrot;
+        private String jednostkaSkrot;
         @JsonProperty("OddzialSymbol")
-        public String oddzialSymbol;
+        private String oddzialSymbol;
         @JsonProperty("OddzialKod")
-        public String oddzialKod;
+        private String oddzialKod;
         @JsonProperty("UzytkownikRola")
-        public String uzytkownikRola;
+        private String uzytkownikRola;
         @JsonProperty("UzytkownikLogin")
-        public String uzytkownikLogin;
+        private String uzytkownikLogin;
         @JsonProperty("UzytkownikLoginId")
-        public Integer uzytkownikLoginId;
+        private Integer uzytkownikLoginId;
         @JsonProperty("UzytkownikNazwa")
-        public String uzytkownikNazwa;
+        private String uzytkownikNazwa;
         @JsonProperty("Id")
-        public Integer id;
+        private Integer id;
         @JsonProperty("IdOddzial")
-        public Integer idOddzial;
+        private Integer idOddzial;
         @JsonProperty("Imie")
-        public String imie;
+        private String imie;
         @JsonProperty("Imie2")
-        public String imie2;
+        private String imie2;
         @JsonProperty("Nazwisko")
-        public String nazwisko;
+        private String nazwisko;
         @JsonProperty("Pseudonim")
-        public Object pseudonim;
+        private Object pseudonim;
         @JsonProperty("UczenPlec")
-        public Integer uczenPlec;
+        private Integer uczenPlec;
         @JsonProperty("Pozycja")
-        public Integer pozycja;
+        private Integer pozycja;
 
         @Override
         public String toString() {
@@ -95,6 +95,230 @@ public class Uczniowie extends ResponseBase<List<Uczniowie.Uczen>> {
                     ", uczenPlec=" + uczenPlec +
                     ", pozycja=" + pozycja +
                     '}';
+        }
+
+        public Integer getIdOkresKlasyfikacyjny() {
+            return idOkresKlasyfikacyjny;
+        }
+
+        public void setIdOkresKlasyfikacyjny(Integer idOkresKlasyfikacyjny) {
+            this.idOkresKlasyfikacyjny = idOkresKlasyfikacyjny;
+        }
+
+        public Integer getOkresPoziom() {
+            return okresPoziom;
+        }
+
+        public void setOkresPoziom(Integer okresPoziom) {
+            this.okresPoziom = okresPoziom;
+        }
+
+        public Integer getOkresNumer() {
+            return okresNumer;
+        }
+
+        public void setOkresNumer(Integer okresNumer) {
+            this.okresNumer = okresNumer;
+        }
+
+        public Integer getOkresDataOd() {
+            return okresDataOd;
+        }
+
+        public void setOkresDataOd(Integer okresDataOd) {
+            this.okresDataOd = okresDataOd;
+        }
+
+        public Integer getOkresDataDo() {
+            return okresDataDo;
+        }
+
+        public void setOkresDataDo(Integer okresDataDo) {
+            this.okresDataDo = okresDataDo;
+        }
+
+        public String getOkresDataOdTekst() {
+            return okresDataOdTekst;
+        }
+
+        public void setOkresDataOdTekst(String okresDataOdTekst) {
+            this.okresDataOdTekst = okresDataOdTekst;
+        }
+
+        public String getOkresDataDoTekst() {
+            return okresDataDoTekst;
+        }
+
+        public void setOkresDataDoTekst(String okresDataDoTekst) {
+            this.okresDataDoTekst = okresDataDoTekst;
+        }
+
+        public Integer getIdJednostkaSprawozdawcza() {
+            return idJednostkaSprawozdawcza;
+        }
+
+        public void setIdJednostkaSprawozdawcza(Integer idJednostkaSprawozdawcza) {
+            this.idJednostkaSprawozdawcza = idJednostkaSprawozdawcza;
+        }
+
+        public String getJednostkaSprawozdawczaSkrot() {
+            return jednostkaSprawozdawczaSkrot;
+        }
+
+        public void setJednostkaSprawozdawczaSkrot(String jednostkaSprawozdawczaSkrot) {
+            this.jednostkaSprawozdawczaSkrot = jednostkaSprawozdawczaSkrot;
+        }
+
+        public String getJednostkaSprawozdawczaNazwa() {
+            return jednostkaSprawozdawczaNazwa;
+        }
+
+        public void setJednostkaSprawozdawczaNazwa(String jednostkaSprawozdawczaNazwa) {
+            this.jednostkaSprawozdawczaNazwa = jednostkaSprawozdawczaNazwa;
+        }
+
+        public String getJednostkaSprawozdawczaSymbol() {
+            return jednostkaSprawozdawczaSymbol;
+        }
+
+        public void setJednostkaSprawozdawczaSymbol(String jednostkaSprawozdawczaSymbol) {
+            this.jednostkaSprawozdawczaSymbol = jednostkaSprawozdawczaSymbol;
+        }
+
+        public Integer getIdJednostka() {
+            return idJednostka;
+        }
+
+        public void setIdJednostka(Integer idJednostka) {
+            this.idJednostka = idJednostka;
+        }
+
+        public String getJednostkaNazwa() {
+            return jednostkaNazwa;
+        }
+
+        public void setJednostkaNazwa(String jednostkaNazwa) {
+            this.jednostkaNazwa = jednostkaNazwa;
+        }
+
+        public String getJednostkaSkrot() {
+            return jednostkaSkrot;
+        }
+
+        public void setJednostkaSkrot(String jednostkaSkrot) {
+            this.jednostkaSkrot = jednostkaSkrot;
+        }
+
+        public String getOddzialSymbol() {
+            return oddzialSymbol;
+        }
+
+        public void setOddzialSymbol(String oddzialSymbol) {
+            this.oddzialSymbol = oddzialSymbol;
+        }
+
+        public String getOddzialKod() {
+            return oddzialKod;
+        }
+
+        public void setOddzialKod(String oddzialKod) {
+            this.oddzialKod = oddzialKod;
+        }
+
+        public String getUzytkownikRola() {
+            return uzytkownikRola;
+        }
+
+        public void setUzytkownikRola(String uzytkownikRola) {
+            this.uzytkownikRola = uzytkownikRola;
+        }
+
+        public String getUzytkownikLogin() {
+            return uzytkownikLogin;
+        }
+
+        public void setUzytkownikLogin(String uzytkownikLogin) {
+            this.uzytkownikLogin = uzytkownikLogin;
+        }
+
+        public Integer getUzytkownikLoginId() {
+            return uzytkownikLoginId;
+        }
+
+        public void setUzytkownikLoginId(Integer uzytkownikLoginId) {
+            this.uzytkownikLoginId = uzytkownikLoginId;
+        }
+
+        public String getUzytkownikNazwa() {
+            return uzytkownikNazwa;
+        }
+
+        public void setUzytkownikNazwa(String uzytkownikNazwa) {
+            this.uzytkownikNazwa = uzytkownikNazwa;
+        }
+
+        public Integer getId() {
+            return id;
+        }
+
+        public void setId(Integer id) {
+            this.id = id;
+        }
+
+        public Integer getIdOddzial() {
+            return idOddzial;
+        }
+
+        public void setIdOddzial(Integer idOddzial) {
+            this.idOddzial = idOddzial;
+        }
+
+        public String getImie() {
+            return imie;
+        }
+
+        public void setImie(String imie) {
+            this.imie = imie;
+        }
+
+        public String getImie2() {
+            return imie2;
+        }
+
+        public void setImie2(String imie2) {
+            this.imie2 = imie2;
+        }
+
+        public String getNazwisko() {
+            return nazwisko;
+        }
+
+        public void setNazwisko(String nazwisko) {
+            this.nazwisko = nazwisko;
+        }
+
+        public Object getPseudonim() {
+            return pseudonim;
+        }
+
+        public void setPseudonim(Object pseudonim) {
+            this.pseudonim = pseudonim;
+        }
+
+        public Integer getUczenPlec() {
+            return uczenPlec;
+        }
+
+        public void setUczenPlec(Integer uczenPlec) {
+            this.uczenPlec = uczenPlec;
+        }
+
+        public Integer getPozycja() {
+            return pozycja;
+        }
+
+        public void setPozycja(Integer pozycja) {
+            this.pozycja = pozycja;
         }
     }
 }

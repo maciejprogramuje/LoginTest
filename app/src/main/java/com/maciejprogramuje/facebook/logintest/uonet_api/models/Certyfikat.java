@@ -4,15 +4,15 @@ import com.google.gson.annotations.SerializedName;
 
 public class Certyfikat {
     @SerializedName("IsError")
-    public boolean isError;
+    private boolean isError;
     @SerializedName("IsMessageForUser")
-    public boolean isMessageForUser;
+    private boolean isMessageForUser;
     @SerializedName("Message")
-    public String message;
+    private String message;
     @SerializedName("TokenKey")
-    public String tokenKey;
+    private String tokenKey;
     @SerializedName("TokenStatus")
-    public String tokenStatus;
+    private String tokenStatus;
     @SerializedName("TokenCert")
     public TokenCert tokenCert;
 
@@ -49,5 +49,53 @@ public class Certyfikat {
                 ", tokenStatus='" + tokenStatus + '\'' +
                 ", tokenCert=" + tokenCert +
                 '}';
+    }
+
+    public boolean isError() {
+        return isError;
+    }
+
+    public void setError(boolean error) {
+        isError = error;
+    }
+
+    public boolean isMessageForUser() {
+        return isMessageForUser;
+    }
+
+    public void setMessageForUser(boolean messageForUser) {
+        isMessageForUser = messageForUser;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getTokenKey() {
+        return tokenKey;
+    }
+
+    public void setTokenKey(String tokenKey) {
+        this.tokenKey = tokenKey;
+    }
+
+    public String getTokenStatus() {
+        return tokenStatus;
+    }
+
+    public void setTokenStatus(String tokenStatus) {
+        this.tokenStatus = tokenStatus;
+    }
+
+    public TokenCert getTokenCert() {
+        return tokenCert;
+    }
+
+    public void setTokenCert(TokenCert tokenCert) {
+        this.tokenCert = tokenCert;
     }
 }

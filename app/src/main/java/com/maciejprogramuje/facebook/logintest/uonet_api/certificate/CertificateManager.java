@@ -73,6 +73,8 @@ public class CertificateManager {
         headersMap.put("RequestMobileType", "RegisterDevice");
         headersMap.put("User-Agent", "MobileUserAgent");
         headersMap.put("Content-Type", "application/json");
+        headersMap.put("Cache-Control", "no-cache");
+
         return headersMap;
     }
 }

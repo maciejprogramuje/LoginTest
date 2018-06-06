@@ -9,15 +9,15 @@ import static com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfika
 
 public class UczniowieRequest3 {
     @SerializedName("RemoteMobileTimeKey")
-    public String remoteMobileTimeKey;
+    private String remoteMobileTimeKey;
     @SerializedName("TimeKey")
-    public String timeKey;
+    private String timeKey;
     @SerializedName("RequestId")
-    public String requestId = UUID.randomUUID().toString();
+    private String requestId = UUID.randomUUID().toString();
     @SerializedName("RemoteMobileAppVersion")
-    public String remoteMobileAppVersion = APPLICATION_VERSION;
+    private String remoteMobileAppVersion = APPLICATION_VERSION;
     @SerializedName("RemoteMobileAppName")
-    public String remoteMobileAppName = APPLICATION_NAME;
+    private String remoteMobileAppName = APPLICATION_NAME;
 
     public UczniowieRequest3() {
         long time = System.currentTimeMillis();
@@ -27,5 +27,45 @@ public class UczniowieRequest3 {
         if (this.timeKey == null) {
             this.timeKey = Long.toString(time / 1000L);
         }
+    }
+
+    public String getRemoteMobileTimeKey() {
+        return remoteMobileTimeKey;
+    }
+
+    public void setRemoteMobileTimeKey(String remoteMobileTimeKey) {
+        this.remoteMobileTimeKey = remoteMobileTimeKey;
+    }
+
+    public String getTimeKey() {
+        return timeKey;
+    }
+
+    public void setTimeKey(String timeKey) {
+        this.timeKey = timeKey;
+    }
+
+    public String getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(String requestId) {
+        this.requestId = requestId;
+    }
+
+    public String getRemoteMobileAppVersion() {
+        return remoteMobileAppVersion;
+    }
+
+    public void setRemoteMobileAppVersion(String remoteMobileAppVersion) {
+        this.remoteMobileAppVersion = remoteMobileAppVersion;
+    }
+
+    public String getRemoteMobileAppName() {
+        return remoteMobileAppName;
+    }
+
+    public void setRemoteMobileAppName(String remoteMobileAppName) {
+        this.remoteMobileAppName = remoteMobileAppName;
     }
 }

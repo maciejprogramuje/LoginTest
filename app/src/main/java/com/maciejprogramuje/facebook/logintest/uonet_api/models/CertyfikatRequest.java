@@ -12,33 +12,33 @@ public class CertyfikatRequest {
     public static final String APPLICATION_VERSION = "18.4.1.388";
 
     @SerializedName("PIN")
-    public String pin;
+    private String pin;
     @SerializedName("TokenKey")
-    public String tokenKey;
+    private String tokenKey;
     @SerializedName("AppVersion")
-    public String appVersion = RequestBase.APPLICATION_VERSION;
+    private String appVersion = RequestBase.APPLICATION_VERSION;
     @SerializedName("DeviceId")
-    public String deviceId = UUID.randomUUID().toString();
+    private String deviceId = UUID.randomUUID().toString();
     @SerializedName("DeviceName")
-    public String deviceName = DEFAULT_DEVICE_NAME;
+    private String deviceName = DEFAULT_DEVICE_NAME;
     @SerializedName("DeviceNameUser ")
-    public String deviceNameUser = "";
+    private String deviceNameUser = "";
     @SerializedName("DeviceDescription")
-    public String deviceDescription = "";
+    private String deviceDescription = "";
     @SerializedName("DeviceSystemType")
-    public String deviceSystemType = DEFAULT_SYSTEM_TYPE;
+    private String deviceSystemType = DEFAULT_SYSTEM_TYPE;
     @SerializedName("DeviceSystemVersion")
-    public String deviceSystemVersion = DEFAULT_SYSTEM_VERSION;
+    private String deviceSystemVersion = DEFAULT_SYSTEM_VERSION;
     @SerializedName("RemoteMobileTimeKey")
-    public String remoteMobileTimeKey;
+    private String remoteMobileTimeKey;
     @SerializedName("TimeKey")
-    public String timeKey;
+    private String timeKey;
     @SerializedName("RequestId")
-    public String requestId = UUID.randomUUID().toString();
+    private String requestId = UUID.randomUUID().toString();
     @SerializedName("RemoteMobileAppVersion")
-    public String remoteMobileAppVersion = APPLICATION_VERSION;
+    private String remoteMobileAppVersion = APPLICATION_VERSION;
     @SerializedName("RemoteMobileAppName")
-    public String remoteMobileAppName = APPLICATION_NAME;
+    private String remoteMobileAppName = APPLICATION_NAME;
 
 
     public CertyfikatRequest(String pin, String token) {
@@ -52,5 +52,117 @@ public class CertyfikatRequest {
         if (this.timeKey == null) {
             this.timeKey = Long.toString(time / 1000L);
         }
+    }
+
+    public String getPin() {
+        return pin;
+    }
+
+    public void setPin(String pin) {
+        this.pin = pin;
+    }
+
+    public String getTokenKey() {
+        return tokenKey;
+    }
+
+    public void setTokenKey(String tokenKey) {
+        this.tokenKey = tokenKey;
+    }
+
+    public String getAppVersion() {
+        return appVersion;
+    }
+
+    public void setAppVersion(String appVersion) {
+        this.appVersion = appVersion;
+    }
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    public String getDeviceName() {
+        return deviceName;
+    }
+
+    public void setDeviceName(String deviceName) {
+        this.deviceName = deviceName;
+    }
+
+    public String getDeviceNameUser() {
+        return deviceNameUser;
+    }
+
+    public void setDeviceNameUser(String deviceNameUser) {
+        this.deviceNameUser = deviceNameUser;
+    }
+
+    public String getDeviceDescription() {
+        return deviceDescription;
+    }
+
+    public void setDeviceDescription(String deviceDescription) {
+        this.deviceDescription = deviceDescription;
+    }
+
+    public String getDeviceSystemType() {
+        return deviceSystemType;
+    }
+
+    public void setDeviceSystemType(String deviceSystemType) {
+        this.deviceSystemType = deviceSystemType;
+    }
+
+    public String getDeviceSystemVersion() {
+        return deviceSystemVersion;
+    }
+
+    public void setDeviceSystemVersion(String deviceSystemVersion) {
+        this.deviceSystemVersion = deviceSystemVersion;
+    }
+
+    public String getRemoteMobileTimeKey() {
+        return remoteMobileTimeKey;
+    }
+
+    public void setRemoteMobileTimeKey(String remoteMobileTimeKey) {
+        this.remoteMobileTimeKey = remoteMobileTimeKey;
+    }
+
+    public String getTimeKey() {
+        return timeKey;
+    }
+
+    public void setTimeKey(String timeKey) {
+        this.timeKey = timeKey;
+    }
+
+    public String getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(String requestId) {
+        this.requestId = requestId;
+    }
+
+    public String getRemoteMobileAppVersion() {
+        return remoteMobileAppVersion;
+    }
+
+    public void setRemoteMobileAppVersion(String remoteMobileAppVersion) {
+        this.remoteMobileAppVersion = remoteMobileAppVersion;
+    }
+
+    public String getRemoteMobileAppName() {
+        return remoteMobileAppName;
+    }
+
+    public void setRemoteMobileAppName(String remoteMobileAppName) {
+        this.remoteMobileAppName = remoteMobileAppName;
     }
 }
