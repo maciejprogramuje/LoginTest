@@ -34,4 +34,9 @@ public interface ApiUonet {
     @POST()
     Call<ResponseBody> postLogAppStart(@Url String apiUrl, @Body RequestAbst uczniowieReq, @HeaderMap Map<String, String> headesMap);
 
+    //${symbol jednostki sprawozdawczej}/mobile-api/Uczen.v3.Uczen/Slowniki
+    //todo - zastapic response body przez slowniki
+    Call<ResponseBody> postSlowniki(@Url String apiUrl, @Body RequestAbst uczniowieReq, @HeaderMap Map<String, String> headesMap);
+
+
 }

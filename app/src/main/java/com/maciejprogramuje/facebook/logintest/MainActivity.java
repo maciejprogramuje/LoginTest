@@ -18,6 +18,8 @@ import com.maciejprogramuje.facebook.logintest.uonet_api.o03_pupils.PupilsManage
 import com.maciejprogramuje.facebook.logintest.uonet_api.o03_pupils.PupilsReadyEvent;
 import com.maciejprogramuje.facebook.logintest.uonet_api.o04_log_app_start.LogAppStartManager;
 import com.maciejprogramuje.facebook.logintest.uonet_api.o04_log_app_start.LogAppStartReadyEvent;
+import com.maciejprogramuje.facebook.logintest.uonet_api.o05_slowniki.SlownikiManager;
+import com.maciejprogramuje.facebook.logintest.uonet_api.o05_slowniki.SlownikiReadyEvent;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private String mPfx;
     private String mCertficateKey;
     private Certyfikat.TokenCert tokenCert;
+    private String jednostkaSprawozdawczaSymbol;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
     public void onPupilsReady(PupilsReadyEvent event) {
         List<Uczniowie.Uczen> pupils = event.getUczniowie().getData();
         //todo - tu dodac,ktorego ucznia dane ma wyswietlac
-        String jednostkaSprawozdawczaSymbol = pupils.get(1).getJednostkaSprawozdawczaSymbol();
+        jednostkaSprawozdawczaSymbol = pupils.get(1).getJednostkaSprawozdawczaSymbol();
 
         LogAppStartManager logAppStartManager = new LogAppStartManager(app, tokenCert);
         logAppStartManager.generateLogAppStart(jednostkaSprawozdawczaSymbol);
@@ -148,6 +151,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Subscribe
     public void onLogAppStartReady(LogAppStartReadyEvent event) {
+        SlownikiManager slownikiManager = new SlownikiManager(app, tokenCert);
+        slownikiManager.generateSlowniki(jednostkaSprawozdawczaSymbol);
+    }
+
+    @Subscribe
+    public void onSlownikiReady(SlownikiReadyEvent event) {
 
     }
 
