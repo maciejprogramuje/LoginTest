@@ -20,6 +20,7 @@ import retrofit2.Response;
 
 
 public class CertificateManager {
+    private String apiUrl = "mobile-api/Uczen.v3.UczenStart/Certyfikat";
     private Certyfikat.TokenCert tokenCert;
     private ApiUonet apiUonet;
     private final Bus bus;
@@ -31,7 +32,7 @@ public class CertificateManager {
 
     public void generateCerificate(String pin, String token) {
         RequestAbst certyfikatRequest = new CertyfikatRequest(pin, token);
-        Call<Certyfikat> call = apiUonet.postCerificate(certyfikatRequest, getCertificateHeadersMap());
+        Call<Certyfikat> call = apiUonet.postCerificate(apiUrl, certyfikatRequest, getCertificateHeadersMap());
         call.enqueue(new Callback<Certyfikat>() {
             @Override
             public void onResponse(@NonNull Call<Certyfikat> call, @NonNull Response<Certyfikat> response) {

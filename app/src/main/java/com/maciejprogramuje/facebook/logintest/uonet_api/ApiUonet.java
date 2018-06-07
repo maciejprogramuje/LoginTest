@@ -13,17 +13,25 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.HeaderMap;
 import retrofit2.http.POST;
+import retrofit2.http.Url;
 
 
 public interface ApiUonet {
 
-    @GET("UonetPlusMobile/RoutingRules.txt")
-    Call<ResponseBody> getBaseUrl();
+    //"UonetPlusMobile/RoutingRules.txt"
+    @GET()
+    Call<ResponseBody> getBaseUrl(@Url String apiUrl);
 
-    @POST("mobile-api/Uczen.v3.UczenStart/Certyfikat")
-    Call<Certyfikat> postCerificate(@Body RequestAbst certyfikatRequest, @HeaderMap Map<String, String> headesMap);
+    //"mobile-api/Uczen.v3.UczenStart/Certyfikat"
+    @POST()
+    Call<Certyfikat> postCerificate(@Url String apiUrl, @Body RequestAbst certyfikatRequest, @HeaderMap Map<String, String> headesMap);
 
-    @POST("mobile-api/Uczen.v3.UczenStart/ListaUczniow")
-    Call<Uczniowie> postPupils(@Body RequestAbst uczniowieReq, @HeaderMap Map<String, String> headesMap);
+    //"mobile-api/Uczen.v3.UczenStart/ListaUczniow"
+    @POST()
+    Call<Uczniowie> postPupils(@Url String apiUrl, @Body RequestAbst uczniowieReq, @HeaderMap Map<String, String> headesMap);
+
+    /*//"mobile-api/Uczen.v3.UczenStart/ListaUczniow"
+    @POST()
+    Call<Uczniowie> postPupils(@Url String apiUrl, @Body RequestAbst uczniowieReq, @HeaderMap Map<String, String> headesMap);*/
 
 }

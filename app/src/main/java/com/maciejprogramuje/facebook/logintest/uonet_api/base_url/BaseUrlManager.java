@@ -28,7 +28,7 @@ public class BaseUrlManager {
     public void generateBaseUrl() {
         ApiUonet baseUrlApi = ApiGenerator.generate("http://komponenty.vulcan.net.pl/");
 
-        Call<ResponseBody> call = baseUrlApi.getBaseUrl();
+        Call<ResponseBody> call = baseUrlApi.getBaseUrl("UonetPlusMobile/RoutingRules.txt");
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {

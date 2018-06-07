@@ -21,6 +21,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PupilsManager {
+    private String apiUrl = "mobile-api/Uczen.v3.UczenStart/ListaUczniow";
     private final Bus bus;
     private final Certyfikat.TokenCert cert;
     private RequestAbst uczniowieRequest;
@@ -35,7 +36,7 @@ public class PupilsManager {
     public void generatePupils() {
         uczniowieRequest = new UczniowieRequest();
 
-        Call<Uczniowie> call = apiUonet.postPupils(uczniowieRequest, getPupilsHeadersMap());
+        Call<Uczniowie> call = apiUonet.postPupils(apiUrl, uczniowieRequest, getPupilsHeadersMap());
         call.enqueue(new Callback<Uczniowie>() {
             @Override
             public void onResponse(@NonNull Call<Uczniowie> call, @NonNull Response<Uczniowie> response) {
