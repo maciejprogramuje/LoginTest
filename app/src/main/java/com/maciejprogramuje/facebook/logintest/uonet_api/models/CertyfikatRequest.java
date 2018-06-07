@@ -4,19 +4,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.UUID;
 
-public class CertyfikatRequest {
+public class CertyfikatRequest extends RequestAbst {
     public static final String DEFAULT_SYSTEM_VERSION = "0.0.1";
     public static final String DEFAULT_SYSTEM_TYPE = "SDK";
     public static final String DEFAULT_DEVICE_NAME = "Unofficial SDK";
-    public static final String APPLICATION_NAME = "VULCAN-Android-ModulUcznia";
-    public static final String APPLICATION_VERSION = "18.4.1.388";
 
     @JsonProperty("PIN")
     private String pin;
     @JsonProperty("TokenKey")
     private String tokenKey;
     @JsonProperty("AppVersion")
-    private String appVersion = RequestBase.APPLICATION_VERSION;
+    private String appVersion = RequestAbst.APPLICATION_VERSION;
     @JsonProperty("DeviceId")
     private String deviceId = UUID.randomUUID().toString();
     @JsonProperty("DeviceName")
@@ -29,29 +27,10 @@ public class CertyfikatRequest {
     private String deviceSystemType = DEFAULT_SYSTEM_TYPE;
     @JsonProperty("DeviceSystemVersion")
     private String deviceSystemVersion = DEFAULT_SYSTEM_VERSION;
-    @JsonProperty("RemoteMobileTimeKey")
-    private String remoteMobileTimeKey;
-    @JsonProperty("TimeKey")
-    private String timeKey;
-    @JsonProperty("RequestId")
-    private String requestId = UUID.randomUUID().toString();
-    @JsonProperty("RemoteMobileAppVersion")
-    private String remoteMobileAppVersion = APPLICATION_VERSION;
-    @JsonProperty("RemoteMobileAppName")
-    private String remoteMobileAppName = APPLICATION_NAME;
-
 
     public CertyfikatRequest(String pin, String token) {
         this.pin = pin;
         this.tokenKey = token;
-
-        long time = System.currentTimeMillis();
-        if (this.remoteMobileTimeKey == null) {
-            this.remoteMobileTimeKey = Long.toString(time / 1000L + 1);
-        }
-        if (this.timeKey == null) {
-            this.timeKey = Long.toString(time / 1000L);
-        }
     }
 
     public String getPin() {
@@ -124,45 +103,5 @@ public class CertyfikatRequest {
 
     public void setDeviceSystemVersion(String deviceSystemVersion) {
         this.deviceSystemVersion = deviceSystemVersion;
-    }
-
-    public String getRemoteMobileTimeKey() {
-        return remoteMobileTimeKey;
-    }
-
-    public void setRemoteMobileTimeKey(String remoteMobileTimeKey) {
-        this.remoteMobileTimeKey = remoteMobileTimeKey;
-    }
-
-    public String getTimeKey() {
-        return timeKey;
-    }
-
-    public void setTimeKey(String timeKey) {
-        this.timeKey = timeKey;
-    }
-
-    public String getRequestId() {
-        return requestId;
-    }
-
-    public void setRequestId(String requestId) {
-        this.requestId = requestId;
-    }
-
-    public String getRemoteMobileAppVersion() {
-        return remoteMobileAppVersion;
-    }
-
-    public void setRemoteMobileAppVersion(String remoteMobileAppVersion) {
-        this.remoteMobileAppVersion = remoteMobileAppVersion;
-    }
-
-    public String getRemoteMobileAppName() {
-        return remoteMobileAppName;
-    }
-
-    public void setRemoteMobileAppName(String remoteMobileAppName) {
-        this.remoteMobileAppName = remoteMobileAppName;
     }
 }

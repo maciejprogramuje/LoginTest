@@ -7,6 +7,7 @@ import com.maciejprogramuje.facebook.logintest.App;
 import com.maciejprogramuje.facebook.logintest.uonet_api.ApiUonet;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.CertyfikatRequest;
+import com.maciejprogramuje.facebook.logintest.uonet_api.models.RequestAbst;
 import com.squareup.otto.Bus;
 
 import java.io.IOException;
@@ -29,7 +30,7 @@ public class CertificateManager {
     }
 
     public void generateCerificate(String pin, String token) {
-        CertyfikatRequest certyfikatRequest = new CertyfikatRequest(pin, token);
+        RequestAbst certyfikatRequest = new CertyfikatRequest(pin, token);
         Call<Certyfikat> call = apiUonet.postCerificate(certyfikatRequest, getCertificateHeadersMap());
         call.enqueue(new Callback<Certyfikat>() {
             @Override

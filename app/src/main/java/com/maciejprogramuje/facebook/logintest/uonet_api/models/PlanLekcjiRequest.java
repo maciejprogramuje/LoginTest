@@ -23,7 +23,7 @@ public class PlanLekcjiRequest extends UczenAwareRequestBase<PlanLekcji> {
         this.withChanges = withChanges;
     }
 
-    @Override
+    //@Override
     public String getPath() {
         return this.withChanges ? "PlanLekcjiZeZmianami" : "PlanLekcji";
     }

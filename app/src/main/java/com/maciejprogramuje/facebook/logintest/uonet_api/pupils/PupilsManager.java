@@ -7,6 +7,7 @@ import com.maciejprogramuje.facebook.logintest.App;
 import com.maciejprogramuje.facebook.logintest.uonet_api.ApiUonet;
 import com.maciejprogramuje.facebook.logintest.uonet_api.CertificateSignature;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
+import com.maciejprogramuje.facebook.logintest.uonet_api.models.RequestAbst;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Uczniowie;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.UczniowieRequest;
 import com.squareup.otto.Bus;
@@ -22,7 +23,7 @@ import retrofit2.Response;
 public class PupilsManager {
     private final Bus bus;
     private final Certyfikat.TokenCert cert;
-    private UczniowieRequest uczniowieRequest;
+    private RequestAbst uczniowieRequest;
     private final ApiUonet apiUonet;
 
     public PupilsManager(App app, Certyfikat.TokenCert cert) {

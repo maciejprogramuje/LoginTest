@@ -19,7 +19,7 @@ public class SprawdzianyRequest extends UczenAwareRequestBase<Sprawdziany> {
         this.dataKoncowa = dataKoncowa;
     }
 
-    @Override
+    //@Override
     public String getPath() {
         return "Sprawdziany";
     }
