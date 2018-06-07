@@ -19,6 +19,8 @@ public abstract class RequestAbst {
     @JsonProperty("RemoteMobileAppName")
     private String remoteMobileAppName = APPLICATION_NAME;
 
+    private String specificUrl;
+
     public RequestAbst() {
         long time = System.currentTimeMillis();
         if (this.remoteMobileTimeKey == null) {
