@@ -42,6 +42,7 @@ public class CertificateSignature {
     }
 
 
+    //todo - dodać klasę nadrzędną do Request
     public static String generate(UczniowieRequest uczniowieReq, String certyfikatPfx) {
         try {
             ObjectMapper mapper = new ObjectMapper();

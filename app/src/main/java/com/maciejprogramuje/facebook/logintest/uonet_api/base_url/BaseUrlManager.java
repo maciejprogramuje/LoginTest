@@ -26,7 +26,6 @@ public class BaseUrlManager {
     }
 
     public void generateBaseUrl() {
-        //todo
         ApiUonet baseUrlApi = ApiGenerator.generate("http://komponenty.vulcan.net.pl/");
 
         Call<ResponseBody> call = baseUrlApi.getBaseUrl();
