@@ -1,4 +1,4 @@
-package com.maciejprogramuje.facebook.logintest.uonet_api;
+package com.maciejprogramuje.facebook.logintest.uonet_api.common;
 
 
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
@@ -32,6 +32,6 @@ public interface ApiUonet {
 
     //"${JednostkaSprawozdawczaSymbol}/mobile-api/Uczen.v3.Uczen/LogAppStart"
     @POST()
-    Call<Uczniowie> postLogAppStart(@Url String apiUrl, @Body RequestAbst uczniowieReq, @HeaderMap Map<String, String> headesMap);
+    Call<ResponseBody> postLogAppStart(@Url String apiUrl, @Body RequestAbst uczniowieReq, @HeaderMap Map<String, String> headesMap);
 
 }

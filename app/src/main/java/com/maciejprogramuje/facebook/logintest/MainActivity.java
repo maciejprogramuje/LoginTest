@@ -7,15 +7,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.maciejprogramuje.facebook.logintest.uonet_api.ApiGenerator;
-import com.maciejprogramuje.facebook.logintest.uonet_api.base_url.BaseUrlManager;
-import com.maciejprogramuje.facebook.logintest.uonet_api.base_url.BaseUrlReadyEvent;
-import com.maciejprogramuje.facebook.logintest.uonet_api.certificate.CertificateManager;
-import com.maciejprogramuje.facebook.logintest.uonet_api.certificate.CertificateReadyEvent;
+import com.maciejprogramuje.facebook.logintest.uonet_api.common.ApiGenerator;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Uczniowie;
-import com.maciejprogramuje.facebook.logintest.uonet_api.pupils.PupilsManager;
-import com.maciejprogramuje.facebook.logintest.uonet_api.pupils.PupilsReadyEvent;
+import com.maciejprogramuje.facebook.logintest.uonet_api.o01_base_url.BaseUrlManager;
+import com.maciejprogramuje.facebook.logintest.uonet_api.o01_base_url.BaseUrlReadyEvent;
+import com.maciejprogramuje.facebook.logintest.uonet_api.o02_certificate.CertificateManager;
+import com.maciejprogramuje.facebook.logintest.uonet_api.o02_certificate.CertificateReadyEvent;
+import com.maciejprogramuje.facebook.logintest.uonet_api.o03_pupils.PupilsManager;
+import com.maciejprogramuje.facebook.logintest.uonet_api.o03_pupils.PupilsReadyEvent;
+import com.maciejprogramuje.facebook.logintest.uonet_api.o04_log_app_start.LogAppStartManager;
+import com.maciejprogramuje.facebook.logintest.uonet_api.o04_log_app_start.LogAppStartReadyEvent;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private String mBaseUrl;
     private String mPfx;
     private String mCertficateKey;
+    private Certyfikat.TokenCert tokenCert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,18 +125,33 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void postForPupils() {
-        Certyfikat.TokenCert cert = new Certyfikat.TokenCert();
-        cert.setCertyfikatKlucz(mCertficateKey);
-        cert.setCertyfikatPfx(mPfx);
-        cert.setAdresBazowyRestApi(mBaseUrl);
+        tokenCert = new Certyfikat.TokenCert();
+        tokenCert.setCertyfikatKlucz(mCertficateKey);
+        tokenCert.setCertyfikatPfx(mPfx);
+        tokenCert.setAdresBazowyRestApi(mBaseUrl);
 
-        PupilsManager pupilsManager = new PupilsManager(app, cert);
+        PupilsManager pupilsManager = new PupilsManager(app, tokenCert);
         pupilsManager.generatePupils();
     }
 
     @Subscribe
     public void onPupilsReady(PupilsReadyEvent event) {
         List<Uczniowie.Uczen> pupils = event.getUczniowie().getData();
+        //todo - tu dodac,ktorego ucznia dane ma wyswietlac
+        String jednostkaSprawozdawczaSymbol = pupils.get(1).getJednostkaSprawozdawczaSymbol();
+
+        LogAppStartManager logAppStartManager = new LogAppStartManager(app, tokenCert);
+        logAppStartManager.generateLogAppStart(jednostkaSprawozdawczaSymbol);
+
+        showTestMessage(pupils);
+    }
+
+    @Subscribe
+    public void onLogAppStartReady(LogAppStartReadyEvent event) {
+
+    }
+
+    private void showTestMessage(List<Uczniowie.Uczen> pupils) {
         int pupilsNum = pupils.size();
         StringBuilder pupilsNames= new StringBuilder();
 

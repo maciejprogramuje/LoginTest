@@ -1,4 +1,4 @@
-package com.maciejprogramuje.facebook.logintest.uonet_api.certificate;
+package com.maciejprogramuje.facebook.logintest.uonet_api.o02_certificate;
 
 public class CertificateReadyEvent {
     private final String certyfikatPfx;

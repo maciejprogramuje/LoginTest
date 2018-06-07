@@ -1,4 +1,4 @@
-package com.maciejprogramuje.facebook.logintest.uonet_api.base_url;
+package com.maciejprogramuje.facebook.logintest.uonet_api.o01_base_url;
 
 public class BaseUrlReadyEvent {
     private final String baseUrl;

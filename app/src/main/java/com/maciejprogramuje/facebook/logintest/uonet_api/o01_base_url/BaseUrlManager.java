@@ -1,10 +1,11 @@
-package com.maciejprogramuje.facebook.logintest.uonet_api.base_url;
+package com.maciejprogramuje.facebook.logintest.uonet_api.o01_base_url;
 
 import android.support.annotation.NonNull;
 
 import com.maciejprogramuje.facebook.logintest.App;
-import com.maciejprogramuje.facebook.logintest.uonet_api.ApiGenerator;
-import com.maciejprogramuje.facebook.logintest.uonet_api.ApiUonet;
+import com.maciejprogramuje.facebook.logintest.uonet_api.common.ApiErrors;
+import com.maciejprogramuje.facebook.logintest.uonet_api.common.ApiGenerator;
+import com.maciejprogramuje.facebook.logintest.uonet_api.common.ApiUonet;
 import com.squareup.otto.Bus;
 
 import java.io.IOException;
@@ -41,13 +42,13 @@ public class BaseUrlManager {
                         bus.post(new BaseUrlReadyEvent(baseUrl));
                     }
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    ApiErrors.show(response);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                t.printStackTrace();
+                ApiErrors.show(t);
             }
         });
     }

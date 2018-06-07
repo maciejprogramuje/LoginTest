@@ -1,7 +1,11 @@
-package com.maciejprogramuje.facebook.logintest.uonet_api;
+package com.maciejprogramuje.facebook.logintest.uonet_api.common;
 
 import com.maciejprogramuje.facebook.logintest.App;
+import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
+import com.maciejprogramuje.facebook.logintest.uonet_api.models.RequestAbst;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -33,5 +37,17 @@ public class ApiGenerator {
         ApiUonet apiUonet = retrofit.create(ApiUonet.class);
 
         return apiUonet;
+    }
+
+    public static Map<String, String> getHeadersMap(RequestAbst request, Certyfikat.TokenCert cert) {
+        Map<String, String> headersMap = new HashMap<>();
+        headersMap.put("RequestSignatureValue", CertificateSignature.generate(request, cert.getCertyfikatPfx()));
+        headersMap.put("User-Agent", "MobileUserAgent");
+        headersMap.put("Host", "lekcjaplus.vulcan.net.pl");
+        headersMap.put("RequestCertificateKey", cert.getCertyfikatKlucz());
+        headersMap.put("Content-Type", "application/json; charset=UTF-8");
+        headersMap.put("Cache-Control", "no-cache");
+
+        return headersMap;
     }
 }

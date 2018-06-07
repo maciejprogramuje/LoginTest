@@ -3,7 +3,7 @@ package com.maciejprogramuje.facebook.logintest;
 import android.app.Application;
 import android.content.SharedPreferences;
 
-import com.maciejprogramuje.facebook.logintest.uonet_api.ApiUonet;
+import com.maciejprogramuje.facebook.logintest.uonet_api.common.ApiUonet;
 import com.squareup.otto.Bus;
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;

@@ -1,16 +1,16 @@
-package com.maciejprogramuje.facebook.logintest.uonet_api.certificate;
+package com.maciejprogramuje.facebook.logintest.uonet_api.o02_certificate;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.maciejprogramuje.facebook.logintest.App;
-import com.maciejprogramuje.facebook.logintest.uonet_api.ApiUonet;
+import com.maciejprogramuje.facebook.logintest.uonet_api.common.ApiErrors;
+import com.maciejprogramuje.facebook.logintest.uonet_api.common.ApiUonet;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.CertyfikatRequest;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.RequestAbst;
 import com.squareup.otto.Bus;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,17 +46,13 @@ public class CertificateManager {
                         Log.w("UWAGA", "blad 1 - błędny lub przeterminowany PIN lub TOKEN -> " + certyfikat.toString());
                     }
                 } else {
-                    Log.w("UWAGA", "blad 2 - błąd odpowiedzi");
+                    ApiErrors.show(response);
                 }
             }
 
             @Override
             public void onFailure(Call<Certyfikat> call, Throwable t) {
-                if (t instanceof IOException) {
-                    Log.w("UWAGA", "blad 3 - błąd połączenia ze stroną lub internetem");
-                } else {
-                    Log.w("UWAGA", "blad 4 - błąd konwersji odpowiedzi");
-                }
+                ApiErrors.show(t);
             }
         });
     }

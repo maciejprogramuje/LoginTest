@@ -1,4 +1,4 @@
-package com.maciejprogramuje.facebook.logintest.uonet_api;
+package com.maciejprogramuje.facebook.logintest.uonet_api.common;
 
 import android.util.Base64;
 
@@ -23,8 +23,6 @@ public class CertificateSignature {
     private static final String CERT_TYPE = "pkcs12";
     private static final String CONTAINER_NAME = "LoginCert";
     private static final String PASSWORD = "CE75EA598C7743AD9B0B7328DED85B06";
-
-
 
     public static String generate(byte[] pupilsRequest, ByteArrayInputStream certyfikatPfx) {
         try {
