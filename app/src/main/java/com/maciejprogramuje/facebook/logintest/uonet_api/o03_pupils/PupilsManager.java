@@ -8,7 +8,6 @@ import com.maciejprogramuje.facebook.logintest.uonet_api.common.ApiErrors;
 import com.maciejprogramuje.facebook.logintest.uonet_api.common.ApiGenerator;
 import com.maciejprogramuje.facebook.logintest.uonet_api.common.ApiUonet;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.RequestAbst;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Uczniowie;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.UczniowieRequest;
 import com.squareup.otto.Bus;
@@ -21,7 +20,7 @@ public class PupilsManager {
     private String apiUrl = "mobile-api/Uczen.v3.UczenStart/ListaUczniow";
     private final Bus bus;
     private final Certyfikat.TokenCert cert;
-    private RequestAbst uczniowieRequest;
+    private UczniowieRequest uczniowieRequest;
     private final ApiUonet apiUonet;
 
     public PupilsManager(App app, Certyfikat.TokenCert cert) {

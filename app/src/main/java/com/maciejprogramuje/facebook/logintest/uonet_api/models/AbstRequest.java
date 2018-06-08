@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.UUID;
 
-public abstract class RequestAbst {
+public abstract class AbstRequest<T> {
     public static final String APPLICATION_NAME = "VULCAN-Android-ModulUcznia";
     public static final String APPLICATION_VERSION = "18.4.1.388";
 
@@ -19,9 +19,7 @@ public abstract class RequestAbst {
     @JsonProperty("RemoteMobileAppName")
     private String remoteMobileAppName = APPLICATION_NAME;
 
-    private String specificUrl;
-
-    public RequestAbst() {
+    public AbstRequest() {
         long time = System.currentTimeMillis();
         if (this.remoteMobileTimeKey == null) {
             this.remoteMobileTimeKey = Long.toString(time / 1000L + 1);

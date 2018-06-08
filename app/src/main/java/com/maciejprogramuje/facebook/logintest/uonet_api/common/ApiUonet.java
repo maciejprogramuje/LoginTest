@@ -2,8 +2,13 @@ package com.maciejprogramuje.facebook.logintest.uonet_api.common;
 
 
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.RequestAbst;
+import com.maciejprogramuje.facebook.logintest.uonet_api.models.CertyfikatRequest;
+import com.maciejprogramuje.facebook.logintest.uonet_api.models.LogAppStartRequest;
+import com.maciejprogramuje.facebook.logintest.uonet_api.models.OcenyRequest;
+import com.maciejprogramuje.facebook.logintest.uonet_api.models.Slowniki;
+import com.maciejprogramuje.facebook.logintest.uonet_api.models.SlownikiRequest;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Uczniowie;
+import com.maciejprogramuje.facebook.logintest.uonet_api.models.UczniowieRequest;
 
 import java.util.Map;
 
@@ -24,19 +29,21 @@ public interface ApiUonet {
 
     //"mobile-api/Uczen.v3.UczenStart/Certyfikat"
     @POST()
-    Call<Certyfikat> postCerificate(@Url String apiUrl, @Body RequestAbst certyfikatRequest, @HeaderMap Map<String, String> headesMap);
+    Call<Certyfikat> postCerificate(@Url String apiUrl, @Body CertyfikatRequest request, @HeaderMap Map<String, String> headesMap);
 
     //"mobile-api/Uczen.v3.UczenStart/ListaUczniow"
     @POST()
-    Call<Uczniowie> postPupils(@Url String apiUrl, @Body RequestAbst uczniowieReq, @HeaderMap Map<String, String> headesMap);
+    Call<Uczniowie> postPupils(@Url String apiUrl, @Body UczniowieRequest request, @HeaderMap Map<String, String> headesMap);
 
     //"${JednostkaSprawozdawczaSymbol}/mobile-api/Uczen.v3.Uczen/LogAppStart"
     @POST()
-    Call<ResponseBody> postLogAppStart(@Url String apiUrl, @Body RequestAbst uczniowieReq, @HeaderMap Map<String, String> headesMap);
+    Call<ResponseBody> postLogAppStart(@Url String apiUrl, @Body LogAppStartRequest request, @HeaderMap Map<String, String> headesMap);
 
     //${symbol jednostki sprawozdawczej}/mobile-api/Uczen.v3.Uczen/Slowniki
-    //todo - zastapic response body przez slowniki
-    Call<ResponseBody> postSlowniki(@Url String apiUrl, @Body RequestAbst uczniowieReq, @HeaderMap Map<String, String> headesMap);
+    @POST()
+    Call<Slowniki> postSlowniki(@Url String apiUrl, @Body SlownikiRequest request, @HeaderMap Map<String, String> headesMap);
 
-
+    //${symbol jednostki sprawozdawczej}/mobile-api/Uczen.v3.Uczen/Oceny
+    @POST()
+    Call<ResponseBody> postOceny(@Url String apiUrl, @Body OcenyRequest request, @HeaderMap Map<String, String> headesMap);
 }

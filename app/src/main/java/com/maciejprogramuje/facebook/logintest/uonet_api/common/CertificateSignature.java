@@ -4,7 +4,7 @@ import android.util.Base64;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.RequestAbst;
+import com.maciejprogramuje.facebook.logintest.uonet_api.models.AbstRequest;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -39,11 +39,11 @@ public class CertificateSignature {
         return null;
     }
 
-    public static String generate(RequestAbst requestAbst, String certyfikatPfx) {
+    public static String generate(AbstRequest abstRequest, String certyfikatPfx) {
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            byte[] bytes = mapper.writeValueAsBytes(requestAbst);
+            byte[] bytes = mapper.writeValueAsBytes(abstRequest);
 
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(Base64.decode(certyfikatPfx, Base64.NO_WRAP));
 
@@ -60,7 +60,4 @@ public class CertificateSignature {
         }
         return null;
     }
-
-
-
 }

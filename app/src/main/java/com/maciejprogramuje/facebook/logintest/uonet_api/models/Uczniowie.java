@@ -2,26 +2,8 @@ package com.maciejprogramuje.facebook.logintest.uonet_api.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.List;
-
 //public class Uczniowie extends ResponseBase<List<Uczniowie.Uczen>> {
-public class Uczniowie {
-    @JsonProperty("Status")
-    private String status;
-    @JsonProperty("TimeKey")
-    private Integer timeKey;
-    @JsonProperty("TimeValue")
-    private String timeValue;
-    @JsonProperty("RequestId")
-    private String requestId;
-    @JsonProperty("DayOfWeek")
-    private Integer dayOfWeek;
-    @JsonProperty("AppVersion")
-    private String appVersion;
-    @JsonProperty("Data")
-    private List<Uczen> data;
-
-
+public class Uczniowie extends AbstResponse<Uczniowie.Uczen>{
     public static class Uczen {
         @JsonProperty("IdOkresKlasyfikacyjny")
         private Integer idOkresKlasyfikacyjny;
@@ -348,61 +330,5 @@ public class Uczniowie {
         public void setLoginId(String loginId) {
             this.loginId = loginId;
         }
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Integer getTimeKey() {
-        return timeKey;
-    }
-
-    public void setTimeKey(Integer timeKey) {
-        this.timeKey = timeKey;
-    }
-
-    public String getTimeValue() {
-        return timeValue;
-    }
-
-    public void setTimeValue(String timeValue) {
-        this.timeValue = timeValue;
-    }
-
-    public String getRequestId() {
-        return requestId;
-    }
-
-    public void setRequestId(String requestId) {
-        this.requestId = requestId;
-    }
-
-    public Integer getDayOfWeek() {
-        return dayOfWeek;
-    }
-
-    public void setDayOfWeek(Integer dayOfWeek) {
-        this.dayOfWeek = dayOfWeek;
-    }
-
-    public String getAppVersion() {
-        return appVersion;
-    }
-
-    public void setAppVersion(String appVersion) {
-        this.appVersion = appVersion;
-    }
-
-    public List<Uczen> getData() {
-        return data;
-    }
-
-    public void setData(List<Uczen> data) {
-        this.data = data;
     }
 }

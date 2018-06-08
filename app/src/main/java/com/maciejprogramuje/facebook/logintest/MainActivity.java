@@ -7,8 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.maciejprogramuje.facebook.logintest.uonet_api.a_oceny.OcenyManager;
+import com.maciejprogramuje.facebook.logintest.uonet_api.a_oceny.OcenyReadyEvent;
 import com.maciejprogramuje.facebook.logintest.uonet_api.common.ApiGenerator;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
+import com.maciejprogramuje.facebook.logintest.uonet_api.models.Slowniki;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Uczniowie;
 import com.maciejprogramuje.facebook.logintest.uonet_api.o01_base_url.BaseUrlManager;
 import com.maciejprogramuje.facebook.logintest.uonet_api.o01_base_url.BaseUrlReadyEvent;
@@ -46,11 +49,16 @@ public class MainActivity extends AppCompatActivity {
     private Bus bus;
     private App app;
     private SharedPreferences.Editor sharedPreferencesEditor;
+
+    //todo - przesiesc do app dane zwiazane z uczniem
     private String mBaseUrl;
     private String mPfx;
     private String mCertficateKey;
     private Certyfikat.TokenCert tokenCert;
     private String jednostkaSprawozdawczaSymbol;
+    private Slowniki.Slownik slownik;
+    private Integer idOkresKlasyfikacyjny;
+    private Integer idUczen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
         bus = app.getBus();
         sharedPreferencesEditor = app.getSharedPreferences().edit();
 
-        //mBaseUrl = "https://lekcjaplus.vulcan.net.pl/lublin";
         mBaseUrl = app.getBaseUrl();
         mPfx = app.getPfx();
         mCertficateKey = app.getCertificateKey();
@@ -82,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
             postForPupils();
         }
     }
-
 
 
     @Override
@@ -140,8 +146,12 @@ public class MainActivity extends AppCompatActivity {
     @Subscribe
     public void onPupilsReady(PupilsReadyEvent event) {
         List<Uczniowie.Uczen> pupils = event.getUczniowie().getData();
+
         //todo - tu dodac,ktorego ucznia dane ma wyswietlac
-        jednostkaSprawozdawczaSymbol = pupils.get(1).getJednostkaSprawozdawczaSymbol();
+        Uczniowie.Uczen uczen = pupils.get(1);
+        jednostkaSprawozdawczaSymbol = uczen.getJednostkaSprawozdawczaSymbol();
+        idOkresKlasyfikacyjny = uczen.getIdOkresKlasyfikacyjny();
+        idUczen = uczen.getId();
 
         LogAppStartManager logAppStartManager = new LogAppStartManager(app, tokenCert);
         logAppStartManager.generateLogAppStart(jednostkaSprawozdawczaSymbol);
@@ -157,12 +167,21 @@ public class MainActivity extends AppCompatActivity {
 
     @Subscribe
     public void onSlownikiReady(SlownikiReadyEvent event) {
+        slownik = event.getSlowniki().getData();
+
+        OcenyManager ocenyManager = new OcenyManager(app, tokenCert);
+        ocenyManager.generateOceny(jednostkaSprawozdawczaSymbol, idOkresKlasyfikacyjny, idUczen);
+    }
+
+    @Subscribe
+    public void onOcenyReady(OcenyReadyEvent event) {
+
 
     }
 
     private void showTestMessage(List<Uczniowie.Uczen> pupils) {
         int pupilsNum = pupils.size();
-        StringBuilder pupilsNames= new StringBuilder();
+        StringBuilder pupilsNames = new StringBuilder();
 
         for (int i = 0; i < pupilsNum; i++) {
             Uczniowie.Uczen pupil = pupils.get(i);

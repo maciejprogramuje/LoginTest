@@ -160,7 +160,6 @@ public class Slowniki extends ResponseBase<Slowniki.Slownik> {
     }
 
     public static class Pracownik {
-
         @JsonProperty("Id")
         private Integer id;
         @JsonProperty("Imie")
@@ -290,7 +289,6 @@ public class Slowniki extends ResponseBase<Slowniki.Slownik> {
     }
 
     public static class KategoriaUwagi {
-
         @JsonProperty("Id")
         private Integer id;
         @JsonProperty("Nazwa")

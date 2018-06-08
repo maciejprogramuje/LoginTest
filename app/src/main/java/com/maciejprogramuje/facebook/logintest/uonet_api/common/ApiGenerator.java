@@ -1,8 +1,8 @@
 package com.maciejprogramuje.facebook.logintest.uonet_api.common;
 
 import com.maciejprogramuje.facebook.logintest.App;
+import com.maciejprogramuje.facebook.logintest.uonet_api.models.AbstRequest;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.RequestAbst;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,7 +39,7 @@ public class ApiGenerator {
         return apiUonet;
     }
 
-    public static Map<String, String> getHeadersMap(RequestAbst request, Certyfikat.TokenCert cert) {
+    public static Map<String, String> getHeadersMap(AbstRequest request, Certyfikat.TokenCert cert) {
         Map<String, String> headersMap = new HashMap<>();
         headersMap.put("RequestSignatureValue", CertificateSignature.generate(request, cert.getCertyfikatPfx()));
         headersMap.put("User-Agent", "MobileUserAgent");
