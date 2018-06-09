@@ -43,9 +43,9 @@ public class Oceny extends AbstResponse<List<Oceny.Ocena>> {
         @JsonProperty("DataModyfikacjiTekst")
         private String DataModyfikacjiTekst;
         @JsonProperty("IdPracownikD")
-        private Long IdPracownikD;
+        private Integer IdPracownikD;
         @JsonProperty("IdPracownikM")
-        private Long IdPracownikM;
+        private Integer IdPracownikM;
 
         public Long getId() {
             return id;
@@ -191,19 +191,19 @@ public class Oceny extends AbstResponse<List<Oceny.Ocena>> {
             DataModyfikacjiTekst = dataModyfikacjiTekst;
         }
 
-        public Long getIdPracownikD() {
+        public Integer getIdPracownikD() {
             return IdPracownikD;
         }
 
-        public void setIdPracownikD(Long idPracownikD) {
+        public void setIdPracownikD(Integer idPracownikD) {
             IdPracownikD = idPracownikD;
         }
 
-        public Long getIdPracownikM() {
+        public Integer getIdPracownikM() {
             return IdPracownikM;
         }
 
-        public void setIdPracownikM(Long idPracownikM) {
+        public void setIdPracownikM(Integer idPracownikM) {
             IdPracownikM = idPracownikM;
         }
     }

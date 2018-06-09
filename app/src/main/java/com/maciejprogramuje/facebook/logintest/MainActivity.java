@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     private String jednostkaSprawozdawczaSymbol;
     private Integer idOkresKlasyfikacyjny;
     private Integer idUczen;
+    private Slowniki.Slownik slownik;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Subscribe
     public void onSlownikiReady(SlownikiReadyEvent event) {
-        Slowniki.Slownik slownik = event.getSlowniki().getData();
+        slownik = event.getSlowniki().getData();
 
         OcenyManager ocenyManager = new OcenyManager(app, tokenCert);
         ocenyManager.generateOceny(jednostkaSprawozdawczaSymbol, idOkresKlasyfikacyjny, idUczen);
@@ -179,11 +180,12 @@ public class MainActivity extends AppCompatActivity {
     public void onOcenyReady(OcenyReadyEvent event) {
         List<Oceny.Ocena> oceny = event.getOceny().getData();
 
+        //todo - przekazac do ocen slownik? dodac gettery zwracajace nazwiska itp?
         Oceny.Ocena ocena = oceny.get(1);
 
-        Log.w("UWAGA",ocena.getId()+", "+ocena.getIdPrzedmiot()+", "+ocena.getWpis()+", "+ocena.getOpis()+", "+ocena.getIdPracownikD());
+        Log.w("UWAGA", "slownik.getPracownik: " + slownik.getPracownik(ocena.getIdPracownikD()).getImie() + " " + slownik.getPracownik(ocena.getIdPracownikD()).getNazwisko());
 
-        //{"Id":21400188,"Pozycja":2,"PrzedmiotPozycja":11,"IdPrzedmiot":12397,"IdKategoria":2944,"Wpis":"5","Wartosc":5.00,"WagaModyfikatora":null,"WagaOceny":70.00,"Licznik":null,"Mianownik":null,"Komentarz":null,"Waga":"70,00","Opis":"pole magnesów i prądu","DataUtworzenia":1515772432,"DataUtworzeniaTekst":"2018-01-12","DataModyfikacji":1515772432,"DataModyfikacjiTekst":"2018-01-12","IdPracownikD":12419,"IdPracownikM":12419}
+        Log.w("UWAGA", ocena.getId() + ", " + ocena.getIdPrzedmiot() + ", " + ocena.getWpis() + ", " + ocena.getOpis() + ", " + ocena.getIdPracownikD());
     }
 
     private void showTestMessage(List<Uczniowie.Uczen> pupils) {
