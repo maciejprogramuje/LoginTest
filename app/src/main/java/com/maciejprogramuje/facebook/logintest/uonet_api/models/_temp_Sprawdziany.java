@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class Sprawdziany extends ResponseBase<List<Sprawdziany.Sprawdzian>> {
+public class _temp_Sprawdziany extends _temp_ResponseBase<List<_temp_Sprawdziany.Sprawdzian>> {
     public static class Sprawdzian {
         @JsonProperty("Id")
         private Integer id;

@@ -4,6 +4,7 @@ package com.maciejprogramuje.facebook.logintest.uonet_api.common;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.CertyfikatRequest;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.LogAppStartRequest;
+import com.maciejprogramuje.facebook.logintest.uonet_api.models.Oceny;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.OcenyRequest;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Slowniki;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.SlownikiRequest;
@@ -45,5 +46,5 @@ public interface ApiUonet {
 
     //${symbol jednostki sprawozdawczej}/mobile-api/Uczen.v3.Uczen/Oceny
     @POST()
-    Call<ResponseBody> postOceny(@Url String apiUrl, @Body OcenyRequest request, @HeaderMap Map<String, String> headesMap);
+    Call<Oceny> postOceny(@Url String apiUrl, @Body OcenyRequest request, @HeaderMap Map<String, String> headesMap);
 }

@@ -2,8 +2,9 @@ package com.maciejprogramuje.facebook.logintest.uonet_api.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-//public class Uczniowie extends ResponseBase<List<Uczniowie.Uczen>> {
-public class Uczniowie extends AbstResponse<Uczniowie.Uczen>{
+import java.util.List;
+
+public class Uczniowie extends AbstResponse<List<Uczniowie.Uczen>> {
     public static class Uczen {
         @JsonProperty("IdOkresKlasyfikacyjny")
         private Integer idOkresKlasyfikacyjny;

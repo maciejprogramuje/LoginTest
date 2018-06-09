@@ -1,12 +1,11 @@
 package com.maciejprogramuje.facebook.logintest.uonet_api.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Date;
 
-public class PlanLekcjiRequest extends UczenAwareRequestBase<PlanLekcji> {
+public class _temp_SprawdzianyRequestTemp extends _temp_UczenAwareRequestBase<_temp_Sprawdziany> {
 
     @JsonProperty("DataPoczatkowa")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -14,18 +13,15 @@ public class PlanLekcjiRequest extends UczenAwareRequestBase<PlanLekcji> {
     @JsonProperty("DataKoncowa")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date dataKoncowa;
-    @JsonIgnore
-    private boolean withChanges;
 
-    public PlanLekcjiRequest(Date dataPoczatkowa, Date dataKoncowa, boolean withChanges) {
+    public _temp_SprawdzianyRequestTemp(Date dataPoczatkowa, Date dataKoncowa) {
         this.dataPoczatkowa = dataPoczatkowa;
         this.dataKoncowa = dataKoncowa;
-        this.withChanges = withChanges;
     }
 
     //@Override
     public String getPath() {
-        return this.withChanges ? "PlanLekcjiZeZmianami" : "PlanLekcji";
+        return "_temp_Sprawdziany";
     }
 
     public Date getDataPoczatkowa() {
@@ -42,13 +38,5 @@ public class PlanLekcjiRequest extends UczenAwareRequestBase<PlanLekcji> {
 
     public void setDataKoncowa(Date dataKoncowa) {
         this.dataKoncowa = dataKoncowa;
-    }
-
-    public boolean isWithChanges() {
-        return this.withChanges;
-    }
-
-    public void setWithChanges(boolean withChanges) {
-        this.withChanges = withChanges;
     }
 }

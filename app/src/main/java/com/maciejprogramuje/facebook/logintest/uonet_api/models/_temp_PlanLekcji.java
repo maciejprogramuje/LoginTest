@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class PlanLekcji extends ResponseBase<List<PlanLekcji.Lekcja>> {
+public class _temp_PlanLekcji extends _temp_ResponseBase<List<_temp_PlanLekcji.Lekcja>> {
     public static class Lekcja {
         @JsonProperty("Dzien")
         private Integer dzien;

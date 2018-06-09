@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Slowniki extends ResponseBase<Slowniki.Slownik> {
+public class Slowniki extends AbstResponse<Slowniki.Slownik> {
     public static class Slownik {
         @JsonProperty("TimeKey")
         private Integer timeKey;

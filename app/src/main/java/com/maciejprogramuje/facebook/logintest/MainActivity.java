@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -11,6 +12,7 @@ import com.maciejprogramuje.facebook.logintest.uonet_api.a_oceny.OcenyManager;
 import com.maciejprogramuje.facebook.logintest.uonet_api.a_oceny.OcenyReadyEvent;
 import com.maciejprogramuje.facebook.logintest.uonet_api.common.ApiGenerator;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
+import com.maciejprogramuje.facebook.logintest.uonet_api.models.Oceny;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Slowniki;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Uczniowie;
 import com.maciejprogramuje.facebook.logintest.uonet_api.o01_base_url.BaseUrlManager;
@@ -56,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
     private String mCertficateKey;
     private Certyfikat.TokenCert tokenCert;
     private String jednostkaSprawozdawczaSymbol;
-    private Slowniki.Slownik slownik;
     private Integer idOkresKlasyfikacyjny;
     private Integer idUczen;
 
@@ -145,10 +146,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Subscribe
     public void onPupilsReady(PupilsReadyEvent event) {
-        List<Uczniowie.Uczen> pupils = event.getUczniowie().getData();
+        List<Uczniowie.Uczen> uczniowie = event.getUczniowie().getData();
+
 
         //todo - tu dodac,ktorego ucznia dane ma wyswietlac
-        Uczniowie.Uczen uczen = pupils.get(1);
+        Uczniowie.Uczen uczen = uczniowie.get(1);
         jednostkaSprawozdawczaSymbol = uczen.getJednostkaSprawozdawczaSymbol();
         idOkresKlasyfikacyjny = uczen.getIdOkresKlasyfikacyjny();
         idUczen = uczen.getId();
@@ -156,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
         LogAppStartManager logAppStartManager = new LogAppStartManager(app, tokenCert);
         logAppStartManager.generateLogAppStart(jednostkaSprawozdawczaSymbol);
 
-        showTestMessage(pupils);
+        showTestMessage(uczniowie);
     }
 
     @Subscribe
@@ -167,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Subscribe
     public void onSlownikiReady(SlownikiReadyEvent event) {
-        slownik = event.getSlowniki().getData();
+        Slowniki.Slownik slownik = event.getSlowniki().getData();
 
         OcenyManager ocenyManager = new OcenyManager(app, tokenCert);
         ocenyManager.generateOceny(jednostkaSprawozdawczaSymbol, idOkresKlasyfikacyjny, idUczen);
@@ -175,8 +177,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Subscribe
     public void onOcenyReady(OcenyReadyEvent event) {
+        List<Oceny.Ocena> oceny = event.getOceny().getData();
 
+        Oceny.Ocena ocena = oceny.get(1);
 
+        Log.w("UWAGA",ocena.getId()+", "+ocena.getIdPrzedmiot()+", "+ocena.getWpis()+", "+ocena.getOpis()+", "+ocena.getIdPracownikD());
+
+        //{"Id":21400188,"Pozycja":2,"PrzedmiotPozycja":11,"IdPrzedmiot":12397,"IdKategoria":2944,"Wpis":"5","Wartosc":5.00,"WagaModyfikatora":null,"WagaOceny":70.00,"Licznik":null,"Mianownik":null,"Komentarz":null,"Waga":"70,00","Opis":"pole magnesów i prądu","DataUtworzenia":1515772432,"DataUtworzeniaTekst":"2018-01-12","DataModyfikacji":1515772432,"DataModyfikacjiTekst":"2018-01-12","IdPracownikD":12419,"IdPracownikM":12419}
     }
 
     private void showTestMessage(List<Uczniowie.Uczen> pupils) {

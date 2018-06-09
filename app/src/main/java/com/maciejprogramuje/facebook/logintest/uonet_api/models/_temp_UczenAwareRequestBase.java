@@ -2,8 +2,8 @@ package com.maciejprogramuje.facebook.logintest.uonet_api.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-//public abstract class UczenAwareRequestBase<T> extends AbstRequest<T> {
-public abstract class UczenAwareRequestBase<T> {
+//public abstract class _temp_UczenAwareRequestBase<T> extends AbstRequest<T> {
+public abstract class _temp_UczenAwareRequestBase<T> {
     @JsonProperty("IdUczen")
     private Integer idUczen;
     @JsonProperty("IdOkresKlasyfikacyjny")

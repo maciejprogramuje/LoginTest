@@ -2,8 +2,6 @@ package com.maciejprogramuje.facebook.logintest.uonet_api.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.List;
-
 public abstract class AbstResponse<T> {
     @JsonProperty("Status")
     private String status;
@@ -18,7 +16,8 @@ public abstract class AbstResponse<T> {
     @JsonProperty("AppVersion")
     private String appVersion;
     @JsonProperty("Data")
-    private List<T> data;
+    private T data;
+    //private List<T> data;
 
     public String getStatus() {
         return status;
@@ -68,11 +67,11 @@ public abstract class AbstResponse<T> {
         this.appVersion = appVersion;
     }
 
-    public List<T> getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(List<T> data) {
+    public void setData(T data) {
         this.data = data;
     }
 }
