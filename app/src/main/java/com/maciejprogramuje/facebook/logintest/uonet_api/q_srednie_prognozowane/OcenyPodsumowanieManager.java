@@ -35,10 +35,12 @@ public class OcenyPodsumowanieManager extends QManagerBase {
             @Override
             public void onResponse(@NonNull Call<OcenyPodsumowanie> call, @NonNull Response<OcenyPodsumowanie> response) {
                 if (response.isSuccessful()) {
-                    //Oceny oceny = response.body();
+                    OcenyPodsumowanie body = response.body();
+                    Log.w("UWAGA", "OcenyPodsumowanieRequest sukces -> OK");
+                    Log.w("UWAGA", "test: " + body.getData().getSrednieOcen().get(0).getSredniaOcen());
+
                     //bus.post(new OcenyReadyEvent(oceny));
 
-                    Log.w("UWAGA", "OcenyPodsumowanieRequest sukces -> OK");
                 } else {
                     ApiErrors.show(response);
                 }

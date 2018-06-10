@@ -18,6 +18,7 @@ public class ApiErrors {
     public static void show(Throwable t) {
         if (t instanceof IOException) {
             Log.w("UWAGA", "blad 3 - błąd połączenia ze stroną lub internetem");
+            t.printStackTrace();
         } else {
             Log.w("UWAGA", "blad 4 - błąd konwersji odpowiedzi");
         }
