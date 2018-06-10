@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class Oceny extends AbstResponse<List<Oceny.Ocena>> {
+public class Oceny extends ResponseBase<List<Oceny.Ocena>> {
     public static class Ocena {
         @JsonProperty("Id")
         private Long id;

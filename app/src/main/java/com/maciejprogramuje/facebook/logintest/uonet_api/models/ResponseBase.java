@@ -2,7 +2,7 @@ package com.maciejprogramuje.facebook.logintest.uonet_api.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public abstract class AbstResponse<T> {
+public abstract class ResponseBase<T> {
     @JsonProperty("Status")
     private String status;
     @JsonProperty("TimeKey")

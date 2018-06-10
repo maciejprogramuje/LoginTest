@@ -25,6 +25,7 @@ import com.maciejprogramuje.facebook.logintest.uonet_api.o05_slowniki.SlownikiMa
 import com.maciejprogramuje.facebook.logintest.uonet_api.o05_slowniki.SlownikiReadyEvent;
 import com.maciejprogramuje.facebook.logintest.uonet_api.q_oceny.OcenyManager;
 import com.maciejprogramuje.facebook.logintest.uonet_api.q_oceny.OcenyReadyEvent;
+import com.maciejprogramuje.facebook.logintest.uonet_api.q_srednie_prognozowane.OcenyPodsumowanieManager;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -184,8 +185,10 @@ public class MainActivity extends AppCompatActivity {
         Oceny.Ocena ocena = oceny.get(1);
 
         Log.w("UWAGA", "slownik.getPracownik: " + slownik.getPracownik(ocena.getIdPracownikD()).getImie() + " " + slownik.getPracownik(ocena.getIdPracownikD()).getNazwisko());
-
         Log.w("UWAGA", ocena.getId() + ", " + ocena.getIdPrzedmiot() + ", " + ocena.getWpis() + ", " + ocena.getOpis() + ", " + ocena.getIdPracownikD());
+
+        OcenyPodsumowanieManager ocenyPodsumowanieManager = new OcenyPodsumowanieManager(app, tokenCert);
+        ocenyPodsumowanieManager.generateOceny(jednostkaSprawozdawczaSymbol, idOkresKlasyfikacyjny,idUczen);
     }
 
     private void showTestMessage(List<Uczniowie.Uczen> pupils) {

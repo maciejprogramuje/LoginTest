@@ -5,6 +5,8 @@ import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.CertyfikatRequest;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.LogAppStartRequest;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Oceny;
+import com.maciejprogramuje.facebook.logintest.uonet_api.models.OcenyPodsumowanie;
+import com.maciejprogramuje.facebook.logintest.uonet_api.models.OcenyPodsumowanieRequest;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.OcenyRequest;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Slowniki;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.SlownikiRequest;
@@ -49,5 +51,5 @@ public interface ApiUonet {
     Call<Oceny> postOceny(@Url String apiUrl, @Body OcenyRequest request, @HeaderMap Map<String, String> headesMap);
 
     @POST()
-    Call<ResponseBody> postSredniePrognozowane(@Url String apiUrl, @Body OcenyRequest request, @HeaderMap Map<String, String> headesMap);
+    Call<OcenyPodsumowanie> postOcenyPodsumowanie(@Url String apiUrl, @Body OcenyPodsumowanieRequest request, @HeaderMap Map<String, String> headesMap);
 }

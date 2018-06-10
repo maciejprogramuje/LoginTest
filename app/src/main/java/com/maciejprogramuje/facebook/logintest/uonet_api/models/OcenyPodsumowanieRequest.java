@@ -2,13 +2,13 @@ package com.maciejprogramuje.facebook.logintest.uonet_api.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class OcenyRequest extends RequestBase<OcenyRequest> {
+public class OcenyPodsumowanieRequest extends RequestBase<OcenyPodsumowanieRequest> {
     @JsonProperty("IdOkresKlasyfikacyjny")
     private Integer idOkresKlasyfikacyjny;
     @JsonProperty("IdUczen")
     private Integer idUczen;
 
-    public OcenyRequest(Integer idOkresKlasyfikacyjny, Integer idUczen) {
+    public OcenyPodsumowanieRequest(Integer idOkresKlasyfikacyjny, Integer idUczen) {
         this.idOkresKlasyfikacyjny = idOkresKlasyfikacyjny;
         this.idUczen = idUczen;
     }

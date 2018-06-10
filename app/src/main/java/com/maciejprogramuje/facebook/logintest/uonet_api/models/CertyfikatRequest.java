@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.UUID;
 
-public class CertyfikatRequest extends AbstRequest<CertyfikatRequest> {
+public class CertyfikatRequest extends RequestBase<CertyfikatRequest> {
     public static final String DEFAULT_SYSTEM_VERSION = "0.0.1";
     public static final String DEFAULT_SYSTEM_TYPE = "SDK";
     public static final String DEFAULT_DEVICE_NAME = "Unofficial SDK";
@@ -14,7 +14,7 @@ public class CertyfikatRequest extends AbstRequest<CertyfikatRequest> {
     @JsonProperty("TokenKey")
     private String tokenKey;
     @JsonProperty("AppVersion")
-    private String appVersion = AbstRequest.APPLICATION_VERSION;
+    private String appVersion = RequestBase.APPLICATION_VERSION;
     @JsonProperty("DeviceId")
     private String deviceId = UUID.randomUUID().toString();
     @JsonProperty("DeviceName")
