@@ -47,4 +47,7 @@ public interface ApiUonet {
     //${symbol jednostki sprawozdawczej}/mobile-api/Uczen.v3.Uczen/Oceny
     @POST()
     Call<Oceny> postOceny(@Url String apiUrl, @Body OcenyRequest request, @HeaderMap Map<String, String> headesMap);
+
+    @POST()
+    Call<ResponseBody> postSredniePrognozowane(@Url String apiUrl, @Body OcenyRequest request, @HeaderMap Map<String, String> headesMap);
 }

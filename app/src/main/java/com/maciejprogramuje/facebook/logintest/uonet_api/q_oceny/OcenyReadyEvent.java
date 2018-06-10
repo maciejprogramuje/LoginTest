@@ -1,4 +1,4 @@
-package com.maciejprogramuje.facebook.logintest.uonet_api.a_oceny;
+package com.maciejprogramuje.facebook.logintest.uonet_api.q_oceny;
 
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Oceny;
 

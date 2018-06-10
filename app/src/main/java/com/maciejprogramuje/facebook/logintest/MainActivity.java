@@ -8,8 +8,6 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.maciejprogramuje.facebook.logintest.uonet_api.a_oceny.OcenyManager;
-import com.maciejprogramuje.facebook.logintest.uonet_api.a_oceny.OcenyReadyEvent;
 import com.maciejprogramuje.facebook.logintest.uonet_api.common.ApiGenerator;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Oceny;
@@ -25,6 +23,8 @@ import com.maciejprogramuje.facebook.logintest.uonet_api.o04_log_app_start.LogAp
 import com.maciejprogramuje.facebook.logintest.uonet_api.o04_log_app_start.LogAppStartReadyEvent;
 import com.maciejprogramuje.facebook.logintest.uonet_api.o05_slowniki.SlownikiManager;
 import com.maciejprogramuje.facebook.logintest.uonet_api.o05_slowniki.SlownikiReadyEvent;
+import com.maciejprogramuje.facebook.logintest.uonet_api.q_oceny.OcenyManager;
+import com.maciejprogramuje.facebook.logintest.uonet_api.q_oceny.OcenyReadyEvent;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
