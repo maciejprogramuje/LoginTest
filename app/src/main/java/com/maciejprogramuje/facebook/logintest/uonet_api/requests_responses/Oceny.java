@@ -206,5 +206,10 @@ public class Oceny extends ResponseBase<List<Oceny.Ocena>> {
         public void setIdPracownikM(Integer idPracownikM) {
             IdPracownikM = idPracownikM;
         }
+
+        @Override
+        public String toString() {
+            return getDataUtworzeniaTekst() + ", " + getWartosc() + " (" + getWaga() + "), " + getOpis();
+        }
     }
 }

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -18,6 +19,8 @@ import com.maciejprogramuje.facebook.logintest.uonet_api.que_oceny.OcenyReadyEve
 import com.maciejprogramuje.facebook.logintest.uonet_api.que_plan_lekcji.PlanLekcjiZeZmianamiReadyEvent;
 import com.maciejprogramuje.facebook.logintest.uonet_api.que_srednie_prognozowane.OcenyPodsumowanieEvent;
 import com.maciejprogramuje.facebook.logintest.uonet_api.requests_responses.Certyfikat;
+import com.maciejprogramuje.facebook.logintest.uonet_api.requests_responses.Oceny;
+import com.maciejprogramuje.facebook.logintest.uonet_api.requests_responses.Slowniki;
 import com.maciejprogramuje.facebook.logintest.uonet_api.requests_responses.Uczniowie;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -150,7 +153,19 @@ public class MainActivity extends AppCompatActivity {
 
     @Subscribe
     public void onPlanLekcjiReady(PlanLekcjiZeZmianamiReadyEvent event) {
+        List<Slowniki.Przedmiot> przedmioty = app.getSlownik().getPrzedmioty();
+        for (Slowniki.Przedmiot przedmiot : przedmioty) {
+            Log.w("UWAGA", przedmiot.getId() + ": " + przedmiot.getNazwa());
+        }
 
+
+
+        List<Oceny.Ocena> oceny = app.getOceny();
+        for (Oceny.Ocena ocena : oceny) {
+            if (ocena.getIdPrzedmiot() == 12396) {
+                Log.w("UWAGA", "----------------> " + ocena.toString() + ", kat: "+app.getSlownik().getKategoriaOceny(ocena.getIdKategoria()).getNazwa());
+            }
+        }
     }
 
     private void showTestMessage(List<Uczniowie.Uczen> pupils) {
