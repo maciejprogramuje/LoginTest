@@ -8,6 +8,8 @@ import com.maciejprogramuje.facebook.logintest.uonet_api.models.Oceny;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.OcenyPodsumowanie;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.OcenyPodsumowanieRequest;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.OcenyRequest;
+import com.maciejprogramuje.facebook.logintest.uonet_api.models.PlanLekcjiZeZmianami;
+import com.maciejprogramuje.facebook.logintest.uonet_api.models.PlanLekcjiZeZmianamiRequest;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Slowniki;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.SlownikiRequest;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Uczniowie;
@@ -52,4 +54,7 @@ public interface ApiUonet {
 
     @POST()
     Call<OcenyPodsumowanie> postOcenyPodsumowanie(@Url String apiUrl, @Body OcenyPodsumowanieRequest request, @HeaderMap Map<String, String> headesMap);
+
+    @POST()
+    Call<PlanLekcjiZeZmianami> postPlanLekcjiZeZmianami(@Url String apiUrl, @Body PlanLekcjiZeZmianamiRequest request, @HeaderMap Map<String, String> headesMap);
 }

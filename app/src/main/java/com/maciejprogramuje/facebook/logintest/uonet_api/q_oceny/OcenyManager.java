@@ -20,12 +20,10 @@ public class OcenyManager extends QManagerBase {
         super(app, cert);
     }
 
-    @Override
     public void setUrl() {
         apiUrl = "/mobile-api/Uczen.v3.Uczen/Oceny";
     }
 
-    @Override
     public void generateOceny(String jednostkaSprawozdawczaSymbol, Integer idOkresKlasyfikacyjny, Integer idUczen) {
         setUrl();
         apiUrl = jednostkaSprawozdawczaSymbol + apiUrl;

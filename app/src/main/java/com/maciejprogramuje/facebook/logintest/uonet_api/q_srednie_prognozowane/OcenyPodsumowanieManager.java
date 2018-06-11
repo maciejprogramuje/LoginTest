@@ -20,12 +20,10 @@ public class OcenyPodsumowanieManager extends QManagerBase {
         super(app, cert);
     }
 
-    @Override
     public void setUrl() {
         apiUrl = "/mobile-api/Uczen.v3.Uczen/OcenyPodsumowanie";
     }
 
-    @Override
     public void generateOceny(String jednostkaSprawozdawczaSymbol, Integer idOkresKlasyfikacyjny, Integer idUczen) {
         setUrl();
         apiUrl = jednostkaSprawozdawczaSymbol + apiUrl;
@@ -37,10 +35,9 @@ public class OcenyPodsumowanieManager extends QManagerBase {
                 if (response.isSuccessful()) {
                     OcenyPodsumowanie body = response.body();
                     Log.w("UWAGA", "OcenyPodsumowanieRequest sukces -> OK");
-                    Log.w("UWAGA", "test: " + body.getData().getSrednieOcen().get(0).getSredniaOcen());
+                    //Log.w("UWAGA", "test: " + body.getData().getSrednieOcen().get(0).getSredniaOcen());
 
-                    //bus.post(new OcenyReadyEvent(oceny));
-
+                    bus.post(new OcenyPodsumowanieEvent());
                 } else {
                     ApiErrors.show(response);
                 }

@@ -25,11 +25,17 @@ import com.maciejprogramuje.facebook.logintest.uonet_api.o05_slowniki.SlownikiMa
 import com.maciejprogramuje.facebook.logintest.uonet_api.o05_slowniki.SlownikiReadyEvent;
 import com.maciejprogramuje.facebook.logintest.uonet_api.q_oceny.OcenyManager;
 import com.maciejprogramuje.facebook.logintest.uonet_api.q_oceny.OcenyReadyEvent;
+import com.maciejprogramuje.facebook.logintest.uonet_api.q_plan_lekcji.PlanLekcjiZeZmianamiManager;
+import com.maciejprogramuje.facebook.logintest.uonet_api.q_srednie_prognozowane.OcenyPodsumowanieEvent;
 import com.maciejprogramuje.facebook.logintest.uonet_api.q_srednie_prognozowane.OcenyPodsumowanieManager;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
     private Integer idOkresKlasyfikacyjny;
     private Integer idUczen;
     private Slowniki.Slownik slownik;
+    private Integer idOddzial;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,6 +163,7 @@ public class MainActivity extends AppCompatActivity {
         jednostkaSprawozdawczaSymbol = uczen.getJednostkaSprawozdawczaSymbol();
         idOkresKlasyfikacyjny = uczen.getIdOkresKlasyfikacyjny();
         idUczen = uczen.getId();
+        idOddzial = uczen.getIdOddzial();
 
         LogAppStartManager logAppStartManager = new LogAppStartManager(app, tokenCert);
         logAppStartManager.generateLogAppStart(jednostkaSprawozdawczaSymbol);
@@ -189,6 +197,24 @@ public class MainActivity extends AppCompatActivity {
 
         OcenyPodsumowanieManager ocenyPodsumowanieManager = new OcenyPodsumowanieManager(app, tokenCert);
         ocenyPodsumowanieManager.generateOceny(jednostkaSprawozdawczaSymbol, idOkresKlasyfikacyjny,idUczen);
+    }
+
+    @Subscribe
+    public void onOcenyPodsumowanieReady(OcenyPodsumowanieEvent event) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String dataPoczatkowaString = "2018-06-11";
+        String dataKoncowaString = "2018-06-15";
+
+        try {
+            Date dataPoczatkowa = formatter.parse(dataPoczatkowaString);
+            Date dataKoncowa = formatter.parse(dataKoncowaString);
+            PlanLekcjiZeZmianamiManager planLekcjiZeZmianamiManager = new PlanLekcjiZeZmianamiManager(app, tokenCert);
+            planLekcjiZeZmianamiManager.generatePlanLekcjiZeZmianami(dataPoczatkowa, dataKoncowa, jednostkaSprawozdawczaSymbol, idOkresKlasyfikacyjny, idUczen, idOddzial);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     private void showTestMessage(List<Uczniowie.Uczen> pupils) {

@@ -4,7 +4,7 @@ import com.maciejprogramuje.facebook.logintest.App;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
 import com.squareup.otto.Bus;
 
-public abstract class QManagerBase implements QManager {
+public abstract class QManagerBase {
     protected String apiUrl;
     protected Bus bus;
     protected Certyfikat.TokenCert cert;
