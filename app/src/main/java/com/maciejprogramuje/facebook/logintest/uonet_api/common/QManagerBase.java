@@ -13,8 +13,10 @@ public abstract class QManagerBase {
     protected Integer idOkresKlasyfikacyjny;
     protected Integer idUczen;
     protected Integer idOddzial;
+    protected App app;
 
     public QManagerBase(App app) {
+        this.app = app;
         cert = app.getTokenCert();
         bus = app.getBus();
         apiUonet = app.getApiUonet();

@@ -34,10 +34,14 @@ public class OcenyManager extends QManagerBase {
             @Override
             public void onResponse(@NonNull Call<Oceny> call, @NonNull Response<Oceny> response) {
                 if (response.isSuccessful()) {
+                    //todo - przekazac do ocen slownik? dodac gettery zwracajace nazwiska itp?
                     Oceny oceny = response.body();
-                    bus.post(new OcenyReadyEvent(oceny));
+                    if (oceny != null) {
+                        app.setOceny(oceny.getData());
+                        bus.post(new OcenyReadyEvent(oceny));
 
-                    Log.w("UWAGA", "OcenyRequest sukces -> OK");
+                        Log.w("UWAGA", "OcenyRequest sukces -> OK");
+                    }
                 } else {
                     ApiErrors.show(response);
                 }

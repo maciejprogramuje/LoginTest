@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.maciejprogramuje.facebook.logintest.uonet_api.common.ApiGenerator;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.Oceny;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Uczniowie;
 import com.maciejprogramuje.facebook.logintest.uonet_api.o01_base_url.BaseUrlReadyEvent;
 import com.maciejprogramuje.facebook.logintest.uonet_api.o02_certyfikat.CertyfikatReadyEvent;
@@ -30,8 +29,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.maciejprogramuje.facebook.logintest.App.BASE_URL_KEY;
-import static com.maciejprogramuje.facebook.logintest.App.CERTYFICATE_KEY_KEY;
-import static com.maciejprogramuje.facebook.logintest.App.PFX_KEY;
 
 public class MainActivity extends AppCompatActivity {
     public static final String TOKEN = "3S1RT8LH";
@@ -115,12 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Subscribe
     public void onCertificateReady(CertyfikatReadyEvent event) {
-        mPfx = event.getCertyfikatPfx();
-        mCertficateKey = event.getCertyfikatKlucz();
 
-        sharedPreferencesEditor.putString(PFX_KEY, mPfx)
-                .putString(CERTYFICATE_KEY_KEY, mCertficateKey)
-                .apply();
 
         postUczniowie();
     }
@@ -138,18 +130,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Subscribe
     public void onPupilsReady(UczniowieReadyEvent event) {
-        //todo - tu dodac,ktorego ucznia dane ma wyswietlac
-        List<Uczniowie.Uczen> uczniowie = event.getUczniowie().getData();
-        Uczniowie.Uczen uczen = uczniowie.get(1);
-
-        app.setJednostkaSprawozdawczaSymbol(uczen.getJednostkaSprawozdawczaSymbol());
-        app.setIdOkresKlasyfikacyjny(uczen.getIdOkresKlasyfikacyjny());
-        app.setIdUczen(uczen.getId());
-        app.setIdOddzial(uczen.getIdOddzial());
-
         QueryFor.logAppStart(app);
-
-        showTestMessage(uczniowie);
     }
 
     @Subscribe
@@ -159,17 +140,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Subscribe
     public void onSlownikiReady(SlownikiReadyEvent event) {
-        app.setSlownik(event.getSlowniki().getData());
-
         QueryFor.oceny(app);
     }
 
     @Subscribe
     public void onOcenyReady(OcenyReadyEvent event) {
-        //todo - przekazac do ocen slownik? dodac gettery zwracajace nazwiska itp?
-        List<Oceny.Ocena> oceny = event.getOceny().getData();
-        Oceny.Ocena ocena = oceny.get(1);
-
         QueryFor.ocenyPodsumowanie(app);
     }
 

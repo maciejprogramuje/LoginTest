@@ -12,6 +12,8 @@ import com.maciejprogramuje.facebook.logintest.uonet_api.models.Uczniowie;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.UczniowieRequest;
 import com.squareup.otto.Bus;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -20,9 +22,11 @@ public class UczniowieManager {
     private final Bus bus;
     private final Certyfikat.TokenCert cert;
     private final ApiUonet apiUonet;
+    private App app;
 
     public UczniowieManager(App app) {
-        this.cert = app.getTokenCert();
+        this.app = app;
+        cert = app.getTokenCert();
         bus = app.getBus();
         apiUonet = app.getApiUonet();
     }
@@ -37,8 +41,16 @@ public class UczniowieManager {
             @Override
             public void onResponse(@NonNull Call<Uczniowie> call, @NonNull Response<Uczniowie> response) {
                 if (response.isSuccessful()) {
-                    Uczniowie uczniowie = response.body();
-                    bus.post(new UczniowieReadyEvent(uczniowie));
+                    //todo - tu dodac,ktorego ucznia dane ma wyswietlac
+                    List<Uczniowie.Uczen> uczniowie = response.body().getData();
+                    Uczniowie.Uczen uczen = uczniowie.get(1);
+
+                    app.setJednostkaSprawozdawczaSymbol(uczen.getJednostkaSprawozdawczaSymbol());
+                    app.setIdOkresKlasyfikacyjny(uczen.getIdOkresKlasyfikacyjny());
+                    app.setIdUczen(uczen.getId());
+                    app.setIdOddzial(uczen.getIdOddzial());
+
+                    bus.post(new UczniowieReadyEvent());
 
                     Log.w("UWAGA", "Uczniowie sukces -> OK");
                 } else {

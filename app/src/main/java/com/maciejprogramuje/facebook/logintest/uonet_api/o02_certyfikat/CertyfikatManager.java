@@ -17,14 +17,19 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.maciejprogramuje.facebook.logintest.App.CERTYFICATE_KEY_KEY;
+import static com.maciejprogramuje.facebook.logintest.App.PFX_KEY;
+
 
 public class CertyfikatManager {
     private String apiUrl = "mobile-api/Uczen.v3.UczenStart/Certyfikat";
     private Certyfikat.TokenCert tokenCert;
     private ApiUonet apiUonet;
     private final Bus bus;
+    private App app;
 
     public CertyfikatManager(App app) {
+        this.app = app;
         bus = app.getBus();
         apiUonet = app.getApiUonet();
     }
@@ -40,7 +45,17 @@ public class CertyfikatManager {
 
                     if (certyfikat.getTokenCert() != null) {
                         tokenCert = certyfikat.getTokenCert();
-                        bus.post(new CertyfikatReadyEvent(tokenCert.getCertyfikatPfx(), tokenCert.getCertyfikatKlucz()));
+                        String certyfikatPfx = tokenCert.getCertyfikatPfx();
+                        String certyfikatKlucz = tokenCert.getCertyfikatKlucz();
+                        app.setPfx(certyfikatPfx);
+                        app.setCertficateKey(certyfikatKlucz);
+
+                        app.getSharedPreferences().edit()
+                                .putString(PFX_KEY, certyfikatPfx)
+                                .putString(CERTYFICATE_KEY_KEY, certyfikatKlucz)
+                                .apply();
+
+                        bus.post(new CertyfikatReadyEvent(certyfikatPfx, certyfikatKlucz));
                     } else {
                         Log.w("UWAGA", "blad 1 - błędny lub przeterminowany PIN lub TOKEN -> " + certyfikat.toString());
                     }

@@ -21,9 +21,11 @@ public class SlownikiManager {
     private final Certyfikat.TokenCert cert;
     private final ApiUonet apiUonet;
     private String jednostkaSprawozdawczaSymbol;
+    private App app;
 
     public SlownikiManager(App app) {
-        this.cert = app.getTokenCert();
+        this.app = app;
+        cert = app.getTokenCert();
         bus = app.getBus();
         apiUonet = app.getApiUonet();
         jednostkaSprawozdawczaSymbol = app.getJednostkaSprawozdawczaSymbol();
@@ -38,9 +40,12 @@ public class SlownikiManager {
             public void onResponse(@NonNull Call<Slowniki> call, @NonNull Response<Slowniki> response) {
                 if (response.isSuccessful()) {
                     Slowniki slowniki = response.body();
-                    bus.post(new SlownikiReadyEvent(slowniki));
+                    if (slowniki != null) {
+                        app.setSlownik(slowniki.getData());
+                        bus.post(new SlownikiReadyEvent());
 
-                    Log.w("UWAGA", "SlownikiRequest sukces -> OK");
+                        Log.w("UWAGA", "SlownikiRequest sukces -> OK");
+                    }
                 } else {
                     ApiErrors.show(response);
                 }
