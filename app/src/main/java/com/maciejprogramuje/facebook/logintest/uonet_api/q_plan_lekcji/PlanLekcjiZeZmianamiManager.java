@@ -42,10 +42,10 @@ public class PlanLekcjiZeZmianamiManager extends QManagerBase {
             public void onResponse(@NonNull Call<PlanLekcjiZeZmianami> call, @NonNull Response<PlanLekcjiZeZmianami> response) {
                 if (response.isSuccessful()) {
                     PlanLekcjiZeZmianami body = response.body();
-                    Log.w("UWAGA", "PlanLekcjiZeZmianamiRequest sukces -> OK");
+                    Log.w("UWAGA", "PlanLekcjiRequest sukces -> OK");
                     Log.w("UWAGA", "test: " + body.getData().get(0).toString());
 
-                    //bus.post(new OcenyReadyEvent(oceny));
+                    bus.post(new PlanLekcjiZeZmianamiReadyEvent());
                 } else {
                     ApiErrors.show(response);
                 }

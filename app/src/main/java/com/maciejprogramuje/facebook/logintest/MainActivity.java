@@ -12,29 +12,18 @@ import com.maciejprogramuje.facebook.logintest.uonet_api.common.ApiGenerator;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Oceny;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Uczniowie;
-import com.maciejprogramuje.facebook.logintest.uonet_api.o01_base_url.BaseUrlManager;
 import com.maciejprogramuje.facebook.logintest.uonet_api.o01_base_url.BaseUrlReadyEvent;
-import com.maciejprogramuje.facebook.logintest.uonet_api.o02_certificate.CertificateManager;
-import com.maciejprogramuje.facebook.logintest.uonet_api.o02_certificate.CertificateReadyEvent;
-import com.maciejprogramuje.facebook.logintest.uonet_api.o03_pupils.PupilsReadyEvent;
-import com.maciejprogramuje.facebook.logintest.uonet_api.o03_pupils.UczniowieManager;
-import com.maciejprogramuje.facebook.logintest.uonet_api.o04_log_app_start.LogAppStartManager;
+import com.maciejprogramuje.facebook.logintest.uonet_api.o02_certyfikat.CertyfikatReadyEvent;
+import com.maciejprogramuje.facebook.logintest.uonet_api.o03_uczniowie.UczniowieReadyEvent;
 import com.maciejprogramuje.facebook.logintest.uonet_api.o04_log_app_start.LogAppStartReadyEvent;
-import com.maciejprogramuje.facebook.logintest.uonet_api.o05_slowniki.SlownikiManager;
 import com.maciejprogramuje.facebook.logintest.uonet_api.o05_slowniki.SlownikiReadyEvent;
-import com.maciejprogramuje.facebook.logintest.uonet_api.q_oceny.OcenyManager;
 import com.maciejprogramuje.facebook.logintest.uonet_api.q_oceny.OcenyReadyEvent;
-import com.maciejprogramuje.facebook.logintest.uonet_api.q_plan_lekcji.PlanLekcjiZeZmianamiManager;
+import com.maciejprogramuje.facebook.logintest.uonet_api.q_plan_lekcji.PlanLekcjiZeZmianamiReadyEvent;
 import com.maciejprogramuje.facebook.logintest.uonet_api.q_srednie_prognozowane.OcenyPodsumowanieEvent;
-import com.maciejprogramuje.facebook.logintest.uonet_api.q_srednie_prognozowane.OcenyPodsumowanieManager;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -90,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
             loginButton.setEnabled(true);
         } else {
             loginButton.setEnabled(false);
-            ApiGenerator.generateAndAddToApp(app, mBaseUrl);
+            ApiGenerator.generateAndSetBaseUrl(app, mBaseUrl);
             postUczniowie();
         }
     }
@@ -110,8 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.loginButton)
     public void onLoginButtonClicked() {
-        BaseUrlManager baseUrlManager = new BaseUrlManager(TOKEN, app);
-        baseUrlManager.generateBaseUrl();
+        QueryFor.baseUrl(app, TOKEN);
     }
 
     @Subscribe
@@ -120,14 +108,13 @@ public class MainActivity extends AppCompatActivity {
 
         sharedPreferencesEditor.putString(BASE_URL_KEY, mBaseUrl).apply();
 
-        ApiGenerator.generateAndAddToApp(app, mBaseUrl);
+        ApiGenerator.generateAndSetBaseUrl(app, mBaseUrl);
 
-        CertificateManager certificateManager = new CertificateManager(app);
-        certificateManager.generate(PIN, TOKEN);
+        QueryFor.certyfikat(app, PIN, TOKEN);
     }
 
     @Subscribe
-    public void onCertificateReady(CertificateReadyEvent event) {
+    public void onCertificateReady(CertyfikatReadyEvent event) {
         mPfx = event.getCertyfikatPfx();
         mCertficateKey = event.getCertyfikatKlucz();
 
@@ -146,16 +133,13 @@ public class MainActivity extends AppCompatActivity {
 
         app.setTokenCert(mTokenCert);
 
-        UczniowieManager uczniowieManager = new UczniowieManager(app);
-        uczniowieManager.generate();
+        QueryFor.uczniowie(app);
     }
 
     @Subscribe
-    public void onPupilsReady(PupilsReadyEvent event) {
-        List<Uczniowie.Uczen> uczniowie = event.getUczniowie().getData();
-
-
+    public void onPupilsReady(UczniowieReadyEvent event) {
         //todo - tu dodac,ktorego ucznia dane ma wyswietlac
+        List<Uczniowie.Uczen> uczniowie = event.getUczniowie().getData();
         Uczniowie.Uczen uczen = uczniowie.get(1);
 
         app.setJednostkaSprawozdawczaSymbol(uczen.getJednostkaSprawozdawczaSymbol());
@@ -163,52 +147,39 @@ public class MainActivity extends AppCompatActivity {
         app.setIdUczen(uczen.getId());
         app.setIdOddzial(uczen.getIdOddzial());
 
-        LogAppStartManager logAppStartManager = new LogAppStartManager(app);
-        logAppStartManager.generate();
+        QueryFor.logAppStart(app);
 
         showTestMessage(uczniowie);
     }
 
     @Subscribe
     public void onLogAppStartReady(LogAppStartReadyEvent event) {
-        SlownikiManager slownikiManager = new SlownikiManager(app);
-        slownikiManager.generate();
+        QueryFor.slowniki(app);
     }
 
     @Subscribe
     public void onSlownikiReady(SlownikiReadyEvent event) {
         app.setSlownik(event.getSlowniki().getData());
 
-        OcenyManager ocenyManager = new OcenyManager(app);
-        ocenyManager.generate();
+        QueryFor.oceny(app);
     }
 
     @Subscribe
     public void onOcenyReady(OcenyReadyEvent event) {
-        List<Oceny.Ocena> oceny = event.getOceny().getData();
-
         //todo - przekazac do ocen slownik? dodac gettery zwracajace nazwiska itp?
+        List<Oceny.Ocena> oceny = event.getOceny().getData();
         Oceny.Ocena ocena = oceny.get(1);
 
-        OcenyPodsumowanieManager ocenyPodsumowanieManager = new OcenyPodsumowanieManager(app);
-        ocenyPodsumowanieManager.generate();
+        QueryFor.ocenyPodsumowanie(app);
     }
 
     @Subscribe
     public void onOcenyPodsumowanieReady(OcenyPodsumowanieEvent event) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        String dataPoczatkowaString = "2018-06-11";
-        String dataKoncowaString = "2018-06-15";
+        QueryFor.planLekcjiZeZmianami(app);
+    }
 
-        try {
-            Date dataPoczatkowa = formatter.parse(dataPoczatkowaString);
-            Date dataKoncowa = formatter.parse(dataKoncowaString);
-            PlanLekcjiZeZmianamiManager planLekcjiZeZmianamiManager = new PlanLekcjiZeZmianamiManager(app, dataPoczatkowa, dataKoncowa);
-            planLekcjiZeZmianamiManager.generate();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
+    @Subscribe
+    public void onPlanLekcjiReady(PlanLekcjiZeZmianamiReadyEvent event) {
 
     }
 

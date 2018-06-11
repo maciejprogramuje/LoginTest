@@ -1,4 +1,4 @@
-package com.maciejprogramuje.facebook.logintest.uonet_api.o02_certificate;
+package com.maciejprogramuje.facebook.logintest.uonet_api.o02_certyfikat;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -18,13 +18,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class CertificateManager {
+public class CertyfikatManager {
     private String apiUrl = "mobile-api/Uczen.v3.UczenStart/Certyfikat";
     private Certyfikat.TokenCert tokenCert;
     private ApiUonet apiUonet;
     private final Bus bus;
 
-    public CertificateManager(App app) {
+    public CertyfikatManager(App app) {
         bus = app.getBus();
         apiUonet = app.getApiUonet();
     }
@@ -40,7 +40,7 @@ public class CertificateManager {
 
                     if (certyfikat.getTokenCert() != null) {
                         tokenCert = certyfikat.getTokenCert();
-                        bus.post(new CertificateReadyEvent(tokenCert.getCertyfikatPfx(), tokenCert.getCertyfikatKlucz()));
+                        bus.post(new CertyfikatReadyEvent(tokenCert.getCertyfikatPfx(), tokenCert.getCertyfikatKlucz()));
                     } else {
                         Log.w("UWAGA", "blad 1 - błędny lub przeterminowany PIN lub TOKEN -> " + certyfikat.toString());
                     }
