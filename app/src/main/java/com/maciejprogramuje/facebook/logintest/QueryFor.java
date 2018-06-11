@@ -1,13 +1,13 @@
 package com.maciejprogramuje.facebook.logintest;
 
-import com.maciejprogramuje.facebook.logintest.uonet_api.o01_base_url.BaseUrlManager;
-import com.maciejprogramuje.facebook.logintest.uonet_api.o02_certyfikat.CertyfikatManager;
-import com.maciejprogramuje.facebook.logintest.uonet_api.o03_uczniowie.UczniowieManager;
-import com.maciejprogramuje.facebook.logintest.uonet_api.o04_log_app_start.LogAppStartManager;
-import com.maciejprogramuje.facebook.logintest.uonet_api.o05_slowniki.SlownikiManager;
-import com.maciejprogramuje.facebook.logintest.uonet_api.q_oceny.OcenyManager;
-import com.maciejprogramuje.facebook.logintest.uonet_api.q_plan_lekcji.PlanLekcjiZeZmianamiManager;
-import com.maciejprogramuje.facebook.logintest.uonet_api.q_srednie_prognozowane.OcenyPodsumowanieManager;
+import com.maciejprogramuje.facebook.logintest.uonet_api.log1_base_url.BaseUrlManager;
+import com.maciejprogramuje.facebook.logintest.uonet_api.log2_certyfikat.CertyfikatManager;
+import com.maciejprogramuje.facebook.logintest.uonet_api.log3_uczniowie.UczniowieManager;
+import com.maciejprogramuje.facebook.logintest.uonet_api.log4_log_app_start.LogAppStartManager;
+import com.maciejprogramuje.facebook.logintest.uonet_api.log5_slowniki.SlownikiManager;
+import com.maciejprogramuje.facebook.logintest.uonet_api.que_oceny.OcenyManager;
+import com.maciejprogramuje.facebook.logintest.uonet_api.que_plan_lekcji.PlanLekcjiZeZmianamiManager;
+import com.maciejprogramuje.facebook.logintest.uonet_api.que_srednie_prognozowane.OcenyPodsumowanieManager;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

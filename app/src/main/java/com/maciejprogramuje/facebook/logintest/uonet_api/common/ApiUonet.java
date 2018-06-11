@@ -1,19 +1,19 @@
 package com.maciejprogramuje.facebook.logintest.uonet_api.common;
 
 
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.CertyfikatRequest;
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.LogAppStartRequest;
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.Oceny;
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.OcenyPodsumowanie;
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.OcenyPodsumowanieRequest;
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.OcenyRequest;
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.PlanLekcjiZeZmianami;
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.PlanLekcjiZeZmianamiRequest;
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.Slowniki;
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.SlownikiRequest;
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.Uczniowie;
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.UczniowieRequest;
+import com.maciejprogramuje.facebook.logintest.uonet_api.requests_responses.Certyfikat;
+import com.maciejprogramuje.facebook.logintest.uonet_api.requests_responses.CertyfikatRequest;
+import com.maciejprogramuje.facebook.logintest.uonet_api.requests_responses.LogAppStartRequest;
+import com.maciejprogramuje.facebook.logintest.uonet_api.requests_responses.Oceny;
+import com.maciejprogramuje.facebook.logintest.uonet_api.requests_responses.OcenyPodsumowanie;
+import com.maciejprogramuje.facebook.logintest.uonet_api.requests_responses.OcenyPodsumowanieRequest;
+import com.maciejprogramuje.facebook.logintest.uonet_api.requests_responses.OcenyRequest;
+import com.maciejprogramuje.facebook.logintest.uonet_api.requests_responses.PlanLekcjiZeZmianami;
+import com.maciejprogramuje.facebook.logintest.uonet_api.requests_responses.PlanLekcjiZeZmianamiRequest;
+import com.maciejprogramuje.facebook.logintest.uonet_api.requests_responses.Slowniki;
+import com.maciejprogramuje.facebook.logintest.uonet_api.requests_responses.SlownikiRequest;
+import com.maciejprogramuje.facebook.logintest.uonet_api.requests_responses.Uczniowie;
+import com.maciejprogramuje.facebook.logintest.uonet_api.requests_responses.UczniowieRequest;
 
 import java.util.Map;
 

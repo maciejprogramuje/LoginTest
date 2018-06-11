@@ -4,7 +4,7 @@ import android.util.Base64;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.RequestBase;
+import com.maciejprogramuje.facebook.logintest.uonet_api.requests_responses.RequestBase;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

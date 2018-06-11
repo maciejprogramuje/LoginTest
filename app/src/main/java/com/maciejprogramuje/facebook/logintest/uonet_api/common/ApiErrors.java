@@ -17,7 +17,7 @@ public class ApiErrors {
 
     public static void show(Throwable t) {
         if (t instanceof IOException) {
-            Log.w("UWAGA", "blad 3 - błąd połączenia ze stroną (internetem) lub brakuje jakiegoś pola w klasie response");
+            Log.w("UWAGA", "blad 3 - błąd połączenia ze stroną (internetem) lub brakuje jakiegoś pola w klasie response lub jest zły url");
             t.printStackTrace();
         } else {
             Log.w("UWAGA", "blad 4 - błąd konwersji odpowiedzi");

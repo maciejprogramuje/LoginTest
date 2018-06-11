@@ -4,9 +4,9 @@ import android.app.Application;
 import android.content.SharedPreferences;
 
 import com.maciejprogramuje.facebook.logintest.uonet_api.common.ApiUonet;
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.Oceny;
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.Slowniki;
+import com.maciejprogramuje.facebook.logintest.uonet_api.requests_responses.Certyfikat;
+import com.maciejprogramuje.facebook.logintest.uonet_api.requests_responses.Oceny;
+import com.maciejprogramuje.facebook.logintest.uonet_api.requests_responses.Slowniki;
 import com.squareup.otto.Bus;
 
 import java.util.List;

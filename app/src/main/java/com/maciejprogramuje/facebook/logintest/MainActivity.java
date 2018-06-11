@@ -9,16 +9,16 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.maciejprogramuje.facebook.logintest.uonet_api.common.ApiGenerator;
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.Uczniowie;
-import com.maciejprogramuje.facebook.logintest.uonet_api.o01_base_url.BaseUrlReadyEvent;
-import com.maciejprogramuje.facebook.logintest.uonet_api.o02_certyfikat.CertyfikatReadyEvent;
-import com.maciejprogramuje.facebook.logintest.uonet_api.o03_uczniowie.UczniowieReadyEvent;
-import com.maciejprogramuje.facebook.logintest.uonet_api.o04_log_app_start.LogAppStartReadyEvent;
-import com.maciejprogramuje.facebook.logintest.uonet_api.o05_slowniki.SlownikiReadyEvent;
-import com.maciejprogramuje.facebook.logintest.uonet_api.q_oceny.OcenyReadyEvent;
-import com.maciejprogramuje.facebook.logintest.uonet_api.q_plan_lekcji.PlanLekcjiZeZmianamiReadyEvent;
-import com.maciejprogramuje.facebook.logintest.uonet_api.q_srednie_prognozowane.OcenyPodsumowanieEvent;
+import com.maciejprogramuje.facebook.logintest.uonet_api.log1_base_url.BaseUrlReadyEvent;
+import com.maciejprogramuje.facebook.logintest.uonet_api.log2_certyfikat.CertyfikatReadyEvent;
+import com.maciejprogramuje.facebook.logintest.uonet_api.log3_uczniowie.UczniowieReadyEvent;
+import com.maciejprogramuje.facebook.logintest.uonet_api.log4_log_app_start.LogAppStartReadyEvent;
+import com.maciejprogramuje.facebook.logintest.uonet_api.log5_slowniki.SlownikiReadyEvent;
+import com.maciejprogramuje.facebook.logintest.uonet_api.que_oceny.OcenyReadyEvent;
+import com.maciejprogramuje.facebook.logintest.uonet_api.que_plan_lekcji.PlanLekcjiZeZmianamiReadyEvent;
+import com.maciejprogramuje.facebook.logintest.uonet_api.que_srednie_prognozowane.OcenyPodsumowanieEvent;
+import com.maciejprogramuje.facebook.logintest.uonet_api.requests_responses.Certyfikat;
+import com.maciejprogramuje.facebook.logintest.uonet_api.requests_responses.Uczniowie;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void onPupilsReady(UczniowieReadyEvent event) {
+    public void onUczniowieReady(UczniowieReadyEvent event) {
         QueryFor.logAppStart(app);
     }
 
