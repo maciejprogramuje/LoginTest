@@ -23,8 +23,8 @@ public class PupilsManager {
     private UczniowieRequest uczniowieRequest;
     private final ApiUonet apiUonet;
 
-    public PupilsManager(App app, Certyfikat.TokenCert cert) {
-        this.cert = cert;
+    public PupilsManager(App app) {
+        this.cert = app.getTokenCert();
         bus = app.getBus();
         apiUonet = app.getApiUonet();
     }

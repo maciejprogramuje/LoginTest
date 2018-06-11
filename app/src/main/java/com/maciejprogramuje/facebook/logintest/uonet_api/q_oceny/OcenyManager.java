@@ -7,7 +7,6 @@ import com.maciejprogramuje.facebook.logintest.App;
 import com.maciejprogramuje.facebook.logintest.uonet_api.common.ApiErrors;
 import com.maciejprogramuje.facebook.logintest.uonet_api.common.ApiGenerator;
 import com.maciejprogramuje.facebook.logintest.uonet_api.common.QManagerBase;
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Oceny;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.OcenyRequest;
 
@@ -16,15 +15,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class OcenyManager extends QManagerBase {
-    public OcenyManager(App app, Certyfikat.TokenCert cert) {
-        super(app, cert);
+    public OcenyManager(App app) {
+        super(app);
     }
 
     public void setUrl() {
         apiUrl = "/mobile-api/Uczen.v3.Uczen/Oceny";
     }
 
-    public void generateOceny(String jednostkaSprawozdawczaSymbol, Integer idOkresKlasyfikacyjny, Integer idUczen) {
+    public void generateOceny() {
         setUrl();
         apiUrl = jednostkaSprawozdawczaSymbol + apiUrl;
         OcenyRequest ocenyRequest = new OcenyRequest(idOkresKlasyfikacyjny, idUczen);

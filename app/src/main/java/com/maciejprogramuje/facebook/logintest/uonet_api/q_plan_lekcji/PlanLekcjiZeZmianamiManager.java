@@ -7,7 +7,6 @@ import com.maciejprogramuje.facebook.logintest.App;
 import com.maciejprogramuje.facebook.logintest.uonet_api.common.ApiErrors;
 import com.maciejprogramuje.facebook.logintest.uonet_api.common.ApiGenerator;
 import com.maciejprogramuje.facebook.logintest.uonet_api.common.QManagerBase;
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.PlanLekcjiZeZmianami;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.PlanLekcjiZeZmianamiRequest;
 
@@ -18,15 +17,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PlanLekcjiZeZmianamiManager extends QManagerBase {
-    public PlanLekcjiZeZmianamiManager(App app, Certyfikat.TokenCert cert) {
-        super(app, cert);
+    public PlanLekcjiZeZmianamiManager(App app) {
+        super(app);
     }
 
     public void setUrl() {
         apiUrl = "/mobile-api/Uczen.v3.Uczen/PlanLekcjiZeZmianami";
     }
 
-    public void generatePlanLekcjiZeZmianami(Date dataPoczatkowa, Date dataKoncowa, String jednostkaSprawozdawczaSymbol, Integer idOkresKlasyfikacyjny, Integer idUczen, Integer idOddzial) {
+    public void generatePlanLekcjiZeZmianami(Date dataPoczatkowa, Date dataKoncowa) {
         setUrl();
         apiUrl = jednostkaSprawozdawczaSymbol + apiUrl;
         PlanLekcjiZeZmianamiRequest planLekcjiZeZmianamiRequest = new PlanLekcjiZeZmianamiRequest(dataPoczatkowa, dataKoncowa, idOkresKlasyfikacyjny, idUczen, idOddzial);

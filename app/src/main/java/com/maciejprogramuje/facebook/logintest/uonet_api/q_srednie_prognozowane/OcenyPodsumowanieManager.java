@@ -7,7 +7,6 @@ import com.maciejprogramuje.facebook.logintest.App;
 import com.maciejprogramuje.facebook.logintest.uonet_api.common.ApiErrors;
 import com.maciejprogramuje.facebook.logintest.uonet_api.common.ApiGenerator;
 import com.maciejprogramuje.facebook.logintest.uonet_api.common.QManagerBase;
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.OcenyPodsumowanie;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.OcenyPodsumowanieRequest;
 
@@ -16,15 +15,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class OcenyPodsumowanieManager extends QManagerBase {
-    public OcenyPodsumowanieManager(App app, Certyfikat.TokenCert cert) {
-        super(app, cert);
+    public OcenyPodsumowanieManager(App app) {
+        super(app);
     }
 
     public void setUrl() {
         apiUrl = "/mobile-api/Uczen.v3.Uczen/OcenyPodsumowanie";
     }
 
-    public void generateOceny(String jednostkaSprawozdawczaSymbol, Integer idOkresKlasyfikacyjny, Integer idUczen) {
+    public void generateOceny() {
         setUrl();
         apiUrl = jednostkaSprawozdawczaSymbol + apiUrl;
         OcenyPodsumowanieRequest ocenyPodsumowanieRequest = new OcenyPodsumowanieRequest(idOkresKlasyfikacyjny, idUczen);

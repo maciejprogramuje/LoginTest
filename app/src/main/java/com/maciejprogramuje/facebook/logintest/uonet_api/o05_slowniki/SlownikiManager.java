@@ -21,14 +21,16 @@ public class SlownikiManager {
     private final Bus bus;
     private final Certyfikat.TokenCert cert;
     private final ApiUonet apiUonet;
+    private String jednostkaSprawozdawczaSymbol;
 
-    public SlownikiManager(App app, Certyfikat.TokenCert cert) {
-        this.cert = cert;
+    public SlownikiManager(App app) {
+        this.cert = app.getTokenCert();
         bus = app.getBus();
         apiUonet = app.getApiUonet();
+        jednostkaSprawozdawczaSymbol = app.getJednostkaSprawozdawczaSymbol();
     }
 
-    public void generateSlowniki(String jednostkaSprawozdawczaSymbol) {
+    public void generateSlowniki() {
         apiUrl = jednostkaSprawozdawczaSymbol + apiUrl;
         SlownikiRequest slownikiRequest = new SlownikiRequest();
         Call<Slowniki> call = apiUonet.postSlowniki(apiUrl, slownikiRequest, ApiGenerator.getHeadersMap(slownikiRequest, cert));

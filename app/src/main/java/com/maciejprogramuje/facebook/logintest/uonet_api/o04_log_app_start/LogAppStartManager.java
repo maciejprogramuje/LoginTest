@@ -22,14 +22,16 @@ public class LogAppStartManager {
     private final Certyfikat.TokenCert cert;
     private LogAppStartRequest logAppStartRequest;
     private final ApiUonet apiUonet;
+    private String jednostkaSprawozdawczaSymbol;
 
-    public LogAppStartManager(App app, Certyfikat.TokenCert cert) {
-        this.cert = cert;
+    public LogAppStartManager(App app) {
+        this.cert = app.getTokenCert();
         bus = app.getBus();
         apiUonet = app.getApiUonet();
+        jednostkaSprawozdawczaSymbol = app.getJednostkaSprawozdawczaSymbol();
     }
 
-    public void generateLogAppStart(String jednostkaSprawozdawczaSymbol) {
+    public void generateLogAppStart() {
         apiUrl = jednostkaSprawozdawczaSymbol + apiUrl;
         logAppStartRequest = new LogAppStartRequest();
         Call<ResponseBody> call = apiUonet.postLogAppStart(apiUrl, logAppStartRequest, ApiGenerator.getHeadersMap(logAppStartRequest, cert));
@@ -46,7 +48,7 @@ public class LogAppStartManager {
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                 ApiErrors.show(t);
             }
         });

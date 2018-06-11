@@ -1,17 +1,16 @@
 package com.maciejprogramuje.facebook.logintest;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.maciejprogramuje.facebook.logintest.uonet_api.common.ApiGenerator;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Certyfikat;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Oceny;
-import com.maciejprogramuje.facebook.logintest.uonet_api.models.Slowniki;
 import com.maciejprogramuje.facebook.logintest.uonet_api.models.Uczniowie;
 import com.maciejprogramuje.facebook.logintest.uonet_api.o01_base_url.BaseUrlManager;
 import com.maciejprogramuje.facebook.logintest.uonet_api.o01_base_url.BaseUrlReadyEvent;
@@ -63,13 +62,9 @@ public class MainActivity extends AppCompatActivity {
     private String mBaseUrl;
     private String mPfx;
     private String mCertficateKey;
-    private Certyfikat.TokenCert tokenCert;
-    private String jednostkaSprawozdawczaSymbol;
-    private Integer idOkresKlasyfikacyjny;
-    private Integer idUczen;
-    private Slowniki.Slownik slownik;
-    private Integer idOddzial;
+    private Certyfikat.TokenCert mTokenCert;
 
+    @SuppressLint("CommitPrefEdits")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             loginButton.setEnabled(false);
             ApiGenerator.generateAndAddToApp(app, mBaseUrl);
-            postForPupils();
+            postUczniowie();
         }
     }
 
@@ -140,16 +135,18 @@ public class MainActivity extends AppCompatActivity {
                 .putString(CERTYFICATE_KEY_KEY, mCertficateKey)
                 .apply();
 
-        postForPupils();
+        postUczniowie();
     }
 
-    private void postForPupils() {
-        tokenCert = new Certyfikat.TokenCert();
-        tokenCert.setCertyfikatKlucz(mCertficateKey);
-        tokenCert.setCertyfikatPfx(mPfx);
-        tokenCert.setAdresBazowyRestApi(mBaseUrl);
+    private void postUczniowie() {
+        mTokenCert = new Certyfikat.TokenCert();
+        mTokenCert.setCertyfikatKlucz(mCertficateKey);
+        mTokenCert.setCertyfikatPfx(mPfx);
+        mTokenCert.setAdresBazowyRestApi(mBaseUrl);
 
-        PupilsManager pupilsManager = new PupilsManager(app, tokenCert);
+        app.setTokenCert(mTokenCert);
+
+        PupilsManager pupilsManager = new PupilsManager(app);
         pupilsManager.generatePupils();
     }
 
@@ -160,29 +157,30 @@ public class MainActivity extends AppCompatActivity {
 
         //todo - tu dodac,ktorego ucznia dane ma wyswietlac
         Uczniowie.Uczen uczen = uczniowie.get(1);
-        jednostkaSprawozdawczaSymbol = uczen.getJednostkaSprawozdawczaSymbol();
-        idOkresKlasyfikacyjny = uczen.getIdOkresKlasyfikacyjny();
-        idUczen = uczen.getId();
-        idOddzial = uczen.getIdOddzial();
 
-        LogAppStartManager logAppStartManager = new LogAppStartManager(app, tokenCert);
-        logAppStartManager.generateLogAppStart(jednostkaSprawozdawczaSymbol);
+        app.setJednostkaSprawozdawczaSymbol(uczen.getJednostkaSprawozdawczaSymbol());
+        app.setIdOkresKlasyfikacyjny(uczen.getIdOkresKlasyfikacyjny());
+        app.setIdUczen(uczen.getId());
+        app.setIdOddzial(uczen.getIdOddzial());
+
+        LogAppStartManager logAppStartManager = new LogAppStartManager(app);
+        logAppStartManager.generateLogAppStart();
 
         showTestMessage(uczniowie);
     }
 
     @Subscribe
     public void onLogAppStartReady(LogAppStartReadyEvent event) {
-        SlownikiManager slownikiManager = new SlownikiManager(app, tokenCert);
-        slownikiManager.generateSlowniki(jednostkaSprawozdawczaSymbol);
+        SlownikiManager slownikiManager = new SlownikiManager(app);
+        slownikiManager.generateSlowniki();
     }
 
     @Subscribe
     public void onSlownikiReady(SlownikiReadyEvent event) {
-        slownik = event.getSlowniki().getData();
+        app.setSlownik(event.getSlowniki().getData());
 
-        OcenyManager ocenyManager = new OcenyManager(app, tokenCert);
-        ocenyManager.generateOceny(jednostkaSprawozdawczaSymbol, idOkresKlasyfikacyjny, idUczen);
+        OcenyManager ocenyManager = new OcenyManager(app);
+        ocenyManager.generateOceny();
     }
 
     @Subscribe
@@ -192,11 +190,8 @@ public class MainActivity extends AppCompatActivity {
         //todo - przekazac do ocen slownik? dodac gettery zwracajace nazwiska itp?
         Oceny.Ocena ocena = oceny.get(1);
 
-        Log.w("UWAGA", "slownik.getPracownik: " + slownik.getPracownik(ocena.getIdPracownikD()).getImie() + " " + slownik.getPracownik(ocena.getIdPracownikD()).getNazwisko());
-        Log.w("UWAGA", ocena.getId() + ", " + ocena.getIdPrzedmiot() + ", " + ocena.getWpis() + ", " + ocena.getOpis() + ", " + ocena.getIdPracownikD());
-
-        OcenyPodsumowanieManager ocenyPodsumowanieManager = new OcenyPodsumowanieManager(app, tokenCert);
-        ocenyPodsumowanieManager.generateOceny(jednostkaSprawozdawczaSymbol, idOkresKlasyfikacyjny,idUczen);
+        OcenyPodsumowanieManager ocenyPodsumowanieManager = new OcenyPodsumowanieManager(app);
+        ocenyPodsumowanieManager.generateOceny();
     }
 
     @Subscribe
@@ -208,8 +203,8 @@ public class MainActivity extends AppCompatActivity {
         try {
             Date dataPoczatkowa = formatter.parse(dataPoczatkowaString);
             Date dataKoncowa = formatter.parse(dataKoncowaString);
-            PlanLekcjiZeZmianamiManager planLekcjiZeZmianamiManager = new PlanLekcjiZeZmianamiManager(app, tokenCert);
-            planLekcjiZeZmianamiManager.generatePlanLekcjiZeZmianami(dataPoczatkowa, dataKoncowa, jednostkaSprawozdawczaSymbol, idOkresKlasyfikacyjny, idUczen, idOddzial);
+            PlanLekcjiZeZmianamiManager planLekcjiZeZmianamiManager = new PlanLekcjiZeZmianamiManager(app);
+            planLekcjiZeZmianamiManager.generatePlanLekcjiZeZmianami(dataPoczatkowa, dataKoncowa);
         } catch (ParseException e) {
             e.printStackTrace();
         }

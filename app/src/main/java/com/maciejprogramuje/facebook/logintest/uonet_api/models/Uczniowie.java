@@ -323,7 +323,6 @@ public class Uczniowie extends ResponseBase<List<Uczniowie.Uczen>> {
             this.pozycja = pozycja;
         }
 
-        //todo - tego brakowało, wyświetlał błąd 3
         public String getLoginId() {
             return loginId;
         }

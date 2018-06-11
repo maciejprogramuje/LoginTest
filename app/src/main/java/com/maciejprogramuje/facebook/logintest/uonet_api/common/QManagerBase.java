@@ -9,10 +9,18 @@ public abstract class QManagerBase {
     protected Bus bus;
     protected Certyfikat.TokenCert cert;
     protected ApiUonet apiUonet;
+    protected String jednostkaSprawozdawczaSymbol;
+    protected Integer idOkresKlasyfikacyjny;
+    protected Integer idUczen;
+    protected Integer idOddzial;
 
-    public QManagerBase(App app, Certyfikat.TokenCert cert) {
-        this.cert = cert;
+    public QManagerBase(App app) {
+        cert = app.getTokenCert();
         bus = app.getBus();
         apiUonet = app.getApiUonet();
+        jednostkaSprawozdawczaSymbol = app.getJednostkaSprawozdawczaSymbol();
+        idOkresKlasyfikacyjny = app.getIdOkresKlasyfikacyjny();
+        idUczen = app.getIdUczen();
+        idOddzial = app.getIdOddzial();
     }
 }
