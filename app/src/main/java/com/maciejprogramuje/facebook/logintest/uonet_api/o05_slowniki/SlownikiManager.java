@@ -17,7 +17,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SlownikiManager {
-    private String apiUrl = "/mobile-api/Uczen.v3.Uczen/Slowniki";
     private final Bus bus;
     private final Certyfikat.TokenCert cert;
     private final ApiUonet apiUonet;
@@ -30,8 +29,8 @@ public class SlownikiManager {
         jednostkaSprawozdawczaSymbol = app.getJednostkaSprawozdawczaSymbol();
     }
 
-    public void generateSlowniki() {
-        apiUrl = jednostkaSprawozdawczaSymbol + apiUrl;
+    public void generate() {
+        String apiUrl = jednostkaSprawozdawczaSymbol + "/mobile-api/Uczen.v3.Uczen/Slowniki";
         SlownikiRequest slownikiRequest = new SlownikiRequest();
         Call<Slowniki> call = apiUonet.postSlowniki(apiUrl, slownikiRequest, ApiGenerator.getHeadersMap(slownikiRequest, cert));
         call.enqueue(new Callback<Slowniki>() {

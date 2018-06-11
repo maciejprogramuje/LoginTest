@@ -17,10 +17,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LogAppStartManager {
-    private String apiUrl = "/mobile-api/Uczen.v3.Uczen/LogAppStart";
     private final Bus bus;
     private final Certyfikat.TokenCert cert;
-    private LogAppStartRequest logAppStartRequest;
     private final ApiUonet apiUonet;
     private String jednostkaSprawozdawczaSymbol;
 
@@ -31,9 +29,11 @@ public class LogAppStartManager {
         jednostkaSprawozdawczaSymbol = app.getJednostkaSprawozdawczaSymbol();
     }
 
-    public void generateLogAppStart() {
-        apiUrl = jednostkaSprawozdawczaSymbol + apiUrl;
-        logAppStartRequest = new LogAppStartRequest();
+    public void generate() {
+        String apiUrl = jednostkaSprawozdawczaSymbol + "/mobile-api/Uczen.v3.Uczen/LogAppStart";
+
+        LogAppStartRequest logAppStartRequest = new LogAppStartRequest();
+
         Call<ResponseBody> call = apiUonet.postLogAppStart(apiUrl, logAppStartRequest, ApiGenerator.getHeadersMap(logAppStartRequest, cert));
         call.enqueue(new Callback<ResponseBody>() {
             @Override

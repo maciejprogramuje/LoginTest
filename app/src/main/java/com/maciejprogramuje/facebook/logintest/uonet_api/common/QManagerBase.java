@@ -23,4 +23,8 @@ public abstract class QManagerBase {
         idUczen = app.getIdUczen();
         idOddzial = app.getIdOddzial();
     }
+
+    public abstract void setUrl();
+
+    public abstract void generate();
 }

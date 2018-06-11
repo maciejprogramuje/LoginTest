@@ -29,7 +29,7 @@ public class CertificateManager {
         apiUonet = app.getApiUonet();
     }
 
-    public void generateCerificate(String pin, String token) {
+    public void generate(String pin, String token) {
         CertyfikatRequest certyfikatRequest = new CertyfikatRequest(pin, token);
         Call<Certyfikat> call = apiUonet.postCerificate(apiUrl, certyfikatRequest, getCertificateHeadersMap());
         call.enqueue(new Callback<Certyfikat>() {

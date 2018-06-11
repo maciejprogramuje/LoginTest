@@ -19,13 +19,15 @@ public class OcenyManager extends QManagerBase {
         super(app);
     }
 
+    @Override
     public void setUrl() {
-        apiUrl = "/mobile-api/Uczen.v3.Uczen/Oceny";
+        apiUrl = jednostkaSprawozdawczaSymbol + "/mobile-api/Uczen.v3.Uczen/Oceny";
     }
 
-    public void generateOceny() {
+    @Override
+    public void generate() {
         setUrl();
-        apiUrl = jednostkaSprawozdawczaSymbol + apiUrl;
+
         OcenyRequest ocenyRequest = new OcenyRequest(idOkresKlasyfikacyjny, idUczen);
         Call<Oceny> call = apiUonet.postOceny(apiUrl, ocenyRequest, ApiGenerator.getHeadersMap(ocenyRequest, cert));
         call.enqueue(new Callback<Oceny>() {

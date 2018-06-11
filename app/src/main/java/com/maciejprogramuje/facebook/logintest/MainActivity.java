@@ -16,8 +16,8 @@ import com.maciejprogramuje.facebook.logintest.uonet_api.o01_base_url.BaseUrlMan
 import com.maciejprogramuje.facebook.logintest.uonet_api.o01_base_url.BaseUrlReadyEvent;
 import com.maciejprogramuje.facebook.logintest.uonet_api.o02_certificate.CertificateManager;
 import com.maciejprogramuje.facebook.logintest.uonet_api.o02_certificate.CertificateReadyEvent;
-import com.maciejprogramuje.facebook.logintest.uonet_api.o03_pupils.PupilsManager;
 import com.maciejprogramuje.facebook.logintest.uonet_api.o03_pupils.PupilsReadyEvent;
+import com.maciejprogramuje.facebook.logintest.uonet_api.o03_pupils.UczniowieManager;
 import com.maciejprogramuje.facebook.logintest.uonet_api.o04_log_app_start.LogAppStartManager;
 import com.maciejprogramuje.facebook.logintest.uonet_api.o04_log_app_start.LogAppStartReadyEvent;
 import com.maciejprogramuje.facebook.logintest.uonet_api.o05_slowniki.SlownikiManager;
@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         ApiGenerator.generateAndAddToApp(app, mBaseUrl);
 
         CertificateManager certificateManager = new CertificateManager(app);
-        certificateManager.generateCerificate(PIN, TOKEN);
+        certificateManager.generate(PIN, TOKEN);
     }
 
     @Subscribe
@@ -146,8 +146,8 @@ public class MainActivity extends AppCompatActivity {
 
         app.setTokenCert(mTokenCert);
 
-        PupilsManager pupilsManager = new PupilsManager(app);
-        pupilsManager.generatePupils();
+        UczniowieManager uczniowieManager = new UczniowieManager(app);
+        uczniowieManager.generate();
     }
 
     @Subscribe
@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
         app.setIdOddzial(uczen.getIdOddzial());
 
         LogAppStartManager logAppStartManager = new LogAppStartManager(app);
-        logAppStartManager.generateLogAppStart();
+        logAppStartManager.generate();
 
         showTestMessage(uczniowie);
     }
@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
     @Subscribe
     public void onLogAppStartReady(LogAppStartReadyEvent event) {
         SlownikiManager slownikiManager = new SlownikiManager(app);
-        slownikiManager.generateSlowniki();
+        slownikiManager.generate();
     }
 
     @Subscribe
@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
         app.setSlownik(event.getSlowniki().getData());
 
         OcenyManager ocenyManager = new OcenyManager(app);
-        ocenyManager.generateOceny();
+        ocenyManager.generate();
     }
 
     @Subscribe
@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
         Oceny.Ocena ocena = oceny.get(1);
 
         OcenyPodsumowanieManager ocenyPodsumowanieManager = new OcenyPodsumowanieManager(app);
-        ocenyPodsumowanieManager.generateOceny();
+        ocenyPodsumowanieManager.generate();
     }
 
     @Subscribe
@@ -203,8 +203,8 @@ public class MainActivity extends AppCompatActivity {
         try {
             Date dataPoczatkowa = formatter.parse(dataPoczatkowaString);
             Date dataKoncowa = formatter.parse(dataKoncowaString);
-            PlanLekcjiZeZmianamiManager planLekcjiZeZmianamiManager = new PlanLekcjiZeZmianamiManager(app);
-            planLekcjiZeZmianamiManager.generatePlanLekcjiZeZmianami(dataPoczatkowa, dataKoncowa);
+            PlanLekcjiZeZmianamiManager planLekcjiZeZmianamiManager = new PlanLekcjiZeZmianamiManager(app, dataPoczatkowa, dataKoncowa);
+            planLekcjiZeZmianamiManager.generate();
         } catch (ParseException e) {
             e.printStackTrace();
         }
