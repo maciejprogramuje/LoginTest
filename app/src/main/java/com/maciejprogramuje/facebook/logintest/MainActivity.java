@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
             loginButton.setEnabled(true);
         } else {
             loginButton.setEnabled(false);
-            ApiGenerator.generateAndSetBaseUrl(app, mBaseUrl);
+            ApiGenerator.generate(app, mBaseUrl);
             postUczniowie();
         }
     }
@@ -102,18 +102,13 @@ public class MainActivity extends AppCompatActivity {
     @Subscribe
     public void onBaseUrlReady(BaseUrlReadyEvent event) {
         mBaseUrl = event.getBaseUrl();
-
         sharedPreferencesEditor.putString(BASE_URL_KEY, mBaseUrl).apply();
-
-        ApiGenerator.generateAndSetBaseUrl(app, mBaseUrl);
-
+        ApiGenerator.generate(app, mBaseUrl);
         QueryFor.certyfikat(app, PIN, TOKEN);
     }
 
     @Subscribe
     public void onCertificateReady(CertyfikatReadyEvent event) {
-
-
         postUczniowie();
     }
 

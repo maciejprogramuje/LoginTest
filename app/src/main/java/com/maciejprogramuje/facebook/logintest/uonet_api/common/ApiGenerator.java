@@ -14,7 +14,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
 public class ApiGenerator {
-    public static void generateAndSetBaseUrl(App app, String url) {
+    public static void generate(App app, String url) {
         app.setApiUonet(generate(url));
     }
 
