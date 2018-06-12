@@ -19,19 +19,18 @@ import retrofit2.Response;
 
 
 public class CertyfikatManager {
-    private String apiUrl = "mobile-api/Uczen.v3.UczenStart/Certyfikat";
     private Certyfikat.TokenCert tokenCert;
     private ApiUonet apiUonet;
     private final Bus bus;
-    private App app;
 
     public CertyfikatManager(App app) {
-        this.app = app;
         bus = app.getBus();
         apiUonet = app.getApiUonet();
     }
 
     public void generate(String pin, String token) {
+        String apiUrl = "mobile-api/Uczen.v3.UczenStart/Certyfikat";
+
         CertyfikatRequest certyfikatRequest = new CertyfikatRequest(pin, token);
         Call<Certyfikat> call = apiUonet.postCerificate(apiUrl, certyfikatRequest, getCertificateHeadersMap());
         call.enqueue(new Callback<Certyfikat>() {
@@ -39,21 +38,10 @@ public class CertyfikatManager {
             public void onResponse(@NonNull Call<Certyfikat> call, @NonNull Response<Certyfikat> response) {
                 if (response.isSuccessful()) {
                     Certyfikat certyfikat = response.body();
-
-                    if (certyfikat.getTokenCert() != null) {
-
-                        Log.w("UWAGA", "generacja certyfikatu");
-
+                    if (certyfikat != null && certyfikat.getTokenCert() != null) {
                         tokenCert = certyfikat.getTokenCert();
-
                         String certyfikatPfx = tokenCert.getCertyfikatPfx();
                         String certyfikatKlucz = tokenCert.getCertyfikatKlucz();
-                        /*app.setPfx(certyfikatPfx);
-                        app.setCertyfikatKlucz(certyfikatKlucz);
-                        app.getSharedPreferences().edit()
-                                .putString(PFX_KEY, certyfikatPfx)
-                                .putString(CERTYFICATE_KEY_KEY, certyfikatKlucz)
-                                .apply();*/
 
                         bus.post(new CertyfikatReadyEvent(certyfikatPfx, certyfikatKlucz));
                     } else {
@@ -65,7 +53,7 @@ public class CertyfikatManager {
             }
 
             @Override
-            public void onFailure(Call<Certyfikat> call, Throwable t) {
+            public void onFailure(@NonNull Call<Certyfikat> call, @NonNull Throwable t) {
                 ApiErrors.show(t);
             }
         });

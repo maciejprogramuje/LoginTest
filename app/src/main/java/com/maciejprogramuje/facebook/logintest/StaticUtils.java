@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 public class StaticUtils {
     public static void changeFragment(Context context, Fragment newFragment) {
@@ -40,5 +41,9 @@ public class StaticUtils {
         ConnectivityManager con_manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         assert con_manager != null;
         return con_manager.getActiveNetworkInfo() != null;
+    }
+
+    public static void initializeAd(Context context) {
+        MobileAds.initialize(context, "ca-app-pub-9139309714448232~1462779856");
     }
 }

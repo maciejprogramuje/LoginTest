@@ -1,4 +1,4 @@
-package com.maciejprogramuje.facebook.logintest.screens;
+package com.maciejprogramuje.facebook.logintest.screens.frag1_login;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.maciejprogramuje.facebook.logintest.R;
 
-public class F1_Intro extends Fragment {
+public class Intro extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -18,12 +18,12 @@ public class F1_Intro extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public F1_Intro() {
+    public Intro() {
         // Required empty public constructor
     }
 
-    public static F1_Intro newInstance() {
-        F1_Intro fragment = new F1_Intro();
+    public static Intro newInstance() {
+        Intro fragment = new Intro();
         Bundle args = new Bundle();
         //args.putString(ARG_PARAM1, param1);
         //args.putString(ARG_PARAM2, param2);

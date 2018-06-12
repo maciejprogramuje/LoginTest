@@ -1,4 +1,4 @@
-package com.maciejprogramuje.facebook.logintest.screens;
+package com.maciejprogramuje.facebook.logintest.screens.frag2_login;
 
 
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.maciejprogramuje.facebook.logintest.App;
 import com.maciejprogramuje.facebook.logintest.QueryFor;
@@ -18,7 +19,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class F2_login extends Fragment {
+public class Login extends Fragment {
     @BindView(R.id.pinEditText)
     EditText pinEditText;
     @BindView(R.id.symbolEditText)
@@ -27,12 +28,12 @@ public class F2_login extends Fragment {
     EditText tokenEditText;
     Unbinder unbinder;
 
-    public F2_login() {
+    public Login() {
 
     }
 
-    public static F2_login newInstance() {
-        F2_login fragment = new F2_login();
+    public static Login newInstance() {
+        Login fragment = new Login();
         Bundle args = new Bundle();
         //args.putString(ARG_PARAM1, param1);
         //args.putString(ARG_PARAM2, param2);
@@ -59,9 +60,13 @@ public class F2_login extends Fragment {
         String symbol = symbolEditText.getText().toString();
         String token = tokenEditText.getText().toString();
 
-        App app = (App) getActivity().getApplication();
-        app.setProgressBarVisible();
+        if(pin.isEmpty() || symbol.isEmpty() || token.isEmpty()) {
+            Toast.makeText(getContext(), R.string.fill_all_fields, Toast.LENGTH_SHORT).show();
+        } else {
+            App app = (App) getActivity().getApplication();
+            app.setProgressBarVisible();
 
-        QueryFor.baseUrl(app, pin, symbol, token);
+            QueryFor.baseUrl(app, pin, symbol, token);
+        }
     }
 }

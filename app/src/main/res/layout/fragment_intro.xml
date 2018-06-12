@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".screens.F1_Intro">
+    tools:context=".screens.frag1_login.Intro">
 
     <TextView
         android:layout_width="match_parent"

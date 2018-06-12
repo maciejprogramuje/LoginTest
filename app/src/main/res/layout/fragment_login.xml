@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".screens.F2_login">
+    tools:context=".screens.frag2_login.Login">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,7 +26,7 @@
                 android:id="@+id/tokenEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="token"
+                android:hint="@string/token"
                 android:inputType="text" />
         </android.support.design.widget.TextInputLayout>
 
@@ -38,7 +38,7 @@
                 android:id="@+id/symbolEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="symbol"
+                android:hint="@string/symbol"
                 android:inputType="text" />
         </android.support.design.widget.TextInputLayout>
 
@@ -50,7 +50,7 @@
                 android:id="@+id/pinEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="pin"
+                android:hint="@string/pin"
                 android:inputType="text" />
         </android.support.design.widget.TextInputLayout>
 
@@ -59,7 +59,6 @@
             style="@style/Base.Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="64dp"
             android:text="@string/login" />
 
     </LinearLayout>
