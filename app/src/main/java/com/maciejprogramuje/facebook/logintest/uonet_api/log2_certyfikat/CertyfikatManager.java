@@ -17,9 +17,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.maciejprogramuje.facebook.logintest.App.CERTYFICATE_KEY_KEY;
-import static com.maciejprogramuje.facebook.logintest.App.PFX_KEY;
-
 
 public class CertyfikatManager {
     private String apiUrl = "mobile-api/Uczen.v3.UczenStart/Certyfikat";
@@ -44,16 +41,19 @@ public class CertyfikatManager {
                     Certyfikat certyfikat = response.body();
 
                     if (certyfikat.getTokenCert() != null) {
+
+                        Log.w("UWAGA", "generacja certyfikatu");
+
                         tokenCert = certyfikat.getTokenCert();
+
                         String certyfikatPfx = tokenCert.getCertyfikatPfx();
                         String certyfikatKlucz = tokenCert.getCertyfikatKlucz();
-                        app.setPfx(certyfikatPfx);
-                        app.setCertficateKey(certyfikatKlucz);
-
+                        /*app.setPfx(certyfikatPfx);
+                        app.setCertyfikatKlucz(certyfikatKlucz);
                         app.getSharedPreferences().edit()
                                 .putString(PFX_KEY, certyfikatPfx)
                                 .putString(CERTYFICATE_KEY_KEY, certyfikatKlucz)
-                                .apply();
+                                .apply();*/
 
                         bus.post(new CertyfikatReadyEvent(certyfikatPfx, certyfikatKlucz));
                     } else {

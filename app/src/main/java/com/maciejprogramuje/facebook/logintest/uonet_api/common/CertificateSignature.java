@@ -24,7 +24,7 @@ public class CertificateSignature {
     private static final String CONTAINER_NAME = "LoginCert";
     private static final String PASSWORD = "CE75EA598C7743AD9B0B7328DED85B06";
 
-    public static String generate(byte[] pupilsRequest, ByteArrayInputStream certyfikatPfx) {
+    /*public static String generate(byte[] pupilsRequest, ByteArrayInputStream certyfikatPfx) {
         try {
             final KeyStore instance = KeyStore.getInstance(CERT_TYPE);
             instance.load(certyfikatPfx, PASSWORD.toCharArray());
@@ -37,7 +37,7 @@ public class CertificateSignature {
             e.printStackTrace();
         }
         return null;
-    }
+    }*/
 
     public static String generate(RequestBase requestBase, String certyfikatPfx) {
         try {
@@ -46,7 +46,6 @@ public class CertificateSignature {
             byte[] bytes = mapper.writeValueAsBytes(requestBase);
 
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(Base64.decode(certyfikatPfx, Base64.NO_WRAP));
-
 
             final KeyStore instance = KeyStore.getInstance(CERT_TYPE);
             instance.load(byteArrayInputStream, PASSWORD.toCharArray());

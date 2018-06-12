@@ -5,6 +5,13 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_gravity="center"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:visibility="gone"/>
+
     <include layout="@layout/content_main" />
 
 </FrameLayout>

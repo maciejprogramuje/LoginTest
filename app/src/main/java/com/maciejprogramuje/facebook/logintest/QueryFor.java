@@ -60,8 +60,8 @@ public class QueryFor {
         certyfikatManager.generate(pin, token);
     }
 
-    public static void baseUrl(App app, String token) {
-        BaseUrlManager baseUrlManager = new BaseUrlManager(token, app);
+    public static void baseUrl(App app, String pin, String symbol, String token) {
+        BaseUrlManager baseUrlManager = new BaseUrlManager(app, pin, symbol, token);
         baseUrlManager.generateBaseUrl();
     }
 }

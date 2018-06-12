@@ -15,15 +15,19 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.maciejprogramuje.facebook.logintest.MainActivity.SYMBOL;
-
 public class BaseUrlManager {
     private String shortToken;
+    private String token;
     private Bus bus;
+    private String symbol;
+    private String pin;
 
-    public BaseUrlManager(String token, App app) {
+    public BaseUrlManager(App app, String pin, String symbol, String token) {
+        this.token = token;
         this.shortToken = token.substring(0, 3);
         this.bus = app.getBus();
+        this.symbol = symbol;
+        this.pin = pin;
     }
 
     public void generateBaseUrl() {
@@ -36,10 +40,11 @@ public class BaseUrlManager {
                 try {
                     if (response.isSuccessful() && response.body() != null) {
                         String rawBody = response.body().string();
-                        String baseUrl = rawBody.substring(rawBody.indexOf(shortToken) + 4);
-                        baseUrl = baseUrl.substring(0, baseUrl.indexOf("\n") - 1) + "/" + SYMBOL + "/";
+                        //todo - problemy z pkcs12 wynikają z błędnego url - np. poniżej łapał się przecinek i psuł
+                        String baseUrl = rawBody.substring(rawBody.indexOf(shortToken) + 5);
+                        baseUrl = baseUrl.substring(0, baseUrl.indexOf(".pl") + 3) + "/" + symbol + "/";
 
-                        bus.post(new BaseUrlReadyEvent(baseUrl));
+                        bus.post(new BaseUrlReadyEvent(baseUrl, pin, token));
                     }
                 } catch (IOException e) {
                     ApiErrors.show(response);

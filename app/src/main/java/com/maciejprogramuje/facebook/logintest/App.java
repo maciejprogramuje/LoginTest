@@ -2,6 +2,8 @@ package com.maciejprogramuje.facebook.logintest;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.maciejprogramuje.facebook.logintest.uonet_api.common.ApiUonet;
 import com.maciejprogramuje.facebook.logintest.uonet_api.requests_responses.Certyfikat;
@@ -20,7 +22,7 @@ public class App extends Application {
 
     private String baseUrl;
     private String pfx;
-    private String certficateKey;
+    private String certyfikatKlucz;
     private Certyfikat.TokenCert tokenCert;
     private String jednostkaSprawozdawczaSymbol;
     private Integer idOkresKlasyfikacyjny;
@@ -32,6 +34,7 @@ public class App extends Application {
     private Bus bus;
     private SharedPreferences sharedPreferences;
     private ApiUonet apiUonet;
+    private ProgressBar progressBar;
 
     @Override
     public void onCreate() {
@@ -42,7 +45,7 @@ public class App extends Application {
         sharedPreferences = getDefaultSharedPreferences(this);
         baseUrl = sharedPreferences.getString(BASE_URL_KEY, "");
         pfx = sharedPreferences.getString(PFX_KEY, "");
-        certficateKey = sharedPreferences.getString(CERTYFICATE_KEY_KEY, "");
+        certyfikatKlucz = sharedPreferences.getString(CERTYFICATE_KEY_KEY, "");
     }
 
 
@@ -62,14 +65,6 @@ public class App extends Application {
         this.baseUrl = baseUrl;
     }
 
-    public String getCertificateKey() {
-        return certficateKey;
-    }
-
-    public void setCertyficateKey(String certyficateKey) {
-        this.certficateKey = certyficateKey;
-    }
-
     public String getPfx() {
         return pfx;
     }
@@ -86,12 +81,12 @@ public class App extends Application {
         this.apiUonet = apiUonet;
     }
 
-    public String getCertficateKey() {
-        return certficateKey;
+    public String getCertyfikatKlucz() {
+        return certyfikatKlucz;
     }
 
-    public void setCertficateKey(String certficateKey) {
-        this.certficateKey = certficateKey;
+    public void setCertyfikatKlucz(String certyfikatKlucz) {
+        this.certyfikatKlucz = certyfikatKlucz;
     }
 
     public Certyfikat.TokenCert getTokenCert() {
@@ -156,5 +151,21 @@ public class App extends Application {
 
     public void setOceny(List<Oceny.Ocena> oceny) {
         this.oceny = oceny;
+    }
+
+    public ProgressBar getProgressBar() {
+        return progressBar;
+    }
+
+    public void setProgressBar(ProgressBar progressBar) {
+        this.progressBar = progressBar;
+    }
+
+    public void setProgressBarVisible() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void setProgressBarInvisible() {
+        progressBar.setVisibility(View.GONE);
     }
 }
